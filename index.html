@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id = "mean" type = "text">
+    <button onclick = "getWord()">검색</button>
+    <h1 id = 'word'></h1>
+    <video id = 'video' src = '' type = 'video/webm'></video>
+    <p id = 'description'></p>
+    <script>
+        function getWord() {
+            const meaning = document.getElementById('mean').value
+            //axios.get(`http://localhost:3000/${meaning}`).then((response) => {
+            //console.log(response);
+        //});
+            fetch(`http://localhost:3000/words/${meaning}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                document.getElementById('word').innerHTML = data[0].kor_mean
+                document.getElementById('description').innerHTML = data[0].description
+                //let vid = URL.createObjectURL(data[0].vid_link)
+                document.getElementById('video').setAttribute('src', data[0].vid_link);
+                document.getElementById('video').load();    
+                document.getElementById('video').play();    
+            });
+        }
+    </script>
+</body>
+</html>
