@@ -3,6 +3,10 @@ var router = express.Router();
 const dbConnection = require('../config/database');
 
 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+  }
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     //res.render('index', { title: 'Express' });
@@ -10,8 +14,58 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/main', function (req, res, next) {
+    result = {}
+    var sections = [];
+
+    const promise1 = new Promise((resolve, reject) => {
+        dbConnection.query('SELECT * FROM sections', (error, rows) => {
+            if (error) throw error;
     
+            for (var data of rows) {
+                sections.push(data['section'])
+            }
+
+            result['sections'] = [...new Set(sections)]
+
+            resolve(result)
+        })
+    })
+
+    var n = []
+    for (var i = 0; i < 3; i ++) {
+        var num = getRndInteger(0, 3669)
+        if (n.includes(num) === false) {
+            n.push(num)
+        }
+    }
+
+    promise1.then((value) => {
+        todays = []
+        n.forEach(function (item, index) {
+            var it = {}
+            dbConnection.query('SELECT * FROM words WHERE id = ?; ', [item], (error, rows) => {
+                if (error) throw error;
+                for (var data of rows) {
+                    it['video'] = data['video']
+                    it['meaning'] = data['meaning']
+                }
+                todays.push(it)
+
+                if (index === 2) {
+                    //console.log(todays)
+                    result['todays'] = todays
+                    res.send(result)
+                }
+            })
+
+        });
+    })
+
+
 })
+        
+    
+
 //단어 검색 결과
 router.get('/search/:meaning', function(req, res, next) {
     param = req.params.meaning
@@ -125,32 +179,5 @@ router.get('/words/:id', function(req, res, next) {
         }
     })
     });
-// app.get('/dictionary/words/:id', (req, res) => {
-//     id = req.params.id
-//     var dataList = [];
-//     connection.query('SELECT * from words where id = ?; ', [id], (error, rows) => {
-//       if (error) throw error;
-//       for (var data of rows) {
-//         dataList.push(data)
-//       }
-//       connection.query('SELECT * from images where word_id = ?; ', [id], (error, rows2) => {
-//         if (error) throw error;
-  
-//         for (var data2 of rows2) {
-//           dataList.push(data2)
-//         }
-  
-//       })
-//       connection.query('SELECT * from sections where subsection = ?; ', [dataList[0]['subsection']], (error, rows3)  => {
-//         if (error) throw error;
-//         for (var data3 of rows3) {
-//           //console.log(dataList[0]['subsection'])
-//           dataList.push(data3)
-//           res.send(dataList)
-//         console.log(dataList)
-//         }
-//       })
-      
-//     })
-//   });
+
 module.exports = router;
