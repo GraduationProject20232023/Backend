@@ -3,30 +3,31 @@ const dbConnection = require('./config/database.js');
 const app = express();
 var cors = require('cors')
 
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
+//const session = require('express-session')
+//const cookieParser = require('cookie-parser')
 
 app.use(cors({
   origin : true,
   credentials : true
 }))
-app.use(cookieParser())
-app.use(session({
-  key: "loginData", 
-  secret: "testSecret", 
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    expires: 60* 60* 24,
-  }
-}))
+//app.use(cookieParser())
+// app.use(session({
+//   key: "loginData", 
+//   secret: "testSecret", 
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     expires: 60* 60* 24,
+//   }
+// }))
 // Routers
 var usersRouter = require('./routers/user.js');
 var indexRouter = require('./routers/index.js');
+var dictionaryRouter = require('./routers/dictionary.js');
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
-
+app.use('/dictionary', dictionaryRouter);
 
 // Database Connection
 //var conn = dbConfig.init();
@@ -45,21 +46,7 @@ app.set('port', process.env.PORT || 3000);
 //app.get('/', (req, res) => {
 //  res.send('Root');
 //});
-//단어 검색
-app.get('/dictionary/search/:meaning', (req, res) => {
-  //const paramDecoded = decodeURIComponent(req.params.meaning)
-  //var query = "%"+ paramDecoded +"%"
-  var dataList = [];
-  dbConnection.query('SELECT * from words where meaning LIKE ?; ', ["%" + req.params.meaning + "%"], (error, rows) => {
-    if (error) throw error;
 
-    for (var data of rows) {
-      dataList.push(data)
-    }
-    console.log(dataList);
-    res.send(dataList);
-  })
-});
 
 //검색 결과들 중 하나를 골라서 들어가면 단어 하나에 대한 세부 정보 나타냄
 app.get('/dictionary/words/:id', (req, res) => {

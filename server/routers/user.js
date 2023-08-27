@@ -1,7 +1,7 @@
 dbConnection = require('../config/database.js');
 var express = require('express');
 var router = express.Router();
-var bcrypt = require('bcrypt');
+//var bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 router.post('/register', (req, res, next) => {
     const param = [req.body.email, req.body.pw, req.body.username]
     
-    dbConnection.query("SELECT * FROM users WHERE user_email ='"+param[0]+ "';", (err, rows) {
+    dbConnection.query("SELECT * FROM users WHERE user_email ='"+param[0]+ "';", (err, rows) => {
         if (err) console.log(err);
         else if (rows.length == 0) { //같은 eamil이 없는 경우
             dbConnection.query("SELECT * FROM users WHERE username = '"+param[2]+"';", (err, rows) => {
@@ -77,14 +77,14 @@ router.post("/login", (req, res) => {
     res.end()
 })
 
-// Logout
-router.post('/logout', (req, res)=> {
-    if (){ //세션 정보가 있을 때) 
-        req.session.destroy(error => {if(error) console.log(error)})
-    }
-    else {
+// // Logout
+// router.post('/logout', (req, res)=> {
+//     if (){ //세션 정보가 있을 때) 
+//         req.session.destroy(error => {if(error) console.log(error)})
+//     }
+//     else {
 
-    }
-})
+//     }
+// })
 
 module.exports = router;
