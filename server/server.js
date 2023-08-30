@@ -26,7 +26,13 @@ var indexRouter = require('./routers/index.js');
 var dictionaryRouter = require('./routers/dictionary.js');
 
 app.use('/', indexRouter);
+
 app.use('/user', usersRouter);
+/**
+ * @swagger
+ * tags: Dictionary
+ * description: 사전
+ */
 app.use('/dictionary', dictionaryRouter);
 
 // Database Connection
@@ -46,7 +52,8 @@ app.set('port', process.env.PORT || 3000);
 //app.get('/', (req, res) => {
 //  res.send('Root');
 //});
-
+const {swaggerUi, specs} = require("./swagger/swagger")
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
 
 //검색 결과들 중 하나를 골라서 들어가면 단어 하나에 대한 세부 정보 나타냄
 app.get('/dictionary/words/:id', (req, res) => {
