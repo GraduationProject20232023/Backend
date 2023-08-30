@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // 요청 URL
+        url: "https://handy-backend.onrender.com", // 요청 URL
       },
     ],
   },
