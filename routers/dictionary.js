@@ -151,42 +151,89 @@ router.get('/main', function (req, res, next) {
 //단어 검색 결과
 router.get('/search/:meaning', function(req, res, next) {
     param = req.params.meaning
-    var dataList = [];
-    var result = [];
-    dbConnection.query('SELECT * FROM words WHERE meaning LIKE ?; ', ["%" + param + "%"], (error, rows) => {
-        if (error) throw error;
 
-        for (var data of rows) {
-            var item = {}
-            dataList.push(data)
-            item['id'] = data['id']
-            item['videoLink'] = data['video']
-            item['meaning'] = data['meaning']
-            item['subsection'] = data['subsection']
-            //console.log(item)
-            imageList = [];
-            dbConnection.query('SELECT * from images where word_id = ?; ',[item['id']], (error, rows) => {
+    let func3 = function(id) {
+        return new Promise(resolve => {
+            dbConnection.query('SELECT * from images where word_id = ?; ',[id], (error, rows) => {
+                imageList = [];
                 if (error) throw error;
-                for (var data of rows) {
-                    imageList.push(data['link'])
-                    
+                for (var row of rows) {
+                    imageList.push(row['link'])                    
                 }
-                item['imageLink'] = imageList
-                //console.log(item)
+                resolve(imageList)
+        })
+        })
+    }
+
+    // let func4 = function(subsection) {
+    //     return new Promise(resolve => {
+
+    //         dbConnection.query('SELECT * from sections where subsection = ?; ',[subsection], (error, rows) => {
+                
+    //             if (error) throw error;
+    //             for (var data of rows) {
+    //                 var section = data['section']
+    //             }
+    //             resolve(section)
+    //     })
+    //     })
+    // }
+
+    let func1 = function() {
+        
+        console.log("func1 시작")
+        var dataList = [];
+        return new Promise(resolve => {
+            dbConnection.query('SELECT * FROM words WHERE meaning LIKE ?; ', ["%" + param + "%"], (error, rows) => {
+                if (error) throw error;
+        
+                for (var row of rows) {
+
+                    var item = {}
+                    item['id'] = row['id']
+                    item['videoLink'] = row['video']
+                    item['meaning'] = row['meaning']
+                    item['section'] = row['section']
+                    item['subsection'] = row['subsection']
+
+                    dataList.push(item)
+                }
+
+                resolve(dataList);
             })
             
-            dbConnection.query('SELECT * from sections where subsection = ?; ', [item['subsection']] , (error, rows) => {
-                if (error) throw error;
+        });
+    }
 
-                for (var data of rows) {
-                    item['section'] = data['section']
-                }
-                //console.log(item)
-                result.push(item)
-                console.log('1: ', result)
-                res.status(200).send(result)
-            })
+
+    let test1 = async function() {
+        console.log('test 1 시작')
+        let dataList = func1()
+        console.log('a 출력')
+        result = []
+        for (var data of await dataList) {
+
+            let images = func3(data['id'])
+   
+            data['imageLink'] = await images
+
+            // if (data['subsection'] != '') {
+            //     let section = func4(data['subsection'])
+            //     data['section'] = await section
+            // }
+            // else {
+            //     data['section'] = '기타'
+            // }
+            
+            console.log(data)
+            result.push(data)
         }
+        res.status(200).send(result)
+
+    }
+    (async () => {
+        let aa = await test1();
+        
     })
     });
     
@@ -274,8 +321,10 @@ router.get('/words/:id', function(req, res, next) {
             item['id'] = data['id']
             item['video link'] = data['video']
             item['meaning'] = data['meaning']
+            item['section'] = data['section']
             item['subsection'] = data['subsection']
             item['description'] = data['descr']
+            
             //console.log(item)
             imageList = [];
             dbConnection.query('SELECT * from images where word_id = ?; ',[item['id']], (error, rows) => {
@@ -285,21 +334,22 @@ router.get('/words/:id', function(req, res, next) {
                     
                 }
                 item['image link'] = imageList
-                //console.log(item)
+                result['word'] = item
+                console.log(item)
             })
             
-            dbConnection.query('SELECT * from sections where subsection = ?; ', [item['subsection']] , (error, rows) => {
-                if (error) throw error;
+            // dbConnection.query('SELECT * from sections where subsection = ?; ', [item['subsection']] , (error, rows) => {
+            //     if (error) throw error;
 
-                for (var data of rows) {
-                    item['section'] = data['section']
-                }
-                //console.log(item)
-                //result.push(item)
-                result["word"] = item
-                //console.log('1: ', result)
+            //     for (var data of rows) {
+            //         item['section'] = data['section']
+            //     }
+            //     //console.log(item)
+            //     //result.push(item)
+            //     result["word"] = item
+            //     //console.log('1: ', result)
                 
-            })
+            // })
 
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)-1], (error, rows) => {
                 if (error) throw error;
@@ -334,4 +384,161 @@ router.get('/words/:id', function(req, res, next) {
     })
     });
 
+
+
+
+/**
+ * @swagger
+ * paths:
+ *   /dictionary/history/{username}:
+ *     get:
+ *       summary: "GET 검색 기록"
+ *       description: "사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
+ *       parameters:
+ *         - in: path
+ *           name: username
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 사용자의 username
+ *       tags: [Dictionary]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: array
+ *                  example: ['안녕', '하늘']
+ * 
+ * 
+ */
+router.get('/history/:username', function(req, res, next) {
+    username = req.params.username
+    dbConnection.query('SELECT * FROM history WHERE username = ?; ', [username], (error, rows) => {
+        result = []
+        if (error) throw error;
+                
+        for (var data of rows) { 
+            result.push(data['word'])
+        }
+        res.status(200).send(result)
+    })
+ })
+/**
+ * @swagger
+ * paths:
+ *   /dictionary/history/{username}/{word}:
+ *     post:
+ *       summary: "POST 검색 기록 삭제"
+ *       description: "사용자 이름과 단어를 제공하여 검색 기록을 지운다."
+ *       parameters:
+ *         - in: path
+ *           name: username
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 사용자의 username
+ *         - in: path
+ *           name: word
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 지울 검색 기록
+ *       tags: [Dictionary]
+ *       responses:
+ *          
+ *         "200":
+ *            description: 요청 성공
+ * 
+ * 
+ */
+ router.post('/history/:username/:word', function(req, res, next) {
+    username = req.params.username
+    word = decodeURI(decodeURIComponent(req.params.word))
+    dbConnection.query('DELETE FROM history WHERE username = ? AND word = ?; ', [username, word], (error, rows) => {
+        if (error) throw error;
+        
+        res.sendStatus(200)
+    })
+ })
+
+
+ /**
+ * @swagger
+ * paths:
+ *   /dictionary/list?{section}?{pageno}:
+ *     get:
+ *       summary: "GET 섹션별 단어"
+ *       description: "섹션명으로 해당 단어 목록을 가져온다."
+ *       parameters:
+ *         - in: query
+ *           name: section
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 섹션 명
+ *         - in: query
+ *           name: pageno
+ *           schema: 
+ *             type: integer
+ *           description: 섹션 페이지 수 (1~)
+ *       tags: [Dictionary]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    no of pages:
+ *                      type: integer
+ *                      example: 27
+ *                    words:
+ *                      type: array 
+ *                      example: {"video link": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200820/732677/MOV000257800_700X466.webm","meaning": "중얼거리다"}
+ * 
+ * 
+ */
+router.get('/list', function(req, res, next) {
+    section = decodeURI(decodeURIComponent(req.query.section))
+    pageno = req.query.pageNo
+    console.log(section)
+    console.log(pageno)
+    result = {}
+    dbConnection.query('SELECT COUNT(*) FROM words WHERE section = ?; ', [section], (error, rows) => {
+        if (error) throw error; 
+        count = rows[0]['COUNT(*)']
+        result['no of pages'] = parseInt(count/10) + 1
+        console.log(rows[0]['COUNT(*)'])
+        console.log(result['no of pages'])
+    })
+    dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
+        words = []
+        
+        if (error) throw error;
+                
+        for (var data of rows) { 
+            
+            item = {}
+            item['video link'] = data['video']
+            item['meaning'] = data['meaning']
+            words.push(item)
+        }
+        result['words'] = words
+        result['words'] = words.slice(10 * (pageno-1), 10 * pageno)
+        res.status(200).send(result)
+    })
+
+
+ })
+
+
 module.exports = router;
+
+// post: 검색 기록 db에 검색어 저장 - username으로 검색한 단어 저장
+// 검색기록 db에 검색어 삭제 - username과 삭제할 단어 알아내서 db에서 삭제 v
+// get: 검색기록 db에 있는 검색어 보여주기 - username으로 검색 단어 v
+// section명 누르면 해당 세션의 단어 리스트 보여주기 v
+// section - subsection 명 누르면 해당 서브섹션의 단어 리스트 보여주기 
