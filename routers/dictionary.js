@@ -510,9 +510,15 @@ router.get('/list', function(req, res, next) {
     dbConnection.query('SELECT COUNT(*) FROM words WHERE section = ?; ', [section], (error, rows) => {
         if (error) throw error; 
         count = rows[0]['COUNT(*)']
-        result['no of pages'] = parseInt(count/10) + 1
-        console.log(rows[0]['COUNT(*)'])
-        console.log(result['no of pages'])
+        //console.log(count%10)
+        if (count%10 == 0) {
+            result['no of pages'] = parseInt(count/10)
+        }
+        else {
+            result['no of pages'] = parseInt(count/10) + 1
+        }
+        //console.log(rows[0]['COUNT(*)'])
+        //console.log(result['no of pages'])
     })
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
         words = []
