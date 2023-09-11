@@ -467,7 +467,7 @@ router.get('/history/:username', function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /dictionary/list?{section}?{pageno}:
+ *   /dictionary/list?{section}?{pageNo}:
  *     get:
  *       summary: "GET 섹션별 단어"
  *       description: "섹션명으로 해당 단어 목록을 가져온다."
@@ -479,7 +479,7 @@ router.get('/history/:username', function(req, res, next) {
  *           required: true
  *           description: 섹션 명
  *         - in: query
- *           name: pageno
+ *           name: pageNo
  *           schema: 
  *             type: integer
  *           description: 섹션 페이지 수 (1~)
