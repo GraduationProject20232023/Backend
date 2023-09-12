@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const dbConnection = require('../config/database');
-
+var seedrandom = require('seedrandom')
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -63,17 +63,32 @@ router.get('/main', function (req, res, next) {
             resolve(result)
         })
     })
-
+    var today = new Date();
+    var year = today.getFullYear()
+    var month = today.getMonth() + 1;
+    var date = today.getDate();
+    var today = year.toString() + month.toString() + date.toString()
+    //console.log(today);
+    //console.log(typeof month);
+    seedrandom(today+'1', {global : true});
+    first = Math.floor(Math.random() * 3669)
+    seedrandom(today+'2', {global : true});
+    second = Math.floor(Math.random() * 3669)
+    seedrandom(today+'3', {global : true});
+    third = Math.floor(Math.random() * 3669)
     var n = []
-    for (var i = 0; i < 3; i ++) {
-        var num = getRndInteger(0, 3669)
-        if (n.includes(num) === false) {
-            n.push(num)
-        }
-    }
+    n.push(first)
+    n.push(second)
+    n.push(third)
+    // for (var i = 0; i < 3; i ++) {
+    //     var num = getRndInteger(0, 3669)
+    //     if (n.includes(num) === false) {
+    //         n.push(num)
+    //     }
+    // }
 
     promise1.then((value) => {
-        todays = []
+        var todays = []
         n.forEach(function (item, index) {
             var it = {}
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [item], (error, rows) => {
