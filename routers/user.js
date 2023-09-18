@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
  *                 email:
  *                   type: string
  *                   example: mjluckk2@gmail.com
- *                 password:
+ *                 pw:
  *                   type: string
  *                   example: fndl
  *                 username: 
@@ -100,7 +100,7 @@ router.post('/register', (req, res, next) => {
  *                 email:
  *                   type: string
  *                   example: mjluckk2@gmail.com
- *                 password:
+ *                 pw:
  *                   type: string
  *                   example: fndl
  *       tags: [User]
