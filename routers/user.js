@@ -70,7 +70,8 @@ router.post("/login", (req, res) => {
                     console.log('로그인 성공')
                     useremail = row[0]['user_email']
                     username = row[0]['username']
-                    req.session.user = useremail
+                    req.session.useremail = useremail
+                    req.session.username = username
                     console.log(req.session.cookie)
                     req.session.save(error => {if(error) console.log(error)})
                     res.status(400).send({

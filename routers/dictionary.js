@@ -173,6 +173,7 @@ router.get('/search/:meaning', function(req, res, next) {
             dbConnection.query('SELECT * from images where word_id = ?; ',[id], (error, rows) => {
                 imageList = [];
                 if (error) throw error;
+
                 for (var row of rows) {
                     imageList.push(row['link'])                    
                 }
@@ -181,20 +182,6 @@ router.get('/search/:meaning', function(req, res, next) {
         })
     }
 
-    // let func4 = function(subsection) {
-    //     return new Promise(resolve => {
-
-    //         dbConnection.query('SELECT * from sections where subsection = ?; ',[subsection], (error, rows) => {
-                
-    //             if (error) throw error;
-    //             for (var data of rows) {
-    //                 var section = data['section']
-    //             }
-    //             resolve(section)
-    //     })
-    //     })
-    // }
-
     let func1 = function() {
         
         console.log("func1 시작")
@@ -202,7 +189,23 @@ router.get('/search/:meaning', function(req, res, next) {
         return new Promise(resolve => {
             dbConnection.query('SELECT * FROM words WHERE meaning LIKE ?; ', ["%" + param + "%"], (error, rows) => {
                 if (error) throw error;
-        
+                
+                if (req.session.useremail) {
+
+                    var ins = [req.session.useremail, req.session.username, param]
+
+                    dbConnection.query('INSERT INTO search_history(`user_email`, `username`, `search`) VALUES (?, ?, ?)', ins, (err, row) => {
+                        if (err) console.log(err)
+                        else {
+                            console.log('Successfully saved to search history')
+                    }
+                    })
+                }
+                else {
+                    console.log('No')
+                }
+
+
                 for (var row of rows) {
 
                     var item = {}
@@ -232,14 +235,6 @@ router.get('/search/:meaning', function(req, res, next) {
             let images = func3(data['id'])
    
             data['imageLink'] = await images
-
-            // if (data['subsection'] != '') {
-            //     let section = func4(data['subsection'])
-            //     data['section'] = await section
-            // }
-            // else {
-            //     data['section'] = '기타'
-            // }
             
             console.log(data)
             result.push(data)
@@ -431,12 +426,12 @@ router.get('/words/:id', function(req, res, next) {
  */
 router.get('/history/:username', function(req, res, next) {
     username = req.params.username
-    dbConnection.query('SELECT * FROM history WHERE username = ?; ', [username], (error, rows) => {
+    dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
         result = []
         if (error) throw error;
                 
         for (var data of rows) { 
-            result.push(data['word'])
+            result.push(data['search'])
         }
         res.status(200).send(result)
     })
@@ -472,7 +467,7 @@ router.get('/history/:username', function(req, res, next) {
  router.post('/history/:username/:word', function(req, res, next) {
     username = req.params.username
     word = decodeURI(decodeURIComponent(req.params.word))
-    dbConnection.query('DELETE FROM history WHERE username = ? AND word = ?; ', [username, word], (error, rows) => {
+    dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
         if (error) throw error;
         
         res.sendStatus(200)
