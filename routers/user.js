@@ -14,7 +14,39 @@ router.get('/', function(req, res, next) {
 });
 
 
-
+/**
+ * @swagger
+ * paths:
+ *   /user/register:
+ *     post:
+ *       summary: "회원 가입"
+ *       description: "회원 가입 API"
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties: 
+ *                 email:
+ *                   type: string
+ *                   example: mjluckk@gmail.com
+ *                 password:
+ *                   type: string
+ *                   example: fndl
+ *                 username: 
+ *                   type: string
+ *                   example: 루이
+ *       tags: [User]
+ *       responses:
+ *         "201":
+ *            description: 가입 성공
+ *         "400":
+ *            description: 동일한 사용자 이름 존재. 다른 사용자 이름 입력해야 함
+ *         "403":
+ *            description: 동일한 이메일 계정 있습니다. 다른 이메일 시도해주세요         
+ * 
+ */
 // Register
 router.post('/register', (req, res, next) => {
     console.log(req.body)
@@ -45,13 +77,42 @@ router.post('/register', (req, res, next) => {
         }
         else {
             //이미 같은 email 사용자 존재함
-            return res.status(400).send('This email already exists.')
+            return res.status(403).send('This email already exists.')
             
         }
     });
     //res.end()
 })
-
+/**
+ * @swagger
+ * paths:
+ *   /user/login:
+ *     post:
+ *       summary: "로그인"
+ *       description: "로그인 API"
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties: 
+ *                 email:
+ *                   type: string
+ *                   example: mjluckk@gmail.com
+ *                 password:
+ *                   type: string
+ *                   example: fndl
+ *       tags: [User]
+ *       responses:
+ *         "200":
+ *            description: 로그인 성공
+ *         "401":
+ *            description: 비밀번호 틀림
+ *         "403":
+ *            description: 해당 email 계정이 존재하지 않습니다.          
+ * 
+ */
 // Login
 router.post("/login", (req, res) => {
     console.log("로그인 함수 실행")
@@ -74,7 +135,7 @@ router.post("/login", (req, res) => {
                     req.session.username = username
                     console.log(req.session.cookie)
                     req.session.save(error => {if(error) console.log(error)})
-                    res.status(400).send({
+                    res.status(200).send({
                         'useremail': useremail,
                         'username': username
                     })
@@ -94,15 +155,31 @@ router.post("/login", (req, res) => {
 
     //res.end()
 })
-
+/**
+ * @swagger
+ * paths:
+ *   /user/logout:
+ *     post:
+ *       summary: "로그아웃"
+ *       description: "로그아웃 API"
+ *       tags: [User]
+ *       responses:
+ *         "200":
+ *            description: 로그아웃 성공
+ *         "400":
+ *            description: 로그아웃 실패
+ * 
+ */
  // Logout
  router.post('/logout', (req, res)=> {
      if (req.session.user){ //세션 정보가 있을 때) 
         req.session.destroy(error => {if(error) console.log(error)})
         console.log('로그아웃 성공')
+        res.sendStatus(200)
      }
      else {
         console.log('로그아웃 실패')
+        res.sendStatus(400)
      }
  })
 
