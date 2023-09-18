@@ -2,6 +2,7 @@ const express = require('express');
 const dbConnection = require('./config/database');
 const app = express();
 var cors = require('cors')
+const session = require('express-session')
 
 //const session = require('express-session')
 //const cookieParser = require('cookie-parser')
@@ -10,6 +11,13 @@ app.use(cors({
   origin : true,
   credentials : true
 }))
+
+app.use(session({
+  secret:'oh',
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(express.json())
 //app.use(cookieParser())
 // app.use(session({
 //   key: "loginData", 
@@ -39,7 +47,32 @@ app.use('/dictionary', dictionaryRouter);
 //var conn = dbConfig.init();
 //dbConfig.connect(conn);
 
+app.get('/login', (req, res) => {
+  var session = req.session;
+  session.userId = 'test'
+  session.userPw = '1234'
+  res.json(req.session)
+})
 
+app.get('/home', (req, res) => {
+  var session = req.session;
+
+  res.json({
+    userId: session.userId,
+    userPw: session.userPw
+  })
+})
+
+app.get('/delete', (req, res) => {
+  req.session.destroy(function(err) {
+    if (err) {
+      res.end(err);
+    }
+    res.json({
+      'message': "success delete"
+    })
+  })
+})
 //const connection = mysql.createConnection(dbconfig);
 const axios = require('axios');
 

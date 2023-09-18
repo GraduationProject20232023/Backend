@@ -94,6 +94,7 @@ router.get('/main', function (req, res, next) {
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [item], (error, rows) => {
                 if (error) throw error;
                 for (var data of rows) {
+                    it['id'] = data['id']
                     it['video'] = data['video']
                     it['meaning'] = data['meaning']
                 }
@@ -389,7 +390,7 @@ router.get('/words/:id', function(req, res, next) {
                     item_after['videoLink'] = data['video']
                     console.log(item_after)
                     //result.push(item_after)
-                    result["word after"] = item_after
+                    result["word_after"] = item_after
                     console.log(result)
                 }
                 //console.log(result)
@@ -527,10 +528,10 @@ router.get('/list', function(req, res, next) {
         count = rows[0]['COUNT(*)']
         //console.log(count%10)
         if (count%10 == 0) {
-            result['no of pages'] = parseInt(count/10)
+            result['no_of_pages'] = parseInt(count/10)
         }
         else {
-            result['no of pages'] = parseInt(count/10) + 1
+            result['no_of_pages'] = parseInt(count/10) + 1
         }
         //console.log(rows[0]['COUNT(*)'])
         //console.log(result['no of pages'])
