@@ -330,7 +330,7 @@ router.get('/words/:id', function(req, res, next) {
             var item = {}
             dataList.push(data)
             item['id'] = data['id']
-            item['video link'] = data['video']
+            item['video_link'] = data['video']
             item['meaning'] = data['meaning']
             item['section'] = data['section']
             item['subsection'] = data['subsection']
@@ -344,7 +344,7 @@ router.get('/words/:id', function(req, res, next) {
                     imageList.push(data['link'])
                     
                 }
-                item['image link'] = imageList
+                item['image_link'] = imageList
                 result['word'] = item
                 console.log(item)
             })
@@ -370,7 +370,7 @@ router.get('/words/:id', function(req, res, next) {
                     item_before['meaning'] = data['meaning']
                     item_before['videoLink'] = data['video']
                     //result.push(item_before)
-                    result["word before"] = item_before
+                    result["word_before"] = item_before
                 }
                 //console.log(result)
                 
@@ -539,7 +539,7 @@ router.get('/list', function(req, res, next) {
         for (var data of rows) { 
             
             item = {}
-            item['video link'] = data['video']
+            item['video_link'] = data['video']
             item['meaning'] = data['meaning']
             words.push(item)
         }
