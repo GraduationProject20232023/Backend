@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
  *               properties: 
  *                 email:
  *                   type: string
- *                   example: mjluckk@gmail.com
+ *                   example: mjluckk2@gmail.com
  *                 password:
  *                   type: string
  *                   example: fndl
@@ -99,7 +99,7 @@ router.post('/register', (req, res, next) => {
  *               properties: 
  *                 email:
  *                   type: string
- *                   example: mjluckk@gmail.com
+ *                   example: mjluckk2@gmail.com
  *                 password:
  *                   type: string
  *                   example: fndl
