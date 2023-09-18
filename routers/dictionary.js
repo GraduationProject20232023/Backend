@@ -187,7 +187,7 @@ router.get('/search/:meaning', function(req, res, next) {
         console.log("func1 시작")
         var dataList = [];
         return new Promise(resolve => {
-            dbConnection.query('SELECT * FROM words WHERE meaning LIKE ?; ', ["%" + param + "%"], (error, rows) => {
+            dbConnection.query('SELECT * FROM words WHERE meaning LIKE ? ORDER BY LOCATE(?, meaning); ', ["%" + param + "%", param], (error, rows) => {
                 if (error) throw error;
                 
                 if (req.session.useremail) {
