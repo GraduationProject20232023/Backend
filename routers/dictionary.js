@@ -541,6 +541,8 @@ router.get('/list', function(req, res, next) {
             item = {}
             item['video_link'] = data['video']
             item['meaning'] = data['meaning']
+            item['section'] = data['section']
+            item['id'] = data['id']
             words.push(item)
         }
         result['words'] = words
