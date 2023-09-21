@@ -2,7 +2,7 @@ const express = require('express');
 const dbConnection = require('./config/database');
 const app = express();
 var cors = require('cors')
-const session = require('cookie-session')
+const session = require('express-session')
 
 //const session = require('express-session')
 //const cookieParser = require('cookie-parser')
