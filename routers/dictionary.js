@@ -561,6 +561,71 @@ router.get('/list', function(req, res, next) {
 
  })
 
+ /**
+ * @swagger
+ * paths:
+ *   /dictionary/testlist?{section}?{pageNo}:
+ *     get:
+ *       summary: "GET 섹션별 단어"
+ *       description: "섹션명으로 해당 단어 목록을 가져온다."
+ *       parameters:
+ *         - in: query
+ *           name: section
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 섹션 명
+ *         - in: query
+ *           name: pageNo
+ *           schema: 
+ *             type: integer
+ *           description: 섹션 페이지 수 (1~)
+ *       tags: [Dictionary]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    no of pages:
+ *                      type: integer
+ *                      example: 27
+ *                    words:
+ *                      type: array 
+ *                      example: {"video link": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200820/732677/MOV000257800_700X466.webm","meaning": "중얼거리다"}
+ * 
+ * 
+ */
+ router.get('/testlist', function(req, res, next) {
+    section = decodeURI(decodeURIComponent(req.query.section))
+    pageno = req.query.pageNo
+    console.log(section)
+    console.log(pageno)
+    result = {}
+    
+    dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
+        words = []
+        
+        if (error) throw error;
+                
+        for (var data of rows) { 
+            
+            item = {}
+            item['video_link'] = data['video']
+            item['meaning'] = data['meaning']
+            item['section'] = data['section']
+            item['id'] = data['id']
+            words.push(item)
+        }
+        result['words'] = words
+        //result['words'] = words.slice(10 * (pageno-1), 10 * pageno)
+        res.status(200).send(result)
+    })
+
+
+ })
 
 module.exports = router;
 
