@@ -187,25 +187,33 @@ router.get('/search/:meaning', function(req, res, next) {
         console.log("func1 시작")
         var dataList = [];
         return new Promise(resolve => {
+
+            if (req.session.useremail) {
+
+                var ins = [req.session.useremail, req.session.username, param]
+                dbConnection.query('SELECT * FROM search_history WHERE user_email = ? AND username = ? AND search = ?;', ins, (err, row) => {
+                    if (err) console.log(err)
+                    console.log('히스토리')
+                    console.log(row)
+                    if (Array.isArray(row) && !row.length) {
+                        console.log('새로운 단어 입력')
+                        dbConnection.query('INSERT INTO search_history(`user_email`, `username`, `search`) VALUES (?, ?, ?)', ins, (err, row) => {
+                            if (err) console.log(err)
+                            else {
+                                console.log('Successfully saved to search history')
+                        }
+                        })
+                    }
+                })
+
+            }
+            else {
+                console.log('No')
+            }
+
             dbConnection.query('SELECT * FROM words WHERE meaning LIKE ? ORDER BY LOCATE(?, meaning); ', ["%" + param + "%", param], (error, rows) => {
                 if (error) throw error;
                 
-                if (req.session.useremail) {
-
-                    var ins = [req.session.useremail, req.session.username, param]
-
-                    dbConnection.query('INSERT INTO search_history(`user_email`, `username`, `search`) VALUES (?, ?, ?)', ins, (err, row) => {
-                        if (err) console.log(err)
-                        else {
-                            console.log('Successfully saved to search history')
-                    }
-                    })
-                }
-                else {
-                    console.log('No')
-                }
-
-
                 for (var row of rows) {
 
                     var item = {}
