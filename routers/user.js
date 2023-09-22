@@ -109,7 +109,7 @@ router.post('/register', (req, res, next) => {
  *            description: 로그인 성공
  *         "401":
  *            description: 비밀번호 틀림
- *         "403":
+ *         "402":
  *            description: 해당 email 계정이 존재하지 않습니다.          
  * 
  */
