@@ -409,17 +409,10 @@ router.get('/words/:id', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /dictionary/history/{username}:
+ *   /dictionary/history:
  *     get:
  *       summary: "GET 검색 기록"
- *       description: "사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
- *       parameters:
- *         - in: path
- *           name: username
- *           schema: 
- *             type: string
- *           required: true
- *           description: 사용자의 username
+ *       description: "로그인 필요 -> 사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
  *       tags: [Dictionary]
  *       responses:
  *         "200":
@@ -429,6 +422,8 @@ router.get('/words/:id', function(req, res, next) {
  *                schema:
  *                  type: array
  *                  example: ['안녕', '하늘']
+ *         "401":
+ *            description: 로그인 안 된 상태여서 불러올 것 없음
  * 
  * 
  */
@@ -458,14 +453,8 @@ router.get('/history', function(req, res, next) {
  *   /dictionary/history/{username}/{word}:
  *     post:
  *       summary: "POST 검색 기록 삭제"
- *       description: "사용자 이름과 단어를 제공하여 검색 기록을 지운다."
+ *       description: "로그인 필수 -> 사용자 이름과 단어를 제공하여 검색 기록을 지운다."
  *       parameters:
- *         - in: path
- *           name: username
- *           schema: 
- *             type: string
- *           required: true
- *           description: 사용자의 username
  *         - in: path
  *           name: word
  *           schema: 
@@ -477,6 +466,8 @@ router.get('/history', function(req, res, next) {
  *          
  *         "200":
  *            description: 요청 성공
+ *         "401":
+ *            description: 로그인 안 된 상태여서 기능 못함
  * 
  * 
  */

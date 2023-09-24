@@ -17,14 +17,18 @@ router.get('/', function(req, res, next) {
  *     get:
  *       summary: "GET 검색 기록"
  *       description: "사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
- *       parameters:
- *         - in: path
- *           name: username
- *           schema: 
- *             type: string
- *           required: true
- *           description: 사용자의 username
- *       tags: [Dictionary]
+ *       reqeustBody:
+ *         required: True
+ *         content: 
+ *           application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               friend: 
+ *                 type: string
+ *                 example: 루이
+ *                 description: 추가할 친구의 닉네임 입력
+ *       tags: [Friend]
  *       responses:
  *         "200":
  *            description: 요청 성공
@@ -33,6 +37,8 @@ router.get('/', function(req, res, next) {
  *                schema:
  *                  type: array
  *                  example: ['안녕', '하늘']
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
  * 
  * 
  */
