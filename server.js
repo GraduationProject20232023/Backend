@@ -32,9 +32,15 @@ app.use(express.json())
 var usersRouter = require('./routers/user.js');
 var indexRouter = require('./routers/index.js');
 var dictionaryRouter = require('./routers/dictionary.js');
-
+var communityRouter = require('./routers/community.js')
+var noteRouter = require('./routers/note.js')
+var friendRouter = require('./routers/friend.js')
 app.use('/', indexRouter);
-
+/**
+ * @swagger
+ * tags: User
+ * description: 사용자 회원가입/로그인/로그아웃
+ */
 app.use('/user', usersRouter);
 /**
  * @swagger
@@ -42,7 +48,24 @@ app.use('/user', usersRouter);
  * description: 사전
  */
 app.use('/dictionary', dictionaryRouter);
-
+/**
+ * @swagger
+ * tags: Community
+ * description: 게시판
+ */
+//app.use('/community', communityRouter);
+/**
+ * @swagger
+ * tags: Note
+ * description: 단어장
+ */
+//app.use('/note', noteRouter);
+/**
+ * @swagger
+ * tags: Friend
+ * description: 친구관리
+ */
+app.use('/friend', friendRouter);
 // Database Connection
 //var conn = dbConfig.init();
 //dbConfig.connect(conn);

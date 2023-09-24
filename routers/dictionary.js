@@ -547,7 +547,7 @@ router.get('/list', function(req, res, next) {
         for (var data of rows) { 
             
             item = {}
-            item['video_link'] = data['video']
+            item['videoLink'] = data['video']
             item['meaning'] = data['meaning']
             item['section'] = data['section']
             item['id'] = data['id']
@@ -613,7 +613,7 @@ router.get('/list', function(req, res, next) {
         for (var data of rows) { 
             
             item = {}
-            item['video_link'] = data['video']
+            item['videoLink'] = data['video']
             item['meaning'] = data['meaning']
             item['section'] = data['section']
             item['id'] = data['id']
