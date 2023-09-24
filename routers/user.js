@@ -119,7 +119,7 @@ router.post("/login", (req, res) => {
 
     const param = [req.body.email, req.body.pw]
 
-    if (req.session.user) {
+    if (req.session.useremail) {
         // if the session is ongoing, destroy the session
         req.session.destroy(error => {if(error) console.log(error)})
     }
@@ -172,7 +172,7 @@ router.post("/login", (req, res) => {
  */
  // Logout
  router.post('/logout', (req, res)=> {
-     if (req.session.user){ //세션 정보가 있을 때) 
+     if (req.session.useremail){ //세션 정보가 있을 때) 
         req.session.destroy(error => {if(error) console.log(error)})
         console.log('로그아웃 성공')
         res.sendStatus(200)

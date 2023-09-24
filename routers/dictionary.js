@@ -432,17 +432,25 @@ router.get('/words/:id', function(req, res, next) {
  * 
  * 
  */
-router.get('/history/:username', function(req, res, next) {
-    username = req.params.username
-    dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
-        result = []
-        if (error) throw error;
-                
-        for (var data of rows) { 
-            result.push(data['search'])
-        }
-        res.status(200).send(result)
-    })
+router.get('/history', function(req, res, next) {
+    //username = req.params.username
+    if (req.session.useremail) {
+        username= req.session.username
+
+        dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
+            result = []
+            if (error) throw error;
+                    
+            for (var data of rows) { 
+                result.push(data['search'])
+            }
+            res.status(200).send(result)
+        })
+    }
+    else {
+        res.sendStatus(401)
+    }
+    
  })
 /**
  * @swagger

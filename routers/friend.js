@@ -154,7 +154,7 @@ router.get('/list', function(req, res, next) {
         })
     }
     else {
-        res.status(401)
+        res.sendStatus(401)
     }
  })
 //친구의 단어장 접근
