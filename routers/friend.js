@@ -65,7 +65,7 @@ router.get('/new', function(req, res, next) {
 
     }
     else {
-        res.status(401)
+        res.sendStatus(401)
     }
  })
 //친구 삭제
@@ -98,7 +98,7 @@ router.get('/delete', function(req, res, next) {
 
     }
     else {
-        res.status(401)
+        res.sendStatus(401)
     }
  })
 

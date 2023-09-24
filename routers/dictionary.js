@@ -480,14 +480,22 @@ router.get('/history', function(req, res, next) {
  * 
  * 
  */
- router.post('/history/:username/:word', function(req, res, next) {
-    username = req.params.username
-    word = decodeURI(decodeURIComponent(req.params.word))
-    dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
-        if (error) throw error;
+ router.post('/history/:word', function(req, res, next) {
+    if (req.session.username) {
+        username = req.session.username
+
+        word = decodeURI(decodeURIComponent(req.params.word))
+        dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
+            if (error) throw error;
         
-        res.sendStatus(200)
-    })
+            res.sendStatus(200)
+        })
+    }
+    else {
+        req.sendStatus(401)
+    }
+    //username = req.params.username
+    
  })
 
 
