@@ -69,6 +69,39 @@ router.get('/new', function(req, res, next) {
     }
  })
 //친구 삭제
+router.get('/delete', function(req, res, next) {
+    
+    if (req.session.useremail) {
+
+        console.log(req.body)
+        const friend = req.body.friend
+
+
+        useremail = req.session.useremail
+        dbConnection.query('SELECT * FROM users WHERE username = ?; ', [friend], (error, rows) => {
+            result = []
+            if (error) throw error;
+            if (rows) {
+                for (var data of rows) { 
+                    result.push(data['user_email'])
+                }
+            } 
+            ins = [useremail, result[0]]
+            dbConnection.query('DELETE FROM friends WHERE user1 = ? AND user2 = ?; ', ins, (err, row) => {
+                if (err) console.log(err)
+                else {
+                    console.log('Successfully deleted from friends')
+            }
+            })
+            res.status(200).send(result)
+        })
+
+    }
+    else {
+        res.status(401)
+    }
+ })
+
 //친구 목록
 /**
  * @swagger
@@ -103,7 +136,7 @@ router.get('/list', function(req, res, next) {
         dbConnection.query('SELECT * FROM friends WHERE user1 = ?; ', [useremail], (error, rows) => {
             result = []
             if (error) throw error;
-                    
+            if (Array.isArray(rows) && !rows.length) { res.sendStatus(404)}
             for (var data of rows) {
                 console.log(data['user2']) 
                 friend_email = data['user2']
@@ -119,7 +152,6 @@ router.get('/list', function(req, res, next) {
             }
             
         })
-
     }
     else {
         res.status(401)
