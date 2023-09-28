@@ -37,10 +37,17 @@ router.get('/', function(req, res, next) {
  *                      type: object
  *                      example: 
  *                        [
- *                          {"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733647/MOV000252074_700X466.webm", "meaning": "마침,딱 맞다,알맞다"},
- *                          {"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20191029/632258/MOV000255801_700X466.webm", "meaning": "자유,임의,마구,마음껏,마음대로,멋대로,제멋대로,함부로"},
- *                          {"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20221019/1042417/MOV000360965_700X466.webm", "meaning": "모세"}
+ *                          {"id": 718,"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20221019/1042464/MOV000360986_700X466.webm","meaning": "주전자"},
+ *                          {"id": 1422,"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20221101/1047376/MOV000361247_700X466.webm","meaning": "네덜란드"},
+ *                          {"id": 1949,"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20191101/633265/MOV000256711_700X466.webm","meaning": "시작, 개시, 개최, 거행, 시발, 착수, 출발, 열다, 이행, 하수"} 
  *                        ]
+ *         "500":       
+ *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: DB Errror 
  */
 router.get('/main', function (req, res, next) {
     result = {}
@@ -48,7 +55,10 @@ router.get('/main', function (req, res, next) {
 
     const promise1 = new Promise((resolve, reject) => {
         dbConnection.query('SELECT * FROM sections', (error, rows) => {
-            if (error) logger.log('error', error);
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', 'DB 오류: sections 테이블에서 섹션 검색하는 것에 실패함. MySQL 에러 => ' + error);
+            }
     
             for (var data of rows) {
                 sections.push(data['section'])
@@ -76,19 +86,17 @@ router.get('/main', function (req, res, next) {
     n.push(first)
     n.push(second)
     n.push(third)
-    // for (var i = 0; i < 3; i ++) {
-    //     var num = getRndInteger(0, 3669)
-    //     if (n.includes(num) === false) {
-    //         n.push(num)
-    //     }
-    // }
 
+    logger.log('info', '<=== /dictionary/main 실행 ===>')
     promise1.then((value) => {
         var todays = []
         n.forEach(function (item, index) {
             var it = {}
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [item], (error, rows) => {
-                if (error) logger.log('error', error);
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: word_id로 words 테이블에서 이미지 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                }
                 for (var data of rows) {
                     it['id'] = data['id']
                     it['video'] = data['video']
@@ -146,29 +154,43 @@ router.get('/main', function (req, res, next) {
  *                      meaning: 
  *                        type: string
  *                        example: "어머니, 모친, 어미, 엄마"
+ *                      section: 
+ *                        type: string
+ *                        example: "삶" 
  *                      subsection: 
  *                        type: string
  *                        example: "가족 관계 및 행사"
  *                      imageLink:
  *                        type: array
  *                        example: ["http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20230404/1133072/PIC000361272_700X466.jpg"]
- *                      section: 
- *                        type: string
- *                        example: "삶" 
- *                   
- *  
- *           
- * 
+ *         "404":       
+ *           description: 검색 결과 없음.
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: No words found.
+ *         "500":       
+ *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: DB Errror 
  */
 //단어 검색 결과
 router.get('/search/:meaning', function(req, res, next) {
     param = req.params.meaning
+    
 
     let func3 = function(id) {
         return new Promise(resolve => {
             dbConnection.query('SELECT * from images where word_id = ?; ',[id], (error, rows) => {
                 imageList = [];
-                if (error) logger.log('error', error);;
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: word_id로 images 테이블에서 이미지 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                }
 
                 for (var row of rows) {
                     imageList.push(row['link'])                    
@@ -180,7 +202,8 @@ router.get('/search/:meaning', function(req, res, next) {
 
     let func1 = function() {
         
-        console.log("func1 시작")
+        //console.log("func1 시작")
+        logger.log("info", "func1 시작")
         var dataList = [];
         return new Promise(resolve => {
 
@@ -188,15 +211,22 @@ router.get('/search/:meaning', function(req, res, next) {
 
                 var ins = [req.session.useremail, req.session.username, param]
                 dbConnection.query('SELECT * FROM search_history WHERE user_email = ? AND username = ? AND search = ?;', ins, (err, row) => {
-                    if (err) logger.log('error', err);
-                    console.log('히스토리')
-                    console.log(row)
+                    if (err) {
+                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                        logger.log('error', 'DB 오류: search_history 테이블에서 검색기록을 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                    }
+                    // console.log('히스토리')
+                    // console.log(row)
                     if (Array.isArray(row) && !row.length) {
-                        console.log('새로운 단어 입력')
+                        logger.log('info', '사용자의 검색기록 리스트에 새로운 단어 입력')
                         dbConnection.query('INSERT INTO search_history(`user_email`, `username`, `search`) VALUES (?, ?, ?)', ins, (err, row) => {
-                            if (err) logger.log('error', err);
+                            if (err) {
+                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                logger.log('error', 'DB 오류: search_history 테이블에 검색기록을 저장하는 것에 실패함. MySQL 에러 => ' + error);
+                            }
                             else {
-                                console.log('Successfully saved to search history')
+                                logger.log('info', '사용자의 검색기록 리스트에 새로운 단어 입력 성공!')
+                                //console.log('Successfully saved to search history')
                         }
                         })
                     }
@@ -204,14 +234,16 @@ router.get('/search/:meaning', function(req, res, next) {
 
             }
             else {
-                console.log('No')
+                logger.log('info', '로그인하지 않은 상태여서 검색 기록 저장되지 않음.')
             }
 
             dbConnection.query('SELECT * FROM words WHERE meaning LIKE ? ORDER BY LOCATE(?, meaning); ', ["%" + param + "%", param], (error, rows) => {
-                if (error) logger.log('error', error);;
+                if (error)  {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: words 테이블에서 단어를 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                }
                 
                 for (var row of rows) {
-
                     var item = {}
                     item['id'] = row['id']
                     item['videoLink'] = row['video']
@@ -230,9 +262,10 @@ router.get('/search/:meaning', function(req, res, next) {
 
 
     let test1 = async function() {
-        console.log('test 1 시작')
+        logger.log('info', '<=== /dictionary/search/'+param+' 실행 ===>')
+        //console.log('test 1 시작')
         let dataList = func1()
-        console.log('a 출력')
+        //console.log('a 출력')
         result = []
         for (var data of await dataList) {
 
@@ -240,15 +273,20 @@ router.get('/search/:meaning', function(req, res, next) {
    
             data['imageLink'] = await images
             
-            console.log(data)
+            //console.log(data)
             result.push(data)
         }
-        res.status(200).send(result)
-
+        
+        if (! result.length) {
+            res.status(404).send('No words found.')
+        }
+        else {
+            res.status(200).send(result)
+        }
+        
     }
     (async () => {
         let aa = await test1();
-        
     })
     });
     
@@ -287,6 +325,9 @@ router.get('/search/:meaning', function(req, res, next) {
  *                        meaning: 
  *                          type: string
  *                          example: "사용자, 소비자, 컨슈머"
+ *                        section: 
+ *                          type: string
+ *                          example: "인간"
  *                        subsection: 
  *                          type: string
  *                          example: "사람의 종류"
@@ -297,9 +338,6 @@ router.get('/search/:meaning', function(req, res, next) {
  *                          type: array
  *                          example: ["http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20160325/258541/IMG000272575_700X466.jpg",
  *                                    " http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20160325/258542/IMG000272576_700X466.jpg"]
- *                        section: 
- *                          type: string
- *                          example: "인간"
  *                    word before:
  *                      properties: 
  *                        meaning: 
@@ -317,19 +355,36 @@ router.get('/search/:meaning', function(req, res, next) {
  *                          type: string
  *                          example: "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733339/MOV000254478_700X466.webm"
  *                     
- *                   
- *  
- *           
- * 
+ *         "404":       
+ *           description: 입력된 단어 id에 해당하는 단어가 DB에 없음.
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: Invalid word id 
+ *         "500":       
+ *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: DB Errror 
  */
 router.get('/words/:id', function(req, res, next) {
+
     param = req.params.id
+    logger.log('info', '<=== /dictionary/words/?'+param+' 실행 ===>')
     var dataList = [];
     //var result = [];
     var result = {};
     dbConnection.query('SELECT * FROM words WHERE id = ?; ', [param], (error, rows) => {
-        if (error) logger.log('error', error);;
-
+        if (error) {
+            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            logger.log('error', 'DB 오류: word_id로 words(단어) 테이블에서 단어 검색하는 것에 실패함. MySQL 에러 => ' + error);
+        }
+        if (!rows) {
+            res.status(404).send('Invalid word id')
+        }
         for (var data of rows) {
             var item = {}
             dataList.push(data)
@@ -340,10 +395,13 @@ router.get('/words/:id', function(req, res, next) {
             item['subsection'] = data['subsection']
             item['description'] = data['descr']
             
-            //console.log(item)
+
             imageList = [];
             dbConnection.query('SELECT * from images where word_id = ?; ',[item['id']], (error, rows) => {
-                if (error) logger.log('error', error);;
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: word_id로 images(수형사진) 테이블에서 이미지 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                }
                 for (var data of rows) {
                     imageList.push(data['link'])
                     
@@ -353,22 +411,13 @@ router.get('/words/:id', function(req, res, next) {
                 console.log(item)
             })
             
-            // dbConnection.query('SELECT * from sections where subsection = ?; ', [item['subsection']] , (error, rows) => {
-            //     if (error) logger.log('error', error);;
-
-            //     for (var data of rows) {
-            //         item['section'] = data['section']
-            //     }
-            //     //console.log(item)
-            //     //result.push(item)
-            //     result["word"] = item
-            //     //console.log('1: ', result)
-                
-            // })
 
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)-1], (error, rows) => {
-                if (error) logger.log('error', error);;
-                //console.log(Number(param)-1)
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: words 테이블에서 이전 단어 불러오기 실패함. MySQL 에러 => ' + error);
+                }
+
                 for (var data of rows) {
                     var item_before = {}
                     item_before['meaning'] = data['meaning']
@@ -376,12 +425,14 @@ router.get('/words/:id', function(req, res, next) {
                     //result.push(item_before)
                     result["word_before"] = item_before
                 }
-                //console.log(result)
-                
+
             })
             
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)+1], (error, rows) => {
-                if (error) logger.log('error', error);;
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함. MySQL 에러 => ' + error);
+                }
                 //console.log(Number(param)+1)
                 for (var data of rows) {
                     var item_after = {}
@@ -392,102 +443,12 @@ router.get('/words/:id', function(req, res, next) {
                     result["word_after"] = item_after
                     console.log(result)
                 }
-                //console.log(result)
                 res.status(200).send(result)
             })
         }
     })
     });
 
-
-
-
-/**
- * @swagger
- * paths:
- *   /dictionary/history:
- *     get:
- *       summary: "GET 검색 기록"
- *       description: "로그인 필요 -> 사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
- *       tags: [Dictionary]
- *       responses:
- *         "200":
- *            description: 요청 성공
- *            content: 
- *              application/json:
- *                schema:
- *                  type: array
- *                  example: ['안녕', '하늘']
- *         "401":
- *            description: 로그인 안 된 상태여서 불러올 것 없음
- * 
- * 
- */
-router.get('/history', function(req, res, next) {
-    //username = req.params.username
-    if (req.session.useremail) {
-        username= req.session.username
-
-        dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
-            result = []
-            if (error) logger.log('error', error);;
-                    
-            for (var data of rows) { 
-                result.push(data['search'])
-            }
-            res.status(200).send(result)
-            logger.log('검색 결과 가져오기 성공!')
-        })
-    }
-    else {
-        res.status(401).send('You are not logged in!')
-        logger.log('error', '로그인 상태가 아님.')
-    }
-    
- })
-/**
- * @swagger
- * paths:
- *   /dictionary/history/{username}/{word}:
- *     post:
- *       summary: "POST 검색 기록 삭제"
- *       description: "로그인 필수 -> 사용자 이름과 단어를 제공하여 검색 기록을 지운다."
- *       parameters:
- *         - in: path
- *           name: word
- *           schema: 
- *             type: string
- *           required: true
- *           description: 지울 검색 기록
- *       tags: [Dictionary]
- *       responses:
- *          
- *         "200":
- *            description: 요청 성공
- *         "401":
- *            description: 로그인 안 된 상태여서 기능 못함
- * 
- * 
- */
- router.post('/history/:word', function(req, res, next) {
-    if (req.session.username) {
-        username = req.session.username
-
-        word = decodeURI(decodeURIComponent(req.params.word))
-        dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
-            if (error) logger.log('error', error);;
-        
-            res.sendStatus(200)
-            logger.log('info', '검색 결과 지우기 성공!')
-        })
-    }
-    else {
-        res.status(401).send('You are not logged in!')
-        logger.log('error', '로그인 상태가 아님.')
-    }
-    //username = req.params.username
-    
- })
 
 
  /**
@@ -523,18 +484,29 @@ router.get('/history', function(req, res, next) {
  *                      example: 27
  *                    words:
  *                      type: array 
- *                      example: {"video link": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200820/732677/MOV000257800_700X466.webm","meaning": "중얼거리다"}
+ *                      example: [{"videoLink": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733290/MOV000255759_700X466.webm","meaning": "위인","section": "인간","id": 0},]
  * 
- * 
+ *         "400":
+ *           description: 잘못된 섹션명
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: Wrong section name
  */
 router.get('/list', function(req, res, next) {
+
     section = decodeURI(decodeURIComponent(req.query.section))
     pageno = req.query.pageNo
-    console.log(section)
-    console.log(pageno)
+    logger.log('info', '<=== /dictionary/list?'+section+'&'+pageno+' 실행 ===>')
+    //console.log(section)
+    //console.log(pageno)
     result = {}
     dbConnection.query('SELECT COUNT(*) FROM words WHERE section = ?; ', [section], (error, rows) => {
-        if (error) logger.log('error', error);; 
+        if (error) {
+            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함1. MySQL 에러 => ' + error);
+        }
         count = rows[0]['COUNT(*)']
         //console.log(count%10)
         if (count%10 == 0) {
@@ -549,7 +521,10 @@ router.get('/list', function(req, res, next) {
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
         words = []
         
-        if (error) logger.log('error', error);;
+        if (error) {
+            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함2. MySQL 에러 => ' + error);
+        }
                 
         for (var data of rows) { 
             
@@ -561,6 +536,10 @@ router.get('/list', function(req, res, next) {
             words.push(item)
         }
         result['words'] = words
+        if (! result['words'].length) {
+            res.status(400).send('잘못된 섹션명: 해당 섹션명은 존재하지 않음')
+            logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
+        }
         result['words'] = words.slice(10 * (pageno-1), 10 * pageno)
         res.status(200).send(result)
     })
@@ -593,22 +572,30 @@ router.get('/list', function(req, res, next) {
  *                  properties:
  *                    words:
  *                      type: array 
- *                      example: {"video link": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200820/732677/MOV000257800_700X466.webm","meaning": "중얼거리다"}
- * 
- * 
+ *                      example: [{"videoLink": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733290/MOV000255759_700X466.webm","meaning": "위인","section": "인간","id": 0},]
+ *         "400":
+ *           description: 잘못된 섹션명
+ *           content: 
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: Wrong section name
  */
  router.get('/testlist', function(req, res, next) {
     section = decodeURI(decodeURIComponent(req.query.section))
     //pageno = req.query.pageNo
     //console.log(section)
-    logger.log('info', '<=== /dictionary/testlist/'+section+' 실행 ===>')
+    logger.log('info', '<=== /dictionary/testlist?'+section+' 실행 ===>')
     //console.log(pageno)
     result = {}
     
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
         words = []
         
-        if (error) logger.log('error', error);;
+        if (error) {
+            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함. MySQL 에러 => ' + error);
+        }
         
         for (var data of rows) { 
             
@@ -635,6 +622,95 @@ router.get('/list', function(req, res, next) {
 
 
  })
+
+
+/**
+ * @swagger
+ * paths:
+ *   /dictionary/history:
+ *     get:
+ *       summary: "GET 검색 기록"
+ *       description: "로그인 필요 -> 사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
+ *       tags: [Dictionary]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: array
+ *                  example: ['안녕', '하늘']
+ *         "401":
+ *            description: 로그인 상태가 아님
+ * 
+ * 
+ */
+router.get('/history', function(req, res, next) {
+    //username = req.params.username
+    if (req.session.useremail) {
+        username= req.session.username
+
+        dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
+            result = []
+            if (error) logger.log('error', error);;
+                    
+            for (var data of rows) { 
+                result.push(data['search'])
+            }
+            res.status(200).send(result)
+            logger.log('검색 결과 가져오기 성공!')
+        })
+    }
+    else {
+        res.status(401).send('You are not logged in!')
+        logger.log('error', '로그인 상태가 아님.')
+    }
+    
+ })
+/**
+ * @swagger
+ * paths:
+ *   /dictionary/history/{word}:
+ *     post:
+ *       summary: "POST 검색 기록 삭제"
+ *       description: "로그인 필요 -> 사용자 이름과 단어를 제공하여 검색 기록을 지운다."
+ *       parameters:
+ *         - in: path
+ *           name: word
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 지울 검색 기록 단어
+ *       tags: [Dictionary]
+ *       responses:
+ *          
+ *         "200":
+ *            description: 요청 성공
+ *         "401":
+ *            description: 로그인 상태가 아님.
+ * 
+ * 
+ */
+ router.post('/history/:word', function(req, res, next) {
+    if (req.session.username) {
+        username = req.session.username
+
+        word = decodeURI(decodeURIComponent(req.params.word))
+        dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
+            if (error) logger.log('error', error);;
+        
+            res.sendStatus(200)
+            logger.log('info', '검색 결과 지우기 성공!')
+        })
+    }
+    else {
+        res.status(401).send('You are not logged in!')
+        logger.log('error', '로그인 상태가 아님.')
+    }
+    //username = req.params.username
+    
+ })
+
 
 module.exports = router;
 

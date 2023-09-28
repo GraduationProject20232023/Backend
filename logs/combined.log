@@ -244,3 +244,74 @@
 2023-09-29 01:02:44 info: Server listening from port 3000
 2023-09-29 01:02:46 info: <=== /dictionary/testlist/인간임 실행 ===>
 2023-09-29 01:02:46 error: 잘못된 섹션명: 해당 섹션명은 존재하지 않음.
+2023-09-29 01:53:00 info: Server listening from port 3000
+2023-09-29 01:54:52 info: <=== /dictionary/testlist/인간임 실행 ===>
+2023-09-29 01:54:52 error: 잘못된 섹션명: 해당 섹션명은 존재하지 않음.
+2023-09-29 01:59:46 info: Server listening from port 3000
+2023-09-29 01:59:54 info: <=== /dictionary/testlist/인간 실행 ===>
+2023-09-29 02:00:01 info: <=== /dictionary/testlist/인간임 실행 ===>
+2023-09-29 02:00:01 error: 잘못된 섹션명: 해당 섹션명은 존재하지 않음.
+2023-09-29 02:02:50 info: Server listening from port 3000
+2023-09-29 02:04:36 info: Server listening from port 3000
+2023-09-29 02:05:24 info: <=== /dictionary/testlist/인간 실행 ===>
+2023-09-29 02:07:15 info: Server listening from port 3000
+2023-09-29 02:08:48 info: Server listening from port 3000
+2023-09-29 02:09:22 info: Server listening from port 3000
+2023-09-29 02:10:01 info: Server listening from port 3000
+2023-09-29 02:10:19 info: Server listening from port 3000
+2023-09-29 02:10:55 info: <=== /dictionary/testlist/인간 실행 ===>
+2023-09-29 02:11:42 info: Server listening from port 3000
+2023-09-29 02:11:56 info: <=== /dictionary/testlist/인간 실행 ===>
+2023-09-29 02:12:44 info: Server listening from port 3000
+2023-09-29 02:13:16 info: <=== /dictionary/testlist/인간임 실행 ===>
+2023-09-29 02:13:16 error: 잘못된 섹션명: 해당 섹션명은 존재하지 않음.
+2023-09-29 02:16:10 info: Server listening from port 3000
+2023-09-29 02:19:22 info: Server listening from port 3000
+2023-09-29 02:19:58 info: Server listening from port 3000
+2023-09-29 02:23:37 info: Server listening from port 3000
+2023-09-29 02:24:29 info: Server listening from port 3000
+2023-09-29 02:24:50 info: Server listening from port 3000
+2023-09-29 02:25:47 info: Server listening from port 3000
+2023-09-29 02:29:59 info: Server listening from port 3000
+2023-09-29 02:40:31 info: Server listening from port 3000
+2023-09-29 02:40:40 info: <=== /dictionary/search/사랑 실행 ===>
+2023-09-29 02:40:40 info: func1 시작
+2023-09-29 02:40:40 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:41:04 info: Server listening from port 3000
+2023-09-29 02:41:04 info: <=== /dictionary/search/사랑 실행 ===>
+2023-09-29 02:41:04 info: func1 시작
+2023-09-29 02:41:04 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:41:12 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:41:12 info: func1 시작
+2023-09-29 02:41:12 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:43:29 info: Server listening from port 3000
+2023-09-29 02:43:31 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:43:31 info: func1 시작
+2023-09-29 02:43:31 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:44:20 info: Server listening from port 3000
+2023-09-29 02:44:22 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:44:22 info: func1 시작
+2023-09-29 02:44:22 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:44:40 info: Server listening from port 3000
+2023-09-29 02:44:42 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:44:42 info: func1 시작
+2023-09-29 02:44:42 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:44:45 info: Server listening from port 3000
+2023-09-29 02:45:22 info: Server listening from port 3000
+2023-09-29 02:45:22 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:45:22 info: func1 시작
+2023-09-29 02:45:22 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:46:34 info: Server listening from port 3000
+2023-09-29 02:46:40 info: <=== /dictionary/search/사랑2 실행 ===>
+2023-09-29 02:46:40 info: func1 시작
+2023-09-29 02:46:40 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:46:47 info: <=== /dictionary/search/사랑 실행 ===>
+2023-09-29 02:46:47 info: func1 시작
+2023-09-29 02:46:47 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-09-29 02:47:39 info: Server listening from port 3000
+2023-09-29 02:48:44 info: <=== /dictionary/words/?1 실행 ===>
+2023-09-29 02:49:27 info: Server listening from port 3000
+2023-09-29 02:52:16 info: Server listening from port 3000
+2023-09-29 02:52:16 info: <=== /dictionary/main 실행 ===>
+2023-09-29 02:54:01 info: Server listening from port 3000
+2023-09-29 02:54:04 info: <=== /dictionary/main 실행 ===>

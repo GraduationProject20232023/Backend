@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /user/register:
+ *   /users/register:
  *     post:
  *       summary: "회원 가입"
  *       description: "회원 가입 API"
@@ -90,7 +90,7 @@ router.post('/register', (req, res, next) => {
 /**
  * @swagger
  * paths:
- *   /user/login:
+ *   /users/login:
  *     post:
  *       summary: "로그인"
  *       description: "로그인 API"
@@ -166,7 +166,7 @@ router.post("/login", (req, res) => {
 /**
  * @swagger
  * paths:
- *   /user/logout:
+ *   /users/logout:
  *     post:
  *       summary: "로그아웃"
  *       description: "로그아웃 API"
