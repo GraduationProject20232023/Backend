@@ -33,7 +33,7 @@ router.get('/user-info', function(req, res, next) {
     }
     else {
         res.sendStatus(401)
-        logger.log('error', '로그인 상태가 아님')
+        logger.log('error', '로그인 상태가 아님.')
     }
 });
 

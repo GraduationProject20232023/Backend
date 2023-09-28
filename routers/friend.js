@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
  *                 type: string
  *                 example: 루이
  *                 description: 추가할 친구의 닉네임 입력
- *       tags: [Friend]
+ *       tags: [Friends]
  *       responses:
  *         "200":
  *            description: 요청 성공
@@ -123,7 +123,7 @@ router.get('/delete', function(req, res, next) {
  *             type: string
  *           required: true
  *           description: 사용자의 username
- *       tags: [Dictionary]
+ *       tags: [Friends]
  *       responses:
  *         "200":
  *            description: 요청 성공

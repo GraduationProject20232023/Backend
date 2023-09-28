@@ -436,10 +436,12 @@ router.get('/history', function(req, res, next) {
                 result.push(data['search'])
             }
             res.status(200).send(result)
+            logger.log('검색 결과 가져오기 성공!')
         })
     }
     else {
         res.status(401).send('You are not logged in!')
+        logger.log('error', '로그인 상태가 아님.')
     }
     
  })
@@ -476,10 +478,12 @@ router.get('/history', function(req, res, next) {
             if (error) logger.log('error', error);;
         
             res.sendStatus(200)
+            logger.log('info', '검색 결과 지우기 성공!')
         })
     }
     else {
-        req.status(401).send('You are not logged in!')
+        res.status(401).send('You are not logged in!')
+        logger.log('error', '로그인 상태가 아님.')
     }
     //username = req.params.username
     
@@ -567,9 +571,9 @@ router.get('/list', function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /dictionary/testlist?{section}?{pageNo}:
+ *   /dictionary/testlist?{section}:
  *     get:
- *       summary: "GET 섹션별 단어"
+ *       summary: "GET 섹션별 전체 단어 목록"
  *       description: "섹션명으로 해당 단어 목록을 가져온다."
  *       parameters:
  *         - in: query
@@ -578,11 +582,6 @@ router.get('/list', function(req, res, next) {
  *             type: string
  *           required: true
  *           description: 섹션 명
- *         - in: query
- *           name: pageNo
- *           schema: 
- *             type: integer
- *           description: 섹션 페이지 수 (1~)
  *       tags: [Dictionary]
  *       responses:
  *         "200":
@@ -592,9 +591,6 @@ router.get('/list', function(req, res, next) {
  *                schema:
  *                  type: object
  *                  properties:
- *                    no of pages:
- *                      type: integer
- *                      example: 27
  *                    words:
  *                      type: array 
  *                      example: {"video link": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200820/732677/MOV000257800_700X466.webm","meaning": "중얼거리다"}
@@ -603,7 +599,7 @@ router.get('/list', function(req, res, next) {
  */
  router.get('/testlist', function(req, res, next) {
     section = decodeURI(decodeURIComponent(req.query.section))
-    pageno = req.query.pageNo
+    //pageno = req.query.pageNo
     console.log(section)
     console.log(pageno)
     result = {}
@@ -612,7 +608,10 @@ router.get('/list', function(req, res, next) {
         words = []
         
         if (error) logger.log('error', error);;
-                
+        if (!rows.length) {
+            res.status(400).status('Wrong section name')
+            logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
+        }
         for (var data of rows) { 
             
             item = {}
