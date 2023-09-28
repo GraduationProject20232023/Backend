@@ -237,3 +237,10 @@
 2023-09-29 00:37:03 info: Server listening from port 3000
 2023-09-29 00:40:15 info: Server listening from port 3000
 2023-09-29 00:41:57 info: Server listening from port 3000
+2023-09-29 01:01:16 info: Server listening from port 3000
+2023-09-29 01:01:53 info: <=== /dictionary/testlist/undefined 실행 ===>
+2023-09-29 01:02:06 info: Server listening from port 3000
+2023-09-29 01:02:08 info: <=== /dictionary/testlist/인간임 실행 ===>
+2023-09-29 01:02:44 info: Server listening from port 3000
+2023-09-29 01:02:46 info: <=== /dictionary/testlist/인간임 실행 ===>
+2023-09-29 01:02:46 error: 잘못된 섹션명: 해당 섹션명은 존재하지 않음.

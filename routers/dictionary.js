@@ -620,9 +620,9 @@ router.get('/list', function(req, res, next) {
             words.push(item)
         }
         result['words'] = words
-
+        //console.log(result['words'].length)
         if (! result['words'].length) {
-            res.status(400).status('Wrong section name')
+            res.status(400).send('Wrong section name')
             logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
         }
         else {
