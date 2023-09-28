@@ -440,7 +440,6 @@ router.get('/history', function(req, res, next) {
     }
     else {
         res.status(401).send('You are not logged in!')
-        l
     }
     
  })
