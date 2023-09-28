@@ -621,7 +621,7 @@ router.get('/list', function(req, res, next) {
         }
         result['words'] = words
 
-        if (result['words'].length) {
+        if (! result['words'].length) {
             res.status(400).status('Wrong section name')
             logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
         }
