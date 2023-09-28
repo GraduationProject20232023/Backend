@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const dbConnection = require('../config/database');
 var seedrandom = require('seedrandom')
-
+var logger = require('../config/winston');
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
@@ -10,7 +10,7 @@ function getRndInteger(min, max) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
     //res.render('index', { title: 'Express' });
-    res.send('Index Page: Success!')
+    res.send('Dictionary Index Page: Success!')
 });
 
 
@@ -41,10 +41,6 @@ router.get('/', function(req, res, next) {
  *                          {"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20191029/632258/MOV000255801_700X466.webm", "meaning": "자유,임의,마구,마음껏,마음대로,멋대로,제멋대로,함부로"},
  *                          {"video": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20221019/1042417/MOV000360965_700X466.webm", "meaning": "모세"}
  *                        ]
- *  
- *             
- * 
- * 
  */
 router.get('/main', function (req, res, next) {
     result = {}
@@ -52,7 +48,7 @@ router.get('/main', function (req, res, next) {
 
     const promise1 = new Promise((resolve, reject) => {
         dbConnection.query('SELECT * FROM sections', (error, rows) => {
-            if (error) throw error;
+            if (error) logger.log('error', error);
     
             for (var data of rows) {
                 sections.push(data['section'])
@@ -92,7 +88,7 @@ router.get('/main', function (req, res, next) {
         n.forEach(function (item, index) {
             var it = {}
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [item], (error, rows) => {
-                if (error) throw error;
+                if (error) logger.log('error', error);
                 for (var data of rows) {
                     it['id'] = data['id']
                     it['video'] = data['video']
@@ -172,7 +168,7 @@ router.get('/search/:meaning', function(req, res, next) {
         return new Promise(resolve => {
             dbConnection.query('SELECT * from images where word_id = ?; ',[id], (error, rows) => {
                 imageList = [];
-                if (error) throw error;
+                if (error) logger.log('error', error);;
 
                 for (var row of rows) {
                     imageList.push(row['link'])                    
@@ -192,13 +188,13 @@ router.get('/search/:meaning', function(req, res, next) {
 
                 var ins = [req.session.useremail, req.session.username, param]
                 dbConnection.query('SELECT * FROM search_history WHERE user_email = ? AND username = ? AND search = ?;', ins, (err, row) => {
-                    if (err) console.log(err)
+                    if (err) logger.log('error', err);
                     console.log('히스토리')
                     console.log(row)
                     if (Array.isArray(row) && !row.length) {
                         console.log('새로운 단어 입력')
                         dbConnection.query('INSERT INTO search_history(`user_email`, `username`, `search`) VALUES (?, ?, ?)', ins, (err, row) => {
-                            if (err) console.log(err)
+                            if (err) logger.log('error', err);
                             else {
                                 console.log('Successfully saved to search history')
                         }
@@ -212,7 +208,7 @@ router.get('/search/:meaning', function(req, res, next) {
             }
 
             dbConnection.query('SELECT * FROM words WHERE meaning LIKE ? ORDER BY LOCATE(?, meaning); ', ["%" + param + "%", param], (error, rows) => {
-                if (error) throw error;
+                if (error) logger.log('error', error);;
                 
                 for (var row of rows) {
 
@@ -332,7 +328,7 @@ router.get('/words/:id', function(req, res, next) {
     //var result = [];
     var result = {};
     dbConnection.query('SELECT * FROM words WHERE id = ?; ', [param], (error, rows) => {
-        if (error) throw error;
+        if (error) logger.log('error', error);;
 
         for (var data of rows) {
             var item = {}
@@ -347,7 +343,7 @@ router.get('/words/:id', function(req, res, next) {
             //console.log(item)
             imageList = [];
             dbConnection.query('SELECT * from images where word_id = ?; ',[item['id']], (error, rows) => {
-                if (error) throw error;
+                if (error) logger.log('error', error);;
                 for (var data of rows) {
                     imageList.push(data['link'])
                     
@@ -358,7 +354,7 @@ router.get('/words/:id', function(req, res, next) {
             })
             
             // dbConnection.query('SELECT * from sections where subsection = ?; ', [item['subsection']] , (error, rows) => {
-            //     if (error) throw error;
+            //     if (error) logger.log('error', error);;
 
             //     for (var data of rows) {
             //         item['section'] = data['section']
@@ -371,7 +367,7 @@ router.get('/words/:id', function(req, res, next) {
             // })
 
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)-1], (error, rows) => {
-                if (error) throw error;
+                if (error) logger.log('error', error);;
                 //console.log(Number(param)-1)
                 for (var data of rows) {
                     var item_before = {}
@@ -385,7 +381,7 @@ router.get('/words/:id', function(req, res, next) {
             })
             
             dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)+1], (error, rows) => {
-                if (error) throw error;
+                if (error) logger.log('error', error);;
                 //console.log(Number(param)+1)
                 for (var data of rows) {
                     var item_after = {}
@@ -434,7 +430,7 @@ router.get('/history', function(req, res, next) {
 
         dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
             result = []
-            if (error) throw error;
+            if (error) logger.log('error', error);;
                     
             for (var data of rows) { 
                 result.push(data['search'])
@@ -443,7 +439,8 @@ router.get('/history', function(req, res, next) {
         })
     }
     else {
-        res.sendStatus(401)
+        res.status(401).send('You are not logged in!')
+        l
     }
     
  })
@@ -477,13 +474,13 @@ router.get('/history', function(req, res, next) {
 
         word = decodeURI(decodeURIComponent(req.params.word))
         dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
-            if (error) throw error;
+            if (error) logger.log('error', error);;
         
             res.sendStatus(200)
         })
     }
     else {
-        req.sendStatus(401)
+        req.status(401).send('You are not logged in!')
     }
     //username = req.params.username
     
@@ -534,7 +531,7 @@ router.get('/list', function(req, res, next) {
     console.log(pageno)
     result = {}
     dbConnection.query('SELECT COUNT(*) FROM words WHERE section = ?; ', [section], (error, rows) => {
-        if (error) throw error; 
+        if (error) logger.log('error', error);; 
         count = rows[0]['COUNT(*)']
         //console.log(count%10)
         if (count%10 == 0) {
@@ -549,7 +546,7 @@ router.get('/list', function(req, res, next) {
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
         words = []
         
-        if (error) throw error;
+        if (error) logger.log('error', error);;
                 
         for (var data of rows) { 
             
@@ -615,7 +612,7 @@ router.get('/list', function(req, res, next) {
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {
         words = []
         
-        if (error) throw error;
+        if (error) logger.log('error', error);;
                 
         for (var data of rows) { 
             

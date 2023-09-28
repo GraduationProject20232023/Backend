@@ -3,14 +3,16 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
+var logger = require('../config/winston');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     //res.render('index', { title: 'Express' });
-    res.send('Index Page: Success!')
-    console.log(req.session.cookie)
-    console.log(req.session.user)
+    res.send('User Index Page: Success!')
+    //console.log(req.session.cookie)
+    logger.log('info', 'sessioncookie 정보: '+ req.session.cookie)
+    //console.log(req.session.user)
+    logger.log('info', 'session user 정보: ' + req.session.user)
 });
 
 
@@ -49,18 +51,19 @@ router.get('/', function(req, res, next) {
  */
 // Register
 router.post('/register', (req, res, next) => {
-    console.log(req.body)
+    //console.log(req.body)
+    logger.log('info', 'req.body: '+ JSON.stringify(req.body))
     const param = [req.body.email, req.body.pw, req.body.username]
     
     dbConnection.query("SELECT * FROM users WHERE user_email ='"+param[0]+ "';", (err, rows) => {
-        if (err) console.log(err);
+        if (err) logger.log('error', err);
         else if (rows.length == 0) { //같은 eamil이 없는 경우
             dbConnection.query("SELECT * FROM users WHERE username = '"+param[2]+"';", (err, rows) => {
                 if (rows.length == 0) { // 같은 username 없는 경우
                     bcrypt.hash(param[1], saltRounds, (error, hash) => {
                         param[1] = hash
                         dbConnection.query('INSERT INTO users(`user_email`, `password_`, `username`) VALUES (?, ?, ?)', param, (err, row) => {
-                            if(err) console.log(err)
+                            if(err) logger.log('error', err);
                             else {
                                 return res.status(201).send('Successfully created the account.') // 계정 생성함
                                 
@@ -70,15 +73,16 @@ router.post('/register', (req, res, next) => {
                     })
                 }
                 else { //같은 username 있는 경우
-                    return res.status(400).send('This username already exists.') 
+                    res.status(400).send('This username already exists.') ;
+                    logger.log('error', '같은 username이 이미 존재합니다.')
                     
                 }
             });
         }
         else {
             //이미 같은 email 사용자 존재함
-            return res.status(403).send('This email already exists.')
-            
+            res.status(403).send('This email already exists.')
+            logger.log('error', '같은 email이 이미 존재합니다.')
         }
     });
     //res.end()
@@ -115,39 +119,43 @@ router.post('/register', (req, res, next) => {
  */
 // Login
 router.post("/login", (req, res) => {
-    console.log("로그인 함수 실행")
-
+    //console.log("로그인 함수 실행")
+    logger.log('info', '로그인 함수 실행')
     const param = [req.body.email, req.body.pw]
 
     if (req.session.useremail) {
         // if the session is ongoing, destroy the session
-        req.session.destroy(error => {if(error) console.log(error)})
+        req.session.destroy(error => {if(error) logger.log('error', error)})
     }
     dbConnection.query('SELECT * FROM users WHERE user_email = ?', param[0], (err, row) => {
-        if(err) console.log(err)
+        if(err)  logger.log('error', err)
         if(row.length >0) {
             bcrypt.compare(param[1], row[0].password_, (error, result) => {
                 if (result) { // 성공
-                    console.log('로그인 성공')
+                    //console.log('로그인 성공')
+                    logger.log('info', '로그인 성공')
                     useremail = row[0]['user_email']
                     username = row[0]['username']
                     req.session.useremail = useremail
                     req.session.username = username
-                    console.log(req.session.cookie)
-                    req.session.save(error => {if(error) console.log(error)})
+                    logger.log('info', JSON.stringify(req.session.cookie))
+                    //console.log(req.session.cookie)
+                    req.session.save(error => {if(error)  logger.log('error', error)})
                     res.status(200).send({
                         'useremail': useremail,
                         'username': username
                     })
                 }
                 else { // 실패
-                    console.log('비밀번호 실패')
+                    logger.log('error', '비밀번호 실패')
+                    //console.log('비밀번호 실패')
                     res.sendStatus(401)
                 }
             }) 
         }
         else {
-            console.log('email이 존재하지 않습니다. ')
+            //console.log('email이 존재하지 않습니다. ')
+            logger.log('error', 'email이 존재하지 않습니다. ')
             res.sendStatus(402)
         }
 
@@ -173,12 +181,14 @@ router.post("/login", (req, res) => {
  // Logout
  router.post('/logout', (req, res)=> {
      if (req.session.useremail){ //세션 정보가 있을 때) 
-        req.session.destroy(error => {if(error) console.log(error)})
-        console.log('로그아웃 성공')
+        req.session.destroy(error => {if(error) logger.log('error', error) })
+        //console.log('로그아웃 성공')
+        logger.log('info', '로그아웃 성공')
         res.sendStatus(200)
      }
      else {
-        console.log('로그아웃 실패')
+        //console.log('로그아웃 실패')
+        logger.log('error', '로그아웃 실패')
         res.sendStatus(400)
      }
  })

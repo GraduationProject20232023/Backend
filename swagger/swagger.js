@@ -8,11 +8,11 @@ const options = {
       version: "1.0.0",
       title: "Handy",
       description:
-        "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
+        "AI를 이용한 수어 학습 웹서비스",
     },
     servers: [
       {
-        url: "https://handy-backend.onrender.com", // 요청 URL
+        url: "http://3.39.25.119:3000", // 요청 URL
       },
     ],
   },

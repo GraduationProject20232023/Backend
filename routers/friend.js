@@ -6,7 +6,7 @@ const dbConnection = require('../config/database');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     //res.render('index', { title: 'Express' });
-    res.send('Index Page: Success!')
+    res.send('Friend Index Page: Success!')
 });
 
 //친구 추가
@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
  * 
  * 
  */
-router.get('/new', function(req, res, next) {
+router.get('/add', function(req, res, next) {
     
     if (req.session.useremail) {
 
