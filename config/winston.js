@@ -33,6 +33,7 @@ const logger = winston.createLogger({
         )],
   });
 
+
   // Production 환경이 아닌 경우(dev 등) 
 if (process.env.NODE_ENV !== 'production') {
     logger.add(new winston.transports.Console({
