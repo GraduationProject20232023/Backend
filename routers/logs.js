@@ -24,7 +24,8 @@ router.get('/', (req, res) => {
         fifty_lines = ''
         const startIndex = Math.max(lines.length - 50, 0);
         for (let i = startIndex; i < lines.length; i++) {
-            fifty_lines += lines[i];
+            fifty_lines += lines[i]
+            fifty_lines += '\n';
             //console.log(lines[i]);
         }
 
