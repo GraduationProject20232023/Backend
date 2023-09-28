@@ -600,8 +600,9 @@ router.get('/list', function(req, res, next) {
  router.get('/testlist', function(req, res, next) {
     section = decodeURI(decodeURIComponent(req.query.section))
     //pageno = req.query.pageNo
-    console.log(section)
-    console.log(pageno)
+    //console.log(section)
+    logger.log('info', '<=== /dictionary/testlist/'+section+' 실행 ===>')
+    //console.log(pageno)
     result = {}
     
     dbConnection.query('SELECT * FROM words WHERE section = ?; ', [section], (error, rows) => {

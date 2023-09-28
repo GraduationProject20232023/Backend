@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /friend/new:
+ *   /friends/new:
  *     get:
  *       summary: "GET 검색 기록"
  *       description: "사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
@@ -112,7 +112,7 @@ router.get('/delete', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /friend/list/{username}:
+ *   /friends/list/{username}:
  *     get:
  *       summary: "GET 검색 기록"
  *       description: "사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
