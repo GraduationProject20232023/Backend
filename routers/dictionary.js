@@ -609,10 +609,7 @@ router.get('/list', function(req, res, next) {
         words = []
         
         if (error) logger.log('error', error);;
-        if (!rows.length) {
-            res.status(400).status('Wrong section name')
-            logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
-        }
+        
         for (var data of rows) { 
             
             item = {}
@@ -623,8 +620,17 @@ router.get('/list', function(req, res, next) {
             words.push(item)
         }
         result['words'] = words
+
+        if (result['words'].length) {
+            res.status(400).status('Wrong section name')
+            logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
+        }
+        else {
+            res.status(200).send(result)
+        }
+        
         //result['words'] = words.slice(10 * (pageno-1), 10 * pageno)
-        res.status(200).send(result)
+        
     })
 
 
