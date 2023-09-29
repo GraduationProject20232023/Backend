@@ -328,3 +328,11 @@
 2023-09-28 18:37:59 info: Server listening from port 3000
 2023-09-29 02:38:00 info: Server listening from port 3000
 2023-09-29 10:38:01 info: Server listening from port 3000
+2023-09-29 20:54:29 info: Server listening from port 3000
+2023-09-29 20:54:46 info: 로그인 함수 실행
+2023-09-29 20:54:47 info: 로그인 성공
+2023-09-29 20:54:47 info: mjluckk2@gmail.com / 루이2 로그인 완료!
+2023-09-29 20:54:56 info: 로그아웃 성공
+2023-09-29 20:55:10 info: req.body: {"email":"mjluckk4@gmail.com","pw":"fndl"}
+2023-09-29 20:55:10 error: ER_BAD_NULL_ERROR: Column 'username' cannot be null
+2023-09-29 20:55:31 info: req.body: {"email":"mjluckk4@gmail.com","pw":"fndl","username":"루이4"}

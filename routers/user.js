@@ -47,7 +47,8 @@ router.get('/', function(req, res, next) {
  *            description: 동일한 사용자 이름 존재. 다른 사용자 이름 입력해야 함
  *         "403":
  *            description: 동일한 이메일 계정 있습니다. 다른 이메일 시도해주세요         
- * 
+ *         "500":       
+ *            description: 내부 서버 오류. DB오류이거나 brypt 해시 오류-> 자세한 오류 내용을 로그 확인
  */
 // Register
 router.post('/register', (req, res, next) => {
@@ -56,14 +57,31 @@ router.post('/register', (req, res, next) => {
     const param = [req.body.email, req.body.pw, req.body.username]
     
     dbConnection.query("SELECT * FROM users WHERE user_email ='"+param[0]+ "';", (err, rows) => {
-        if (err) logger.log('error', err);
+        if (err) {
+            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            logger.log('error', err);
+        }
         else if (rows.length == 0) { //같은 eamil이 없는 경우
             dbConnection.query("SELECT * FROM users WHERE username = '"+param[2]+"';", (err, rows) => {
+                if (err) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', err);
+                }
                 if (rows.length == 0) { // 같은 username 없는 경우
                     bcrypt.hash(param[1], saltRounds, (error, hash) => {
+
+                        if (error) {
+                            res.status(500).send('brypt error: 로그 확인해주세요.')
+                            logger.log('error', error)
+                        }
+
                         param[1] = hash
+
                         dbConnection.query('INSERT INTO users(`user_email`, `password_`, `username`) VALUES (?, ?, ?)', param, (err, row) => {
-                            if(err) logger.log('error', err);
+                            if(err) {
+                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                logger.log('error', err);
+                            }
                             else {
                                 return res.status(201).send('Successfully created the account.') // 계정 생성함
                                 
@@ -115,7 +133,8 @@ router.post('/register', (req, res, next) => {
  *            description: 비밀번호 틀림
  *         "402":
  *            description: 해당 email 계정이 존재하지 않습니다.          
- * 
+ *         "500":       
+ *            description: 내부 서버 오류. DB오류이거나 brypt 해시, req.session 오류-> 자세한 오류 내용을 로그 확인
  */
 // Login
 router.post("/login", (req, res) => {
@@ -125,12 +144,21 @@ router.post("/login", (req, res) => {
 
     if (req.session.useremail) {
         // if the session is ongoing, destroy the session
-        req.session.destroy(error => {if(error) logger.log('error', error)})
+        req.session.destroy(error => {if(error) {
+            res.status(500).send('req.session.destroy error: 로그 확인해주세요.')
+            logger.log('error', error)
+        }
+        
+        })
     }
     dbConnection.query('SELECT * FROM users WHERE user_email = ?', param[0], (err, row) => {
         if(err)  logger.log('error', err)
         if(row.length >0) {
             bcrypt.compare(param[1], row[0].password_, (error, result) => {
+                if (error) {
+                    res.status(500).send('brypt error: 로그 확인해주세요.')
+                    logger.log('error', error)
+                }
                 if (result) { // 성공
                     //console.log('로그인 성공')
                     logger.log('info', '로그인 성공')
@@ -138,9 +166,16 @@ router.post("/login", (req, res) => {
                     username = row[0]['username']
                     req.session.useremail = useremail
                     req.session.username = username
-                    logger.log('info', JSON.stringify(req.session.cookie))
+                    //logger.log('info', JSON.stringify(req.session.cookie))
                     //console.log(req.session.cookie)
-                    req.session.save(error => {if(error)  logger.log('error', error)})
+                    req.session.save(error => {
+                        if(error) {
+                            res.status(500).send('req.session.save error: 로그 확인해주세요.')
+                            logger.log('error', error)
+                        }
+                    })
+                    logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
+
                     res.status(200).send({
                         'useremail': useremail,
                         'username': username
@@ -176,12 +211,18 @@ router.post("/login", (req, res) => {
  *            description: 로그아웃 성공
  *         "400":
  *            description: 로그아웃 실패
- * 
+ *         "500":       
+ *            description: 내부 서버 오류. req.session.destroy 오류-> 자세한 오류 내용을 로그 확인
  */
  // Logout
  router.post('/logout', (req, res)=> {
      if (req.session.useremail){ //세션 정보가 있을 때) 
-        req.session.destroy(error => {if(error) logger.log('error', error) })
+        req.session.destroy(error => {
+            if(error) {
+                res.status(500).send('req.session.destroy error: 로그 확인해주세요.')
+                logger.log('error', error)
+            }
+        })
         //console.log('로그아웃 성공')
         logger.log('info', '로그아웃 성공')
         res.sendStatus(200)
