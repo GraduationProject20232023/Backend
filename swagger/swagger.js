@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // 요청 URL
+        url: "http://3.39.25.119:3000/", // 요청 URL
       },
     ],
   },
