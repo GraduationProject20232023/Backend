@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
  *                 username: 
  *                   type: string
  *                   example: 루이
- *       tags: [User]
+ *       tags: [Users]
  *       responses:
  *         "201":
  *            description: 가입 성공
@@ -135,7 +135,7 @@ router.post('/register', (req, res, next) => {
  *                 pw:
  *                   type: string
  *                   example: fndl
- *       tags: [User]
+ *       tags: [Users]
  *       responses:
  *         "200":
  *            description: 로그인 성공
@@ -224,7 +224,7 @@ router.post("/login", (req, res) => {
  *     post:
  *       summary: "로그아웃"
  *       description: "로그아웃 API"
- *       tags: [User]
+ *       tags: [Users]
  *       responses:
  *         "200":
  *            description: 로그아웃 성공
