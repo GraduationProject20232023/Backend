@@ -441,7 +441,7 @@ router.get('/words/:id', function(req, res, next) {
  * paths:
  *   /dictionary/list?{section}?{pageNo}:
  *     get:
- *       summary: "GET 섹션별 단어"
+ *       summary: "섹션별 단어 목록"
  *       description: "섹션명으로 해당 단어 목록을 가져온다."
  *       parameters:
  *         - in: query
@@ -539,7 +539,7 @@ router.get('/list', function(req, res, next) {
  * paths:
  *   /dictionary/testlist?{section}:
  *     get:
- *       summary: "GET 섹션별 전체 단어 목록"
+ *       summary: "섹션별 전체 단어 목록"
  *       description: "섹션명으로 해당 단어 목록을 가져온다."
  *       parameters:
  *         - in: query
@@ -618,7 +618,7 @@ router.get('/list', function(req, res, next) {
  * paths:
  *   /dictionary/history:
  *     get:
- *       summary: "GET 검색 기록"
+ *       summary: "사용자의 검색 기록"
  *       description: "로그인 필요 -> 사용자 이름으로 사전 검색 기록을 가져온다. (먼저 검색한 것 부터)"
  *       tags: [Dictionary]
  *       responses:
@@ -664,7 +664,7 @@ router.get('/history', function(req, res, next) {
  * paths:
  *   /dictionary/history/{word}:
  *     post:
- *       summary: "POST 검색 기록 삭제"
+ *       summary: "사용자의 검색 기록 삭제"
  *       description: "로그인 필요 -> 사용자 이름과 단어를 제공하여 검색 기록을 지운다."
  *       parameters:
  *         - in: path

@@ -233,9 +233,9 @@ router.post('/delete', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /friends/list/{username}:
+ *   /friends/list:
  *     get:
- *       summary: "GET 친구 목록"
+ *       summary: "친구 목록 가져오가"
  *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
  *       parameters:
  *         - in: path

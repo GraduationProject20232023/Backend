@@ -10,7 +10,33 @@ router.get('/', function(req, res, next) {
     res.send('Note Index Page: Success!')
 });
 
- router.get('/list', function(req, res, next) {
+/**
+ * @swagger
+ * paths:
+ *   /notes/list:
+ *     get:
+ *       summary: "친구 목록 가져오가"
+ *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
+ *       parameters:
+ *         - in: path
+ *           name: username
+ *           schema: 
+ *             type: string
+ *           required: true
+ *           description: 사용자의 username
+ *       tags: [Friends]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (친구 목록 불러오기 성공)
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
+ *         "404": 
+ *            description: 사용자의 친구 목록이 비어있어서 빈 목록을 반환함.
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ * 
+ */
+router.get('/list', function(req, res, next) {
 
     if (req.session.useremail) {
         useremail = req.session.useremail
