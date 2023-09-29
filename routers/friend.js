@@ -235,15 +235,8 @@ router.post('/delete', function(req, res, next) {
  * paths:
  *   /friends/list:
  *     get:
- *       summary: "친구 목록 가져오가"
+ *       summary: "친구 목록 가져오기"
  *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
- *       parameters:
- *         - in: path
- *           name: username
- *           schema: 
- *             type: string
- *           required: true
- *           description: 사용자의 username
  *       tags: [Friends]
  *       responses:
  *         "200":

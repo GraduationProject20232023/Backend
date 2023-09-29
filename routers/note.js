@@ -15,23 +15,16 @@ router.get('/', function(req, res, next) {
  * paths:
  *   /notes/list:
  *     get:
- *       summary: "친구 목록 가져오가"
- *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
- *       parameters:
- *         - in: path
- *           name: username
- *           schema: 
- *             type: string
- *           required: true
- *           description: 사용자의 username
- *       tags: [Friends]
+ *       summary: "단어장 목록 가져오기"
+ *       description: "사용자의 단어장 목록을 보여준다."
+ *       tags: [Notes]
  *       responses:
  *         "200":
  *            description: 요청 성공 (친구 목록 불러오기 성공)
  *         "401": 
  *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
  *         "404": 
- *            description: 사용자의 친구 목록이 비어있어서 빈 목록을 반환함.
+ *            description: 사용자의 단어장 목록이 비어있어서 빈 목록을 반환함.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -42,10 +35,14 @@ router.get('/list', function(req, res, next) {
         useremail = req.session.useremail
         dbConnection.query('SELECT * FROM notes WHERE user_email = ?; ', [useremail], (error, rows) => {
             result = []
-            if (error) throw logger.log('error', 'DB 에러: notes 테이블에서 user_email로 note 불러오기 실패함. MYSQL 에러 내용 => ' + error);
-            if (Array.isArray(rows) && !rows.length) { 
-                res.sendStatus(404) 
-                logger.log('error', '해당 사용자에 저장된 단어장 없음')
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', error);
+            }
+            if (!rows.length) { 
+                //res.sendStatus(404)
+                res.status(404).send('해당 사용자에 저장된 단어장 없음 (빈 목록)')
+                //logger.log('error', '해당 사용자에 저장된 단어장 없음')
             }
             else {
                 for (var data of rows) {
@@ -66,7 +63,7 @@ router.get('/list', function(req, res, next) {
         })
     }
     else {
-        res.sendStatus(401)
+        res.status(401).send('로그인 상태가 아님!')
         logger.log('error', '로그인하지 않았습니다.')
     }
  })
