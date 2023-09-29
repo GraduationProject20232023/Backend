@@ -10,6 +10,75 @@ router.get('/', function(req, res, next) {
     res.send('Friend Index Page: Success!')
 });
 
+//친구 목록
+/**
+ * @swagger
+ * paths:
+ *   /friends/list:
+ *     get:
+ *       summary: "친구 목록 가져오기"
+ *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
+ *       tags: [Friends]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (친구 목록 불러오기 성공)
+ *            content: 
+ *              application/json:
+ *                schema:  
+ *                  type: array
+ *                  items:
+ *                    type: string
+ *                    example: "루이"
+ *                    description: 사용자의 친구들의 닉네임을 리스트로 가져온다.                   
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
+ *         "404": 
+ *            description: 사용자의 친구 목록이 비어있어서 빈 목록을 반환함.
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ * 
+ */
+router.get('/list', function(req, res, next) {
+
+    if (req.session.useremail) {
+        useremail = req.session.useremail
+        dbConnection.query('SELECT * FROM friends WHERE user_email = ?; ', [useremail], (error, rows) => {
+            result = []
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', error);
+            }
+            //console.log(rows)
+            logger.log('info', '사용자의 친구 목록 -> ' + rows)
+            //console.log(rows.length)
+            //console.log(!rows.length)
+            if (!rows.length) { 
+                res.status(404).send('해당 사용자에 저장된 친구 없음 (빈 목록)')
+            }
+            else {
+                for (var data of rows) {
+                    //console.log(data['friend_email']) 
+                    friend_email = data['friend_email']
+                    dbConnection.query('SELECT * FROM users WHERE user_email = ?; ', [friend_email], (error, rows) => {
+                        if (error) {
+                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                            logger.log('error', error);
+                        }
+                        for (var item of rows) {
+                            console.log(item)
+                            result.push(item['username'])
+                            res.status(200).send(result)
+                        }
+                    })
+                }
+            }
+        })
+    }
+    else {
+        res.status(401).send('로그인 상태가 아님!')
+    }
+ })
+
 //친구 추가
 /**
  * @swagger
@@ -18,17 +87,17 @@ router.get('/', function(req, res, next) {
  *     post:
  *       summary: "친구 추가"
  *       description: "닉네임으로 친구를 추가한다."
- *       reqeustBody:
+ *       requestBody:
  *         required: True
  *         content: 
  *           application/json:
- *           schema:
- *             type: object
- *             properties:
- *               friend: 
- *                 type: string
- *                 example: 루이
- *                 description: 추가할 친구의 닉네임 입력
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 friend: 
+ *                   type: string
+ *                   example: 루이
+ *                   description: 추가할 친구의 닉네임 입력
  *       tags: [Friends]
  *       responses:
  *         "200":
@@ -129,17 +198,17 @@ router.post('/add', function(req, res, next) {
  *     post:
  *       summary: "친구 삭제"
  *       description: "닉네임으로 친구 목록에서 친구를 삭제한다."
- *       reqeustBody:
+ *       requestBody:
  *         required: True
  *         content: 
  *           application/json:
- *           schema:
- *             type: object
- *             properties:
- *               friend: 
- *                 type: string
- *                 example: 루이
- *                 description: 삭제할 친구의 닉네임 입력
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 friend: 
+ *                   type: string
+ *                   example: 루이
+ *                   description: 삭제할 친구의 닉네임 입력
  *       tags: [Friends]
  *       responses:
  *         "200":
@@ -229,66 +298,7 @@ router.post('/delete', function(req, res, next) {
     }
  })
 
-//친구 목록
-/**
- * @swagger
- * paths:
- *   /friends/list:
- *     get:
- *       summary: "친구 목록 가져오기"
- *       description: "사용자의 친구 목록(닉네임 목록)을 보여준다."
- *       tags: [Friends]
- *       responses:
- *         "200":
- *            description: 요청 성공 (친구 목록 불러오기 성공)
- *         "401": 
- *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
- *         "404": 
- *            description: 사용자의 친구 목록이 비어있어서 빈 목록을 반환함.
- *         "500": 
- *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
- * 
- */
-router.get('/list', function(req, res, next) {
 
-    if (req.session.useremail) {
-        useremail = req.session.useremail
-        dbConnection.query('SELECT * FROM friends WHERE user_email = ?; ', [useremail], (error, rows) => {
-            result = []
-            if (error) {
-                res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                logger.log('error', error);
-            }
-            //console.log(rows)
-            logger.log('info', '사용자의 친구 목록 -> ' + rows)
-            //console.log(rows.length)
-            //console.log(!rows.length)
-            if (!rows.length) { 
-                res.status(404).send('사용자의 친구 목록은 빈 목록임.')
-            }
-            else {
-                for (var data of rows) {
-                    //console.log(data['friend_email']) 
-                    friend_email = data['friend_email']
-                    dbConnection.query('SELECT * FROM users WHERE user_email = ?; ', [friend_email], (error, rows) => {
-                        if (error) {
-                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                            logger.log('error', error);
-                        }
-                        for (var item of rows) {
-                            console.log(item)
-                            result.push(item['username'])
-                            res.status(200).send(result)
-                        }
-                    })
-                }
-            }
-        })
-    }
-    else {
-        res.status(401).send('로그인 상태가 아님!')
-    }
- })
 //친구의 단어장 접근
 
 module.exports = router;

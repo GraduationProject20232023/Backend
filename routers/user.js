@@ -190,10 +190,7 @@ router.post("/login", (req, res) => {
                         })
                         logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
     
-                        res.status(200).send({
-                            'useremail': useremail,
-                            'username': username
-                        })
+                        res.status(200).send('<< '+ req.session.useremail + ' >> 사용자 로그인 완료!')
                     }
                     else { // 실패
                         logger.log('error', '비밀번호 실패')

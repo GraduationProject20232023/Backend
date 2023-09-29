@@ -25,7 +25,7 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.File(
             {
-                filename: 'combined.log',
+                filename: 'combined_local.log',
                 dirname: logDir,
                 datePattern: 'YYYY-MM-DD',
                 level: 'info'

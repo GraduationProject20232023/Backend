@@ -439,7 +439,7 @@ router.get('/words/:id', function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /dictionary/list?{section}?{pageNo}:
+ *   /dictionary/list?{section}&{pageNo}:
  *     get:
  *       summary: "섹션별 단어 목록"
  *       description: "섹션명으로 해당 단어 목록을 가져온다."
