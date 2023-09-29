@@ -336,3 +336,124 @@
 2023-09-29 20:55:10 info: req.body: {"email":"mjluckk4@gmail.com","pw":"fndl"}
 2023-09-29 20:55:10 error: ER_BAD_NULL_ERROR: Column 'username' cannot be null
 2023-09-29 20:55:31 info: req.body: {"email":"mjluckk4@gmail.com","pw":"fndl","username":"루이4"}
+2023-09-29 21:16:28 info: Server listening from port 3000
+2023-09-29 21:16:46 info: Server listening from port 3000
+2023-09-29 21:16:55 info: 로그인 함수 실행
+2023-09-29 21:16:55 info: 로그인 성공
+2023-09-29 21:16:55 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 21:18:06 info: Server listening from port 3000
+2023-09-29 21:18:17 info: 로그인 함수 실행
+2023-09-29 21:18:17 info: 로그인 성공
+2023-09-29 21:18:17 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 21:18:33 info: mjluckk@gmail.com친구 추가 성공!
+2023-09-29 21:19:23 info: Server listening from port 3000
+2023-09-29 21:19:35 info: 로그인 함수 실행
+2023-09-29 21:19:35 info: 로그인 성공
+2023-09-29 21:19:35 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 21:19:49 info: 로그인 함수 실행
+2023-09-29 21:19:49 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1
+2023-09-29 21:26:07 info: Server listening from port 3000
+2023-09-29 22:11:01 info: 로그인 함수 실행
+2023-09-29 22:11:01 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1
+2023-09-29 22:11:23 info: Server listening from port 3000
+2023-09-29 22:11:25 info: 로그인 함수 실행
+2023-09-29 22:11:25 error: 파라미터 오류
+2023-09-29 22:11:38 info: Server listening from port 3000
+2023-09-29 22:11:40 info: 로그인 함수 실행
+2023-09-29 22:11:40 error: 파라미터 오류
+2023-09-29 22:13:37 info: Server listening from port 3000
+2023-09-29 22:13:38 info: 로그인 함수 실행
+2023-09-29 22:13:38 error: 파라미터 오류
+2023-09-29 22:24:00 info: Server listening from port 3000
+2023-09-29 22:24:03 info: 로그인 함수 실행
+2023-09-29 22:24:03 error: 파라미터 오류
+2023-09-29 22:24:58 info: 로그인 함수 실행
+2023-09-29 22:24:58 info: 로그인 성공
+2023-09-29 22:24:58 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 22:25:17 error: ER_BAD_NULL_ERROR: Column 'user2' cannot be null
+2023-09-29 22:25:29 info: mjluckk@gmail.com을 친구로 추가 성공!
+2023-09-29 22:25:44 error: ER_BAD_NULL_ERROR: Column 'user2' cannot be null
+2023-09-29 22:26:09 info: Server listening from port 3000
+2023-09-29 22:26:34 info: 로그인 함수 실행
+2023-09-29 22:26:34 info: 로그인 성공
+2023-09-29 22:26:34 info: mjluckk2@gmail.com / 루이2 로그인 완료!
+2023-09-29 22:26:39 error: ER_BAD_NULL_ERROR: Column 'user2' cannot be null
+2023-09-29 22:27:05 info: Server listening from port 3000
+2023-09-29 22:27:15 info: 로그인 함수 실행
+2023-09-29 22:27:15 info: 로그인 성공
+2023-09-29 22:27:15 info: mjluckk2@gmail.com / 루이2 로그인 완료!
+2023-09-29 22:27:20 error: ER_BAD_NULL_ERROR: Column 'user2' cannot be null
+2023-09-29 22:27:47 info: Server listening from port 3000
+2023-09-29 22:27:54 info: 로그인 함수 실행
+2023-09-29 22:27:54 info: 로그인 성공
+2023-09-29 22:27:54 info: mjluckk2@gmail.com / 루이2 로그인 완료!
+2023-09-29 22:34:41 info: Server listening from port 3000
+2023-09-29 22:34:54 info: 로그인 함수 실행
+2023-09-29 22:34:54 info: 로그인 성공
+2023-09-29 22:34:54 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 22:35:10 info: 사용자의 친구 목록 -> [object Object],[object Object],[object Object]
+2023-09-29 22:35:58 info: Server listening from port 3000
+2023-09-29 22:36:02 info: 로그인 함수 실행
+2023-09-29 22:36:02 info: 로그인 성공
+2023-09-29 22:36:02 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 22:36:05 info: 사용자의 친구 목록 -> [object Object],[object Object],[object Object]
+2023-09-29 22:37:08 info: Server listening from port 3000
+2023-09-29 22:37:12 info: 로그인 함수 실행
+2023-09-29 22:37:12 info: 로그인 성공
+2023-09-29 22:37:12 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 22:37:15 info: 사용자의 친구 목록 -> [object Object],[object Object],[object Object]
+2023-09-29 22:57:10 info: Server listening from port 3000
+2023-09-29 22:57:15 info: 로그인 함수 실행
+2023-09-29 22:57:15 info: 로그인 성공
+2023-09-29 22:57:15 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 22:57:34 info: 서로를 친구로 추가 성공!
+2023-09-29 22:58:02 info: Server listening from port 3000
+2023-09-29 22:58:04 info: 로그인 함수 실행
+2023-09-29 22:58:04 info: 로그인 성공
+2023-09-29 22:58:04 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:01:09 info: Server listening from port 3000
+2023-09-29 23:01:12 info: 로그인 함수 실행
+2023-09-29 23:01:12 info: 로그인 성공
+2023-09-29 23:01:12 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:01:14 error: ER_BAD_FIELD_ERROR: Unknown column 'user1' in 'where clause'
+2023-09-29 23:02:20 info: Server listening from port 3000
+2023-09-29 23:02:24 info: 로그인 함수 실행
+2023-09-29 23:02:24 info: 로그인 성공
+2023-09-29 23:02:24 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:02:26 info: 사용자의 친구 목록 -> [object Object]
+2023-09-29 23:03:00 info: Server listening from port 3000
+2023-09-29 23:03:01 info: 로그인 함수 실행
+2023-09-29 23:03:01 info: 로그인 성공
+2023-09-29 23:03:01 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:03:04 info: 사용자의 친구 목록 -> [object Object]
+2023-09-29 23:03:41 info: Server listening from port 3000
+2023-09-29 23:03:43 info: 로그인 함수 실행
+2023-09-29 23:03:44 info: 로그인 성공
+2023-09-29 23:03:44 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:03:46 info: 사용자의 친구 목록 -> [object Object]
+2023-09-29 23:04:34 info: Server listening from port 3000
+2023-09-29 23:04:36 info: 로그인 함수 실행
+2023-09-29 23:04:36 info: 로그인 성공
+2023-09-29 23:04:36 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:04:38 info: 사용자의 친구 목록 -> [object Object]
+2023-09-29 23:04:50 info: 로그아웃 성공
+2023-09-29 23:04:57 info: 로그인 함수 실행
+2023-09-29 23:04:57 info: 로그인 성공
+2023-09-29 23:04:57 info: mjluckk@gmail.com / 루이 로그인 완료!
+2023-09-29 23:05:00 info: 사용자의 친구 목록 -> [object Object]
+2023-09-29 23:12:37 info: Server listening from port 3000
+2023-09-29 23:12:39 info: 로그인 함수 실행
+2023-09-29 23:12:39 info: 로그인 성공
+2023-09-29 23:12:39 info: mjluckk@gmail.com / 루이 로그인 완료!
+2023-09-29 23:12:42 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(`user_email`, `friend_email`) VALUES ('mjluckk@gmail.com', 'mjluckk4@gmail.com'' at line 1
+2023-09-29 23:13:27 info: Server listening from port 3000
+2023-09-29 23:13:29 info: 로그인 함수 실행
+2023-09-29 23:13:29 info: 로그인 성공
+2023-09-29 23:13:29 info: mjluckk@gmail.com / 루이 로그인 완료!
+2023-09-29 23:13:31 info: 서로 친구 목록에서 삭제 성공!
+2023-09-29 23:13:41 info: 사용자의 친구 목록 -> 
+2023-09-29 23:13:48 info: 로그아웃 성공
+2023-09-29 23:13:55 info: 로그인 함수 실행
+2023-09-29 23:13:55 info: 로그인 성공
+2023-09-29 23:13:55 info: mjluckk4@gmail.com / 루이4 로그인 완료!
+2023-09-29 23:13:59 info: 사용자의 친구 목록 -> 

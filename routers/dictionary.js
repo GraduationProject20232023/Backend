@@ -43,11 +43,6 @@ router.get('/', function(req, res, next) {
  *                        ]
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: DB Errror 
  */
 router.get('/main', function (req, res, next) {
     result = {}
@@ -172,11 +167,6 @@ router.get('/main', function (req, res, next) {
  *                 example: No words found.
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: DB Errror 
  */
 //단어 검색 결과
 router.get('/search/:meaning', function(req, res, next) {
@@ -278,7 +268,7 @@ router.get('/search/:meaning', function(req, res, next) {
         }
         
         if (! result.length) {
-            res.status(404).send('No words found.')
+            res.status(404).send('검색 결과 없음!')
         }
         else {
             res.status(200).send(result)
@@ -364,11 +354,6 @@ router.get('/search/:meaning', function(req, res, next) {
  *                 example: Invalid word id 
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: DB Errror 
  */
 router.get('/words/:id', function(req, res, next) {
 
@@ -383,7 +368,7 @@ router.get('/words/:id', function(req, res, next) {
             logger.log('error', 'DB 오류: word_id로 words(단어) 테이블에서 단어 검색하는 것에 실패함. MySQL 에러 => ' + error);
         }
         if (!rows) {
-            res.status(404).send('Invalid word id')
+            res.status(404).send('입력된 단어 id에 해당하는 단어가 DB에 없음! id 범주에 맞지 않는 숫자가 입력됨.')
         }
         for (var data of rows) {
             var item = {}
@@ -493,6 +478,8 @@ router.get('/words/:id', function(req, res, next) {
  *               schema:
  *                 type: string
  *                 example: Wrong section name
+ *         "500":       
+ *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
 router.get('/list', function(req, res, next) {
 
@@ -580,6 +567,8 @@ router.get('/list', function(req, res, next) {
  *               schema:
  *                 type: string
  *                 example: Wrong section name
+ *         "500":       
+ *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
  router.get('/testlist', function(req, res, next) {
     section = decodeURI(decodeURIComponent(req.query.section))
@@ -609,7 +598,7 @@ router.get('/list', function(req, res, next) {
         result['words'] = words
         //console.log(result['words'].length)
         if (! result['words'].length) {
-            res.status(400).send('Wrong section name')
+            res.status(400).send('잘못된 섹션명: 해당 섹션명은 존재하지 않음!')
             logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
         }
         else {
@@ -642,8 +631,8 @@ router.get('/list', function(req, res, next) {
  *                  example: ['안녕', '하늘']
  *         "401":
  *            description: 로그인 상태가 아님
- * 
- * 
+ *         "500":       
+ *            description: 내부 서버 오류. DB오류이거나 brypt 해시 오류-> 자세한 오류 내용을 로그 확인
  */
 router.get('/history', function(req, res, next) {
     //username = req.params.username
@@ -652,7 +641,10 @@ router.get('/history', function(req, res, next) {
 
         dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
             result = []
-            if (error) logger.log('error', error);;
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', err);
+            }
                     
             for (var data of rows) { 
                 result.push(data['search'])
@@ -662,7 +654,7 @@ router.get('/history', function(req, res, next) {
         })
     }
     else {
-        res.status(401).send('You are not logged in!')
+        res.status(401).send('로그인 상태가 아님!')
         logger.log('error', '로그인 상태가 아님.')
     }
     
@@ -688,8 +680,8 @@ router.get('/history', function(req, res, next) {
  *            description: 요청 성공
  *         "401":
  *            description: 로그인 상태가 아님.
- * 
- * 
+ *         "500":       
+ *            description: 내부 서버 오류. DB오류이거나 brypt 해시 오류-> 자세한 오류 내용을 로그 확인해주세요.
  */
  router.post('/history/:word', function(req, res, next) {
     if (req.session.username) {
@@ -697,14 +689,17 @@ router.get('/history', function(req, res, next) {
 
         word = decodeURI(decodeURIComponent(req.params.word))
         dbConnection.query('DELETE FROM search_history WHERE username = ? AND search = ?; ', [username, word], (error, rows) => {
-            if (error) logger.log('error', error);;
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', err);
+            }
         
-            res.sendStatus(200)
+            res.status(200).send('검색 결과 지우기 성공!')
             logger.log('info', '검색 결과 지우기 성공!')
         })
     }
     else {
-        res.status(401).send('You are not logged in!')
+        res.status(401).send('로그인 상태가 아님!')
         logger.log('error', '로그인 상태가 아님.')
     }
     //username = req.params.username
