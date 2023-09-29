@@ -254,7 +254,7 @@ router.post('/add/:note_name', function(req, res, next) {
         }
     }
     else {
-        res.sendStatus(401)
+        res.status(401).send('로그인하지 않았습니다.')
         logger.log('error', '로그인하지 않았습니다.')
     }
  })

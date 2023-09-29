@@ -214,7 +214,7 @@ router.post('/boards/articles/write/:board_name', function (req, res, next) {
         }
     }
     else {
-        res.sendStatus(401)
+        res.status(401).send( '로그인하지 않았음!')
         logger.log('error', '로그인하지 않았음!')
     }
 });
