@@ -246,7 +246,7 @@ router.post("/login", (req, res) => {
      else {
         //console.log('로그아웃 실패')
         logger.log('error', '로그아웃 실패')
-        res.status(400).send('로그아웃 실패ㅠ')
+        res.status(400).send('로그아웃 실패')
      }
  })
 

@@ -383,6 +383,9 @@ router.get('/info', function (req, res, next) {
  *                    body: 
  *                      type: string
  *                      example: 각자 알아보아요~
+ *                    writer: 
+ *                      type: string
+ *                      example: 루이
  *                    views: 
  *                      type: integer
  *                      example: 6
@@ -398,61 +401,42 @@ router.get('/info', function (req, res, next) {
  * 
  */
 router.get('/posts/:post_id', function (req, res, next) {
+
+    
     if (req.params.post_id) {
         post_id = req.params.post_id
-
         dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
                 logger.log('error', error);
             }
-
             else {
                 if (! rows.length) {
                     res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
                 }
                 else {
-                    for (var data of rows) {
+                    result = {}
+                    for (var data of rows) {                           
                         var user_email = data['user_email']
-
-                        result = {}
                         dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, rows) => {
                             if (error) {
                                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
                                 logger.log('error', error);
                             }
                             else {
-                                for (var data2 of rows) {
-                                    result['writer'] = data2['username']
-                                }
-                            }
-                        })
-                        result['post_id'] = data['post_id']
-                        result['board_name'] = data['board_name']
-                        result['title'] = data['title']
-                        result['body'] = data['body']
-                        result['views'] = data['views']
-                        result['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
-                        
-                        res.status(200).send(result)
-                        logger.log('info', 'post_id로 게시글 불러오기 성공!')
-        
-                        dbConnection.query('UPDATE posts SET views = views + 1 WHERE post_id = ?', data['post_id'], (error, rows) => {
-                            if (error) {
-                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                logger.log('error', error);
-                            }
-                            else {
-                                logger.log('info', '게시글 조회수 +1 성공!')
+                                result['post_id'] = data['post_id']
+                                result['board_name'] = data['board_name']
+                                result['title'] = data['title']
+                                result['body'] = data['body']
+                                result['writer'] = rows[0]['username']
+                                result['views'] = data['views']
+                                result['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                                res.status(200).send(result)
                             }
                         })
                     }
-                    
-                }
-                
-            }
-            
-            
+                } 
+            } 
         })
     }
     else{ 
@@ -460,9 +444,104 @@ router.get('/posts/:post_id', function (req, res, next) {
             //res.sendStatus(412)
             res.status(412).send('파라미터 입력 오류!')
     }
-    
-    
-    
+});
+/**
+ * @swagger
+ * paths:
+ *   /boards/comments/{post_id}:
+ *     get:
+ *       summary: "게시글의 댓글 목록 가져오기"
+ *       description: "게시글 댓글을 보여준다."
+ *       parameters:
+ *         - in: path
+ *           name: post_id
+ *           schema: 
+ *             type: integer
+ *           required: true
+ *           description: 게시글 번호 
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (댓글 불러오기 성공)
+ *            content: 
+ *              application/json: 
+ *                schema: 
+ *                  type: object
+ *                  properties: 
+ *                    post_id: 
+ *                      type: integer
+ *                      example: 3
+ *                      description: DB 상에서의 게시글 id
+ *                    comment_id: 
+ *                      type: integer
+ *                      example: 1
+ *                      description: DB 상에서의 댓글 id
+ *                    body: 
+ *                      type: string
+ *                      example: 좋은 내용 감사합니당 
+ *                      description: 댓글 내용
+ *                    writer: 
+ *                      type: string
+ *                      example: 루이3
+ *                      description: 댓글 작성자
+ *                    created_at: 
+ *                      type: string
+ *                      description: 댓글 생성 시간
+ *                      example: 2023-09-28 14:29:47
+ *         "404": 
+ *            description: 입력된 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
+ *         "412": 
+ *            description: 파라미터 입력 오류
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ * 
+ */
+router.get('/comments/:post_id', function (req, res, next) {
+    if (req.params.post_id) {
+        post_id = req.params.post_id
+        dbConnection.query('SELECT * FROM comments WHERE post_id = ?', post_id, (error, rows) => {
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', error);
+            }
+            else {
+                if (! rows.length) {
+                    res.status(404).send('입력된 post_id(게시글 번호를) 가진 댓글이 존재하지 않음.')
+                }
+                else {
+                    
+                    result = []
+                    rows.forEach(function(data, index) {
+                        var user_email = data['user_email']
+
+                        dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, rows) => {
+                            if (error) {
+                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                logger.log('error', error);
+                            }
+                            else {
+                                comment = {}
+                                comment['post_id'] = data['post_id']
+                                comment['comment_id'] = data['comment_id']
+                                comment['body'] = data['body']
+                                comment['writer'] = rows[0]['username']
+                                comment['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                                result.push(comment)
+                                if (index == rows.length) {
+                                    res.status(200).send(result)
+                                }
+                            }
+                        })
+                    })
+                } 
+            } 
+        })
+    }
+    else{ 
+        logger.log('error', '파라미터 오류')
+            //res.sendStatus(412)
+            res.status(412).send('파라미터 입력 오류!')
+    }
 });
 /**
  * @swagger
@@ -603,8 +682,17 @@ router.post('/posts/delete/:post_id', function (req, res, next) {
                                         logger.log('error', error);
                                     }
                                     else {
-                                        res.status(200).send('성공적으로 게시글을 삭제함!')
-                                        logger.log('info', '성공적으로 게시글을 삭제함!')
+
+                                        dbConnection.query('DELETE FROM comments WHERE post_id = ?', post_id, (error, rows) => {
+                                            if (error) {
+                                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                                logger.log('error', error);
+                                            }
+                                            else {
+                                                res.status(200).send('성공적으로 게시글을 삭제함!')
+                                                logger.log('info', '성공적으로 게시글을 삭제함!')
+                                            }
+                                        })
                                     }
                                 })
                             }
@@ -729,7 +817,48 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
         logger.log('error', '로그인하지 않았음!')
     }
 });
-
+/**
+ * @swagger
+ * paths:
+ *   /boards/comments/write/{post_id}:
+ *     post:
+ *       summary: "게시글 작성하기"
+ *       description: "새 게시글을 저장한다."
+ *       parameters:
+ *         - in: path
+ *           name: post_id
+ *           schema: 
+ *             type: integer
+ *             example: 5
+ *           required: true
+ *           description: 게시물 번호- 댓글을 입력할 게시글의 번호
+ *       requestBody:
+ *         required: True
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 body: 
+ *                   type: string
+ *                   example: 공감해요~ 수화 재미있더라구요
+ *                   description: 댓글 내용
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (새 게시글 저장 성공)
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
+ *         "404": 
+ *            description: 입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.
+ *         "412": 
+ *            description: 파라미터 입력 오류1 -> req.body.title과 req.body.body 입력 필요.
+ *         "417": 
+ *            description: 파라미터 입력 오류1-> board_name은 free와 info 중 하나로 입력해야 함
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ * 
+ */
 router.post('/comments/write/:post_id', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
@@ -751,20 +880,29 @@ router.post('/comments/write/:post_id', function (req, res, next) {
                             res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
                         }
                         else {
+                            dbConnection.query('INSERT INTO comments (`post_id`, `body`, `user_email`) VALUES (?, ?, ?)', ins, (error, rows) => {
+                                if (error) {
+                                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                    logger.log('error', error);
+                                }
+                                else {
 
+                                    dbConnection.query('UPDATE posts SET comments= comments +1 WHERE post_id = ? ', post_id, (error, rows) => {
+                                        if (error) {
+                                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                            logger.log('error', error);
+                                        }
+                                        else {
+                                            res.status(200).send('댓글 저장 성공!')
+                                            logger.log('info', '댓글 저장 성공!')
+                                        }
+                                    })
+                                    
+                                }
+                            })
                         }
                     }
                 })  
-                dbConnection.query('INSERT INTO comments (`post_id`, `body`, `user_email`) VALUES (?, ?, ?)', ins, (error, rows) => {
-                    if (error) {
-                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                        logger.log('error', error);
-                    }
-                    else {
-                        res.status(200).send('새 게시글 저장 성공!')
-                        logger.log('info', '새 게시글 저장 성공!')
-                    }
-                })
             }
             else {
                 logger.log('error', '파라미터 오류')
@@ -782,13 +920,203 @@ router.post('/comments/write/:post_id', function (req, res, next) {
         logger.log('error', '로그인하지 않았음!')
     }
 });
-
+/**
+ * @swagger
+ * paths:
+ *   /boards/comments/delete/{post_id}/{comment_id}:
+ *     post:
+ *       summary: "게시글 삭제"
+ *       description: "사용자가 자신이 작성한 게시글을 삭제한다."
+ *       parameters:
+ *         - in: path
+ *           name: post_id
+ *           schema: 
+ *             type: integer
+ *           required: true
+ *           description: 삭제할 게시글 번호
+ *         - in: path
+ *           name: comment_id
+ *           schema: 
+ *             type: integer
+ *           required: true
+ *           description: 삭제할 댓글 번호
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (게시글 삭제 성공)
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
+ *         "403": 
+ *            description: 해당 사용자가 작성한 댓글이 아님.
+ *         "404": 
+ *            description: 해당 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
+ *         "412": 
+ *            description: 파라미터 입력 오류. 정확한 파라미터 명과 개수 입력 필요
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인
+ *         
+ *         
+ * 
+ */
 router.post('/comments/delete/:post_id/:comment_id', function (req, res, next) {
+    if (req.session.useremail) {
+        writer = req.session.useremail
+        if (req.params.post_id && req.params.comment_id) {
+            post_id = req.params.post_id  
+            comment_id = req.params.comment_id
 
+
+            ins = [post_id, comment_id]
+
+            dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    if (!rows.length) {
+                        res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
+                    }
+                    else {
+
+                        for (var data of rows) {
+                            if (writer == data['user_email']) {
+                                dbConnection.query('DELETE FROM comments WHERE post_id = ? AND comment_id = ?', ins, (error, rows) => {
+                                    if (error) {
+                                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                        logger.log('error', error);
+                                    }
+                                    else {
+                                        res.status(200).send('댓글 삭제 성공!')
+                                        logger.log('info', '댓글 삭제 성공!')
+                                    }
+                                })
+                            }
+                            else {
+                                res.status(403).send('해당 사용자가 작성한 댓이 아님!')
+                                logger.log('error', '해당 사용자가 작성한 댓이 아님.')
+                            }
+                        }
+                        
+                    }
+                }
+            })  
+            
+        }
+        else {
+            logger.log('error', '파라미터 오류')
+            res.status(412).send('파라미터 입력 오류1: board_name은 free와 info 중 하나로 입력해야 함.')
+        }
+    }
+    else {
+        res.status(401).send( '로그인하지 않았음!')
+        logger.log('error', '로그인하지 않았음!')
+    }
 });
+/**
+ * @swagger
+ * paths:
+ *   /boards/comments/revise/{comment_id}:
+ *     post:
+ *       summary: "댓글 수정하기"
+ *       description: "댓글을 저장한다."
+ *       parameters:
+ *         - in: path
+ *           name: comment_id
+ *           schema: 
+ *             type: integer
+ *             example: 5
+ *           required: true
+ *           description: 수정할 댓글 번호
+ *       requestBody:
+ *         required: True
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 body: 
+ *                   type: string
+ *                   example: 공감해요~ 수화 재미있더라구요
+ *                   description: 댓글 내용-> 해당 내용으로 댓글이 수정됨.
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공 (댓글 수정 성공)
+ *         "401": 
+ *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
+ *         "403": 
+ *            description: 사용자가 작성한 댓글이 아님. (다른 사람이 작성한 댓글)
+ *         "404": 
+ *            description: 입력된 comment_id(댓글 번호를) 가진 댓글이 존재하지 않음.
+ *         "412": 
+ *            description: 파라미터 입력 오류2 -> req.body.body 입력 필요
+ *         "417": 
+ *            description: 파라미터 입력 오류1-> req.params.comment_id 입력 필요
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ * 
+ */
+router.post('/comments/revise/:comment_id', function (req, res, next) {
+    if (req.session.useremail) {
+        writer = req.session.useremail
+        if (req.params.comment_id) {
+            comment_id = req.params.comment_id
+            if (req.body.body) {
+                body = req.body.body
+                ins = [body, comment_id]
+                //ins = [post_id, comment_id]
 
-router.post('/comments/revise/:post_id/:comment_id', function (req, res, next) {
+            dbConnection.query('SELECT * FROM comments WHERE comment_id = ?', comment_id, (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    if (!rows.length) {
+                        res.status(404).send('입력된 comment_id(댓글 번호를) 가진 댓글이 존재하지 않음.')
+                    }
+                    else {
 
+                        for (var data of rows) {
+                            console.log(data['user_email'])
+                            if (writer == data['user_email']) {
+                                dbConnection.query('UPDATE comments SET body = ? WHERE comment_id = ?', ins, (error, rows) => {
+                                    if (error) {
+                                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                        logger.log('error', error);
+                                    }
+                                    else {
+                                        res.status(200).send('댓글 수정 성공!')
+                                        logger.log('info', '댓글 수정 성공!')
+                                    }
+                                })
+                            }
+                            else {
+                                res.status(403).send('해당 사용자가 작성한 댓글이 아님!')
+                                logger.log('error', '해당 사용자가 작성한 댓글이 아님.')
+                            }
+                        }
+                        
+                    }
+                }
+            })  
+
+            }
+            else {
+                logger.log('error', '파라미터 오류')
+                res.status(412).send('파라미터 입력 오류2: req.body.body 입력 필요.')
+            }  
+        }
+        else {
+            logger.log('error', '파라미터 오류')
+            res.status(417).send('파라미터 입력 오류1: req.params.comment_id 입력 필요')
+        }
+    }
+    else {
+        res.status(401).send( '로그인하지 않았음!')
+        logger.log('error', '로그인하지 않았음!')
+    }
 });
 
 module.exports = router;
