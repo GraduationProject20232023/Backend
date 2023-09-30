@@ -288,7 +288,6 @@ router.post('/delete', function(req, res, next) {
         }
         else {
             logger.log('error', '파라미터 오류')
-            //res.sendStatus(412)
             res.status(412).send('파라미터 입력 오류!')
         }
     }

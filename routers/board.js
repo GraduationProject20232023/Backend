@@ -351,13 +351,13 @@ router.get('/info', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/articles/{article_id}:
+ *   /boards/posts/{post_id}:
  *     get:
  *       summary: "게시글 가져오기"
  *       description: "게시글 내용을 보여준다."
  *       parameters:
  *         - in: path
- *           name: article_id
+ *           name: post_id
  *           schema: 
  *             type: integer
  *           required: true
@@ -397,9 +397,9 @@ router.get('/info', function (req, res, next) {
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
  */
-router.get('/articles/:article_id', function (req, res, next) {
-    if (req.params.article_id) {
-        post_id = req.params.article_id
+router.get('/posts/:post_id', function (req, res, next) {
+    if (req.params.post_id) {
+        post_id = req.params.post_id
 
         dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
@@ -435,7 +435,7 @@ router.get('/articles/:article_id', function (req, res, next) {
                         result['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
                         
                         res.status(200).send(result)
-                        logger.log('info', 'article_id로 게시글 불러오기 성공!')
+                        logger.log('info', 'post_id로 게시글 불러오기 성공!')
         
                         dbConnection.query('UPDATE posts SET views = views + 1 WHERE post_id = ?', data['post_id'], (error, rows) => {
                             if (error) {
@@ -467,7 +467,7 @@ router.get('/articles/:article_id', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/articles/write/{board_name}:
+ *   /boards/posts/write/{board_name}:
  *     post:
  *       summary: "게시글 작성하기"
  *       description: "새 게시글을 저장한다."
@@ -508,7 +508,7 @@ router.get('/articles/:article_id', function (req, res, next) {
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
  */
-router.post('/articles/write/:board_name', function (req, res, next) {
+router.post('/posts/write/:board_name', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
         if (req.params.board_name) {
@@ -549,13 +549,13 @@ router.post('/articles/write/:board_name', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/articles/delete/{article_id}:
+ *   /boards/posts/delete/{post_id}:
  *     post:
  *       summary: "게시글 삭제"
  *       description: "사용자가 자신이 작성한 게시글을 삭제한다."
  *       parameters:
  *         - in: path
- *           name: article_id
+ *           name: post_id
  *           schema: 
  *             type: integer
  *           required: true
@@ -578,11 +578,11 @@ router.post('/articles/write/:board_name', function (req, res, next) {
  *         
  * 
  */
-router.post('/articles/delete/:article_id', function (req, res, next) {
+router.post('/posts/delete/:post_id', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
-        if (req.params.article_id) {
-            post_id = req.params.article_id
+        if (req.params.post_id) {
+            post_id = req.params.post_id
             ins = [post_id, writer]
 
             dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
@@ -631,13 +631,13 @@ router.post('/articles/delete/:article_id', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/articles/revise/{article_id}:
+ *   /board/posts/revise/{post_id}:
  *     post:
  *       summary: "게시글 수정"
  *       description: "사용자가 자신이 작성한 게시글을 수정한다."
  *       parameters:
  *         - in: path
- *           name: article_id
+ *           name: post_id
  *           schema: 
  *             type: integer
  *           required: true
@@ -675,12 +675,12 @@ router.post('/articles/delete/:article_id', function (req, res, next) {
  *         
  * 
  */
-router.post('/articles/revise/:article_id', function (req, res, next) {
+router.post('/posts/revise/:post_id', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
 
-        if (req.params.article_id && req.body.title && req.body.body) {
-            post_id = req.params.article_id
+        if (req.params.post_id && req.body.title && req.body.body) {
+            post_id = req.params.post_id
             new_title = req.body.title
             new_body = req.body.body
             console.log(new_title, new_body)
@@ -730,15 +730,64 @@ router.post('/articles/revise/:article_id', function (req, res, next) {
     }
 });
 
-router.post('/comments/write/:article_id', function (req, res, next) {
+router.post('/comments/write/:post_id', function (req, res, next) {
+    if (req.session.useremail) {
+        writer = req.session.useremail
+        if (req.params.post_id) {
+            post_id = req.params.post_id  
+            if (req.body.body) {
+                
+                body = req.body.body
+
+                ins = [post_id, body, writer]
+
+                dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
+                    if (error) {
+                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                        logger.log('error', error);
+                    }
+                    else {
+                        if (!rows.length) {
+                            res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
+                        }
+                        else {
+
+                        }
+                    }
+                })  
+                dbConnection.query('INSERT INTO comments (`post_id`, `body`, `user_email`) VALUES (?, ?, ?)', ins, (error, rows) => {
+                    if (error) {
+                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                        logger.log('error', error);
+                    }
+                    else {
+                        res.status(200).send('새 게시글 저장 성공!')
+                        logger.log('info', '새 게시글 저장 성공!')
+                    }
+                })
+            }
+            else {
+                logger.log('error', '파라미터 오류')
+                res.status(412).send('파라미터 입력 오류2: req.params.post_id 입력 필요.')
+            }
+            
+        }
+        else {
+            logger.log('error', '파라미터 오류')
+            res.status(417).send('파라미터 입력 오류1: board_name은 free와 info 중 하나로 입력해야 함.')
+        }
+    }
+    else {
+        res.status(401).send( '로그인하지 않았음!')
+        logger.log('error', '로그인하지 않았음!')
+    }
+});
+
+router.post('/comments/delete/:post_id/:comment_id', function (req, res, next) {
 
 });
 
-router.post('/comments/delete/:article_id/:comment_id', function (req, res, next) {
-
-});
-
-router.post('/comments/revise/:article_id/:comment_id', function (req, res, next) {
+router.post('/comments/revise/:post_id/:comment_id', function (req, res, next) {
 
 });
 
