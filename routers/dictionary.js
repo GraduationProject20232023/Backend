@@ -160,11 +160,6 @@ router.get('/main', function (req, res, next) {
  *                        example: ["http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20230404/1133072/PIC000361272_700X466.jpg"]
  *         "404":       
  *           description: 검색 결과 없음.
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: No words found.
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
@@ -346,12 +341,7 @@ router.get('/search/:meaning', function(req, res, next) {
  *                          example: "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733339/MOV000254478_700X466.webm"
  *                     
  *         "404":       
- *           description: 입력된 단어 id에 해당하는 단어가 DB에 없음.
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: Invalid word id 
+ *           description: 입력된 단어 id에 해당하는 단어가 DB에 없음. id 범주에 맞지 않는 숫자가 입력됨.
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
@@ -472,12 +462,7 @@ router.get('/words/:id', function(req, res, next) {
  *                      example: [{"videoLink": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733290/MOV000255759_700X466.webm","meaning": "위인","section": "인간","id": 0},]
  * 
  *         "400":
- *           description: 잘못된 섹션명
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: Wrong section name
+ *           description: 잘못된 섹션명. 해당 섹션명은 존재하지 않음
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
@@ -561,12 +546,7 @@ router.get('/list', function(req, res, next) {
  *                      type: array 
  *                      example: [{"videoLink": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733290/MOV000255759_700X466.webm","meaning": "위인","section": "인간","id": 0},]
  *         "400":
- *           description: 잘못된 섹션명
- *           content: 
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: Wrong section name
+ *           description: 잘못된 섹션명. 해당 섹션명은 존재하지 않음!
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
