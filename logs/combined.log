@@ -459,3 +459,45 @@
 2023-09-29 23:13:59 info: 사용자의 친구 목록 -> 
 2023-09-29 23:31:59 info: Server listening from port 3000
 2023-09-29 23:36:22 info: Server listening from port 3000
+2023-10-01 00:06:33 info: Server listening from port 3000
+2023-10-01 00:07:17 info: 로그인 함수 실행
+2023-10-01 00:07:17 info: 로그인 성공
+2023-10-01 00:07:17 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-01 00:07:34 info: 새 게시글 저장 성공!
+2023-10-01 00:11:07 info: Server listening from port 3000
+2023-10-01 08:11:09 info: Server listening from port 3000
+2023-10-01 16:11:10 info: Server listening from port 3000
+2023-10-01 16:28:52 info: Server listening from port 3000
+2023-10-02 00:28:53 info: Server listening from port 3000
+2023-10-02 08:28:54 info: Server listening from port 3000
+2023-10-02 16:28:55 info: Server listening from port 3000
+2023-10-03 00:28:57 info: Server listening from port 3000
+2023-10-03 08:28:58 info: Server listening from port 3000
+2023-10-03 16:28:59 info: Server listening from port 3000
+2023-10-04 00:29:00 info: Server listening from port 3000
+2023-10-04 08:29:02 info: Server listening from port 3000
+2023-10-04 16:29:03 info: Server listening from port 3000
+2023-10-05 00:29:04 info: Server listening from port 3000
+2023-10-05 08:29:07 info: Server listening from port 3000
+2023-10-05 16:29:08 info: Server listening from port 3000
+2023-10-06 00:29:09 info: Server listening from port 3000
+2023-10-06 08:29:10 info: Server listening from port 3000
+2023-10-06 16:29:11 info: Server listening from port 3000
+2023-10-07 00:29:12 info: Server listening from port 3000
+2023-10-07 08:29:14 info: Server listening from port 3000
+2023-10-07 16:29:15 info: Server listening from port 3000
+2023-10-08 00:29:16 info: Server listening from port 3000
+2023-10-08 08:29:17 info: Server listening from port 3000
+2023-10-08 16:29:18 info: Server listening from port 3000
+2023-10-08 20:02:04 info: 로그인 함수 실행
+2023-10-08 20:02:04 info: 로그인 성공
+2023-10-08 20:02:04 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-08 20:44:18 info: 로그인 함수 실행
+2023-10-08 20:44:19 info: 로그인 성공
+2023-10-08 20:44:19 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-08 20:52:00 info: 로그인 함수 실행
+2023-10-08 20:52:00 info: 로그인 성공
+2023-10-08 20:52:00 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-08 20:52:10 info: sessioncookie 정보: [object Object]
+2023-10-08 20:52:10 info: session user 정보: undefined
+2023-10-08 20:55:24 info: Server listening from port 3000

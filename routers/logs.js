@@ -15,7 +15,7 @@ const options = {
 var currentDir = __dirname;
 // Define an API route for viewing the logs
 router.get('/', (req, res) => {
-    fs.readFile(currentDir+ '/../logs/combined_local.log', 'utf8', (err, data) => {
+    fs.readFile(currentDir+ '/../logs/combined.log', 'utf8', (err, data) => {
         if (err) {
             console.log(err)
             return;
