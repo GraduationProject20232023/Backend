@@ -271,6 +271,7 @@ router.get('/free', function (req, res, next) {
                     item['title'] = data['title']
                     item['views'] = data['views']
                     item['comments'] = data['comments']
+                    item['created_at'] = data['created_at']
                     result.push(item)
                 }
 
@@ -339,6 +340,7 @@ router.get('/info', function (req, res, next) {
                     item['title'] = data['title']
                     item['views'] = data['views']
                     item['comments'] = data['comments']
+                    item['created_at'] = data['created_at']
                     result.push(item)
                 }
 
