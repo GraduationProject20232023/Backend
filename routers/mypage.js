@@ -156,7 +156,7 @@ router.get('/posts', function(req, res, next) {
 
                         result.push(item)
                     }
-                    res.status(200).send(result)
+                    res.status(200).send(result.reverse())
 
                 }
             }
