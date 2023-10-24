@@ -9,7 +9,7 @@ let storage = multer.diskStorage({
         cb(null, "../Backend/game_videos/");
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}_${file.orinalname}`);
+        cb(null, `${Date.now()}_${file.orinalname}.mp4`);
         
     },
     fileFilter: (req, file, cb) => {
