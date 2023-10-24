@@ -394,6 +394,9 @@ router.get('/info', function (req, res, next) {
  *                    created_at: 
  *                      type: string 
  *                      example: 2023-09-28 14:29:47
+ *                    hashtag:
+ *                      type: array
+ *                      exmaple: ["재미", "동아리"]
  *         "404": 
  *            description: 입력된 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
  *         "412": 
@@ -582,6 +585,10 @@ router.get('/comments/:post_id', function (req, res, next) {
  *                   type: string
  *                   example: 시작한지 하루밖에 안됐지만 너무 재밌어서 진작 시작할 걸 그랬어요~
  *                   description: 글 내용
+ *                 hashtag:
+ *                   type: string
+ *                   example: 재미, 동아리
+ *                   description: 없으면 안 보내도 됨.
  *       tags: [Boards]
  *       responses:
  *         "200":
@@ -787,7 +794,13 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
             new_title = req.body.title
             new_body = req.body.body
             console.log(new_title, new_body)
-            ins = [new_title, new_body, post_id]
+            if (req.body.hashtag) {
+                hashtag = req.body.hashtag
+            }
+            else {
+                hashtag = null
+            }
+            ins = [new_title, new_body, hashtag, post_id]
             console.log(ins)
             dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
                 if (error) {
@@ -799,9 +812,10 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
                         res.status(404).send('해당 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.')
                     }
                     else {
+                        
                         for (var data of rows) {
                             if (writer == data['user_email']) {
-                                dbConnection.query('UPDATE posts SET title = ?, body = ? WHERE post_id = ?', ins, (error, rows) => {
+                                dbConnection.query('UPDATE posts SET title = ?, body = ?, hashtag = ? WHERE post_id = ?', ins, (error, rows) => {
                                     if (error) {
                                         res.status(500).send('DB Error: 로그 확인해주세요.'); 
                                         logger.log('error', error);
@@ -817,6 +831,7 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
                                 logger.log('error', '해당 사용자가 작성한 게시글이 아님.')
                             }
                         }
+            
                     }
                 }
                 
