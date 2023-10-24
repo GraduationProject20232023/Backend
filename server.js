@@ -92,7 +92,7 @@ app.use('/games', gameRouter);
 // });
 
 
-
+console.log(Date.now())
 
 
 
