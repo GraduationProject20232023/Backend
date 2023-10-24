@@ -767,6 +767,10 @@ router.post('/posts/delete/:post_id', function (req, res, next) {
  *                   type: string
  *                   example: 시작한지 일주일 지났는데 진도도 안나가지고 너무 어렵네요,, 저랑 같이 공부하실 분 있을까요..?ㅠ
  *                   description: 수정할 글 내용. 이 내용으로 수정된다.
+ *                 hashtag:
+ *                   type: string
+ *                   example: 시험, 기출문제
+ *                   description: 선택적으로 작성. 안 줘도 됨.
  *       tags: [Boards]
  *       responses:
  *         "200":

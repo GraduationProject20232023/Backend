@@ -8,6 +8,7 @@ const session = require('express-session');
 var logger = require('./config/winston');
 const axios = require('axios');
 const fs = require("fs");
+
 //const session = require('express-session')
 //const cookieParser = require('cookie-parser')
 
@@ -41,7 +42,7 @@ var noteRouter = require('./routers/note.js')
 var friendRouter = require('./routers/friend.js')
 var logRouter = require('./routers/logs')
 var mypageRouter = require('./routers/mypage')
-
+var gameRouter = require('./rotuers/game.js')
 app.use('/', indexRouter);
 /**
  * @swagger
@@ -78,8 +79,13 @@ app.use('/logs', logRouter);
 
 app.use('/mypage', mypageRouter);
 
+/**
+ * @swagger
+ * tags: Game
+ * description: 수화 맞추기 게임
+ */
+app.use('/games', gameRouter);
 
-  
 // // Start the server
 // app.listen(3000, () => {
 //     console.log("Server started on port 3000");
