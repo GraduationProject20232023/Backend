@@ -9,11 +9,12 @@ let storage = multer.diskStorage({
         cb(null, "../Backend/game_videos/");
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}_${file.orinalname}.mp4`);
+        on = file.originalname.toString('utf8');
+        cb(null, `${Date.now()}_${on}`);
         
     },
     fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.orinalname);
+        const ext = path.extname(file.originalname);
         if (ext !== ".mp4") {
             return cb(res.status(400).end("only mp4 is allowed"), false);
         }
