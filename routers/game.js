@@ -20,6 +20,7 @@ let storage = multer.diskStorage({
         cb(null, true);
     },
 });
+
 const upload = multer({storage: storage}).single("file");
 
 /* GET home page. */

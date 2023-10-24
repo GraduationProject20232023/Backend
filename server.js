@@ -42,7 +42,7 @@ var noteRouter = require('./routers/note.js')
 var friendRouter = require('./routers/friend.js')
 var logRouter = require('./routers/logs')
 var mypageRouter = require('./routers/mypage')
-var gameRouter = require('./rotuers/game.js')
+var gameRouter = require('./routers/game')
 app.use('/', indexRouter);
 /**
  * @swagger
