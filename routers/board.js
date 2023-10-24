@@ -433,6 +433,13 @@ router.get('/posts/:post_id', function (req, res, next) {
                                 result['writer'] = rows[0]['username']
                                 result['views'] = data['views']
                                 result['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                                if (data['hashtag']) {
+                                    result['hashtag'] = data['hashtag'].split(', ')
+                                }
+                                else {
+                                    result['hashtag'] = []
+                                }
+                                
                                 res.status(200).send(result)
                             }
                         })
@@ -597,10 +604,16 @@ router.post('/posts/write/:board_name', function (req, res, next) {
             if (req.body.title && req.body.body) {
                 title = req.body.title
                 body = req.body.body
-
-                ins = [board, title, body, writer]
-
-                dbConnection.query('INSERT INTO posts (`board_name`, `title`, `body`, `user_email`) VALUES (?, ?, ?, ?)', ins, (error, rows) => {
+                if (req.body.hashtag) {
+                    hashtag = req.body.hashtag
+                }
+                else {
+                    hashtag = null
+                }
+                ins = [board, title, body, writer, hashtag]
+                //tags = hashtag.split(',')
+                
+                dbConnection.query('INSERT INTO posts (`board_name`, `title`, `body`, `user_email`, `hashtag`) VALUES (?, ?, ?, ?, ?)', ins, (error, rows) => {
                     if (error) {
                         res.status(500).send('DB Error: 로그 확인해주세요.'); 
                         logger.log('error', error);

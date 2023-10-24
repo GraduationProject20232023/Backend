@@ -500,4 +500,21 @@
 2023-10-08 20:52:00 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
 2023-10-08 20:52:10 info: sessioncookie 정보: [object Object]
 2023-10-08 20:52:10 info: session user 정보: undefined
-2023-10-08 20:55:24 info: Server listening from port 3000
+2023-10-08 20:55:24 info: Server listening from port 30002023-10-24 21:47:32 info: Server listening from port 30002023-10-24 22:00:38 info: 로그인 함수 실행
+2023-10-24 22:00:38 info: 로그인 성공
+2023-10-24 22:00:38 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-24 22:00:42 info: 새 게시글 저장 성공!
+2023-10-24 22:00:58 info: 새 게시글 저장 성공!
+2023-10-24 22:02:48 info: Server listening from port 3000
+2023-10-24 22:02:52 info: 로그인 함수 실행
+2023-10-24 22:02:52 info: 로그인 성공
+2023-10-24 22:02:52 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-24 22:03:55 info: Server listening from port 3000
+2023-10-24 22:03:58 info: 로그인 함수 실행
+2023-10-24 22:03:58 info: 로그인 성공
+2023-10-24 22:03:58 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-10-24 22:04:04 info: 새 게시글 저장 성공!
+2023-10-24 22:04:52 info: Server listening from port 3000
+2023-10-24 22:04:54 info: 로그인 함수 실행
+2023-10-24 22:04:54 info: 로그인 성공
+2023-10-24 22:04:54 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
