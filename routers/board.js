@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const dbConnection = require('../config/database');
 const logger = require('../config/winston')
+const multer = require("multer");
+var fs = require('fs');
 //var seedrandom = require('seedrandom')
 
 /* GET home page. */
@@ -358,7 +360,7 @@ router.get('/info', function (req, res, next) {
  *       summary: "게시글 가져오기"
  *       description: "게시글 내용을 보여준다."
  *       parameters:
- *         - in: path
+ *         - in: query
  *           name: post_id
  *           schema: 
  *             type: integer
@@ -405,11 +407,11 @@ router.get('/info', function (req, res, next) {
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
  */
-router.get('/posts/:post_id', function (req, res, next) {
+router.get('/posts', function (req, res, next) {
 
     
     if (req.params.post_id) {
-        post_id = req.params.post_id
+        post_id = req.query.post_id
         dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
@@ -1152,5 +1154,194 @@ router.post('/comments/revise/:comment_id', function (req, res, next) {
         logger.log('error', '로그인하지 않았음!')
     }
 });
+
+
+
+
+
+ /**
+ * @swagger
+ * paths:
+ *   /boards/posts/upload?{post_id}:
+ *     post:
+ *       summary: "게시글에 첨부파일 업로드"
+ *       description: "게시글에 첨부파일을 업로드한다."
+ *       consumes: 
+ *         - multipart/form-data
+ *       parameters:     
+ *         - in: query
+ *           name: post_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: 게시글 번호
+ *       requestBody:
+ *         required: True
+ *         content:
+ *           multipart/form-data:
+ *             schema: 
+ *               type: object
+ *               properties:
+ *                 file: 
+ *                   type: string
+ *                   format: binary
+ *         description: 스웨거에서는 영문이름 파일만 정상작동함. 포스트맨은 한글이름 파일도 상관 없음. 
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    success:
+ *                      type: boolean
+ *                      example: true
+ *                    url:
+ *                      type: string 
+ *                      example: "..\\Backend\\board_files\\1\\우주.mp4"
+ *                    fileName:
+ *                      type: string
+ *                      example: "우주.mp4"
+ * 
+ *         "400":
+ *           description: 요청 실패
+ *           content: 
+ *             application/json:
+ *               schema: 
+ *                 type: object
+ *                 properties:
+ *                   success:
+ *                     type: boolean
+ *                     example: false
+ *                   err: 
+ *                     type: err
+ *         "402":       
+ *           description: 서버 내 폴더 생성 오류
+ *         "417":
+ *           description: 파라미터 입력 오류- req.query.post_id 
+ *         
+ */
+router.post('/posts/upload', function (req, res, next) {
+    if (req.query.post_id) {
+        const post_id = req.query.post_id
+        var dir_path = '../Backend/board_files/' + post_id
+        //console.log(dir_path)
+        if (!fs.existsSync(dir_path)) {
+            try{
+                fs.mkdirSync(dir_path);
+            }
+            catch(e) {
+                res.status(402).send('폴더 생성 오류')
+            }
+        } 
+
+        let storage = multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, dir_path + "/");
+            },
+            filename: (req, file, cb) => {
+                fn = file.originalname.toString('utf8');
+                cb(null, `${fn}`);
+        
+            },
+            fileFilter: (req, file, cb) => {
+                const ext = path.extname(file.originalname);
+                if (ext !== ".mp4") {
+                    return cb(res.status(400).end("only mp4 is allowed"), false);
+                }
+                cb(null, true);
+            },
+        });
+
+        const upload = multer({storage: storage}).single("file");
+
+        upload(req, res, (err) => {
+            if (err) {
+                return res.status(400).json({success: false, err});
+            }
+            return res.status(200).json({
+                success: true,
+                url: res.req.file.path,
+                fileName: res.req.file.filename,
+            })
+        })
+    }
+    else {
+        logger.log('error', '파라미터 오류')
+        res.status(417).send('파라미터 입력 오류1: req.query.post_id 입력 필요')
+    }
+
+    
+
+})
+
+ /**
+ * @swagger
+ * paths:
+ *   /boards/posts/download?{post_id}&{fileName}:
+ *     get:
+ *       summary: "첨부파일 다운로드"
+ *       description: "게시글의 첨부파일 다운로드"
+ *       parameters:     
+ *         - in: query
+ *           name: post_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: 게시글 번호
+ *         - in: query
+ *           name: fileName
+ *           schema:
+ *             type: string
+ *             required: true
+ *             description: 다운받으려는 파일 이름
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 다운로드 성공
+ *         "400":
+ *           description: 다운로드 오류 + 에러
+ *         "401":       
+ *           description: 해당 게시글의 첨부파일 없음
+ *         "402":       
+ *           description: 해당 파일 없음
+ *         "417":
+ *           description:  파라미터 입력 오류-req.query.post_id와 req.quest.fileName 입력 필요.
+ *         
+ */
+router.get('/posts/download', function (req, res, next) {
+    if (req.query.post_id && req.query.fileName) {
+        const post_id = req.query.post_id
+        const fileName = decodeURIComponent(req.query.fileName);
+        if (!fs.existsSync('../Backend/board_files/'+post_id)) {
+            res.status(401).send('해당 게시글의 첨부파일 없음.')
+        }
+        else {
+            if (!fs.existsSync('../Backend/board_files/'+post_id+'/'+ fileName)) {
+                res.status(402).send('해당 파일 없음')
+            }
+            else {
+                try {
+                    res.status(200).download('../Backend/board_files/'+post_id+'/'+ fileName);
+                }
+                catch(e) {
+                    res.status(400).send('다운로드 오류' + e)
+                }
+            }
+    
+        }
+        
+    }
+    else {
+        logger.log('error', '파라미터 오류')
+        res.status(417).send('파라미터 입력 오류1: req.query.post_id와 req.query.fileName 입력 필요')
+    }
+    
+
+})
+
+
 
 module.exports = router;
