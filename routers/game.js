@@ -168,7 +168,7 @@ router.post("/start/:game_category", function(req, res, next) {
         // 비회원 사용자
         else {
             game_info = {}
-            dbConnection.query('INSERT INTO game_results(`game_category`, `player_email`) VALUES (?,?)', [game_category, player_email], (error, result) => {
+            dbConnection.query('INSERT INTO game_results(`game_category`) VALUES (?)', game_category, (error, result) => {
                 if (error) {
                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
                     logger.log('error', error);
