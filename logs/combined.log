@@ -594,3 +594,29 @@
 2023-10-30 22:49:45 info: Server listening from port 3000
 2023-10-30 22:52:19 info: Server listening from port 3000
 2023-10-30 22:52:42 info: Server listening from port 3000
+2023-10-31 19:59:12 info: Server listening from port 3000
+2023-10-31 19:59:20 info: <=== /dictionary/main 실행 ===>
+2023-11-01 15:59:31 info: Server listening from port 3000
+2023-11-01 16:09:44 info: Server listening from port 3000
+2023-11-01 16:14:20 info: Server listening from port 3000
+2023-11-01 16:14:58 info: <=== /dictionary/search/우정 실행 ===>
+2023-11-01 16:14:58 info: func1 시작
+2023-11-01 16:14:58 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-01 16:16:50 info: Server listening from port 3000
+2023-11-01 16:17:00 info: 로그인 함수 실행
+2023-11-01 16:17:00 error: 파라미터 오류
+2023-11-01 16:17:19 info: 로그인 함수 실행
+2023-11-01 16:17:19 info: 로그인 성공
+2023-11-01 16:17:19 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-01 16:18:07 info: Server listening from port 3000
+2023-11-01 16:18:11 info: 로그인 함수 실행
+2023-11-01 16:18:11 info: 로그인 성공
+2023-11-01 16:18:11 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-01 16:19:38 info: Server listening from port 3000
+2023-11-01 16:20:25 error: 로그아웃 실패
+2023-11-01 16:20:32 error: 로그아웃 실패
+2023-11-01 16:23:20 info: Server listening from port 3000
+2023-11-01 16:24:08 info: Server listening from port 3000
+2023-11-01 16:24:29 info: Server listening from port 3000
+2023-11-01 16:25:23 info: Server listening from port 3000
+2023-11-01 16:29:25 info: Server listening from port 3000
