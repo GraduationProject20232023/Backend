@@ -170,7 +170,7 @@ router.get('/posts', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /mypage/posts:
+ *   /mypage/game-records:
  *     get:
  *       summary: "사용자가 작성한 게시글 목록 가져오기"
  *       description: "사용자가 작성한 게시글 목록(게시글 번호, 게시판 이름, 글 제목, 조회수, 생성 시간)을 보여준다."
