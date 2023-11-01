@@ -167,6 +167,7 @@ router.post("/login", (req, res) => {
         }
         dbConnection.query('SELECT * FROM users WHERE user_email = ?', param[0], (err, row) => {
             if(err)  logger.log('error', err)
+            console.log(row)
             if(row.length >0) {
                 bcrypt.compare(param[1], row[0].password_, (error, result) => {
                     if (error) {

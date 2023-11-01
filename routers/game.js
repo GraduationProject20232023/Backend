@@ -123,6 +123,8 @@ router.post("/uploadvideos", (req, res) => {
  *                      description: 게임 실행 id로 게임 기록 저장에 필요
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ *         "412":       
+ *            description: 파라미터 오류. 정확한 파라미터 명과 개수 입력 필요
  *         
  */
 router.post("/start/:game_category", function(req, res, next) {
@@ -133,42 +135,30 @@ router.post("/start/:game_category", function(req, res, next) {
         if (req.session.useremail) {
             player_email = req.session.useremail
             game_info = {}
-            dbConnection.query('SELECT * FROM game_questions WHERE game_category = ?', game_category, (error, rows) => {
+            dbConnection.query('INSERT INTO game_results(`game_category`, `player_email`) VALUES (?,?)', [game_category, player_email], (error, result) => {
                 if (error) {
                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
                     logger.log('error', error);
                 }
                 else {
-                    for (var data of rows) {
-                        game_info['game_model_id'] = data['game_model_id']
-                    }
-
-                    dbConnection.query('INSERT INTO game_results(`game_model_id`, `player_email`) VALUES (?,?)', [game_info['game_model_id'], player_email], (error, result) => {
+                    console.log(result)
+                    dbConnection.query('SELECT LAST_INSERT_ID();', (error, result) => {
                         if (error) {
                             res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                            logger.log('error', error);
+                        logger.log('error', error);
                         }
                         else {
-                            console.log(result)
-                            dbConnection.query('SELECT LAST_INSERT_ID();', (error, result) => {
+                            dbConnection.query('SELECT * FROM game_results WHERE game_id = ? ;', result[0]["LAST_INSERT_ID()"], (error, result) => {
                                 if (error) {
                                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                logger.log('error', error);
+                                    logger.log('error', error);
                                 }
                                 else {
-                                    dbConnection.query('SELECT * FROM game_results WHERE game_id = ? ;', result[0]["LAST_INSERT_ID()"], (error, result) => {
-                                        if (error) {
-                                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                            logger.log('error', error);
-                                        }
-                                        else {
-                                            res.status(200).send({'game_id': result[0]['game_id']})
-                                            //res.send(result['game_id'])
-                                        }
-                                    })
-                                    
+                                    res.status(200).send({'game_id': result[0]['game_id']})
+                                    //res.send(result['game_id'])
                                 }
                             })
+                            
                         }
                     })
                 }
@@ -178,40 +168,30 @@ router.post("/start/:game_category", function(req, res, next) {
         // 비회원 사용자
         else {
             game_info = {}
-            dbConnection.query('SELECT * FROM game_questions WHERE game_category = ?', game_category, (error, rows) => {
+            dbConnection.query('INSERT INTO game_results(`game_category`, `player_email`) VALUES (?,?)', [game_category, player_email], (error, result) => {
                 if (error) {
                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
                     logger.log('error', error);
                 }
                 else {
-                    for (var data of rows) {
-                        game_info['game_model_id'] = data['game_model_id']
-                    }
-
-                    dbConnection.query('INSERT INTO game_results(`game_model_id`) VALUES (?)', game_info['game_model_id'], (error, result) => {
+                    console.log(result)
+                    dbConnection.query('SELECT LAST_INSERT_ID();', (error, result) => {
                         if (error) {
                             res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                            logger.log('error', error);
+                        logger.log('error', error);
                         }
                         else {
-                            dbConnection.query('SELECT LAST_INSERT_ID();', (error, result) => {
+                            dbConnection.query('SELECT * FROM game_results WHERE game_id = ? ;', result[0]["LAST_INSERT_ID()"], (error, result) => {
                                 if (error) {
                                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                logger.log('error', error);
+                                    logger.log('error', error);
                                 }
                                 else {
-                                    dbConnection.query('SELECT * FROM game_results WHERE game_id = ? ;', result[0]["LAST_INSERT_ID()"], (error, result) => {
-                                        if (error) {
-                                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                        logger.log('error', error);
-                                        }
-                                        else {
-                                            res.status(200).send({'game_id': result[0]['game_id']})
-                                        }
-                                    })
-                                    
+                                    res.status(200).send({'game_id': result[0]['game_id']})
+                                    //res.send(result['game_id'])
                                 }
                             })
+                            
                         }
                     })
                 }
@@ -219,6 +199,11 @@ router.post("/start/:game_category", function(req, res, next) {
         }
 
 
+    }
+    else {
+        logger.log('error', '파라미터 오류')
+        //res.sendStatus(412)
+        res.status(412).send('파라미터 입력 오류!')
     }
 })
 
