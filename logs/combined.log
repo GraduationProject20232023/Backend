@@ -734,3 +734,28 @@
 2023-11-03 01:17:45 info: Server listening from port 3000
 2023-11-03 01:18:45 info: Server listening from port 3000
 2023-11-03 01:21:53 info: Server listening from port 3000
+2023-11-03 01:25:41 info: Server listening from port 3000
+2023-11-03 01:25:44 info: 로그인 함수 실행
+2023-11-03 01:25:44 info: 로그인 성공
+2023-11-03 01:25:44 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-03 01:27:00 info: Server listening from port 3000
+2023-11-03 01:27:51 error: 로그인 상태가 아님
+2023-11-03 01:27:54 info: 로그인 함수 실행
+2023-11-03 01:27:54 info: 로그인 성공
+2023-11-03 01:27:54 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-03 01:29:06 info: Server listening from port 3000
+2023-11-03 01:29:10 error: 로그인 상태가 아님
+2023-11-03 01:29:35 info: Server listening from port 3000
+2023-11-03 01:29:37 info: 로그인 함수 실행
+2023-11-03 01:29:38 info: 로그인 성공
+2023-11-03 01:29:38 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-03 01:30:48 info: Server listening from port 3000
+2023-11-03 01:30:49 error: 로그인 상태가 아님
+2023-11-03 01:30:53 info: 로그인 함수 실행
+2023-11-03 01:30:53 info: 로그인 성공
+2023-11-03 01:30:53 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-03 01:32:27 info: Server listening from port 3000
+2023-11-03 01:32:32 error: 로그인 상태가 아님
+2023-11-03 01:32:34 info: 로그인 함수 실행
+2023-11-03 01:32:34 info: 로그인 성공
+2023-11-03 01:32:34 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!

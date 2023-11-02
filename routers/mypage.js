@@ -174,6 +174,13 @@ router.get('/posts', function(req, res, next) {
  *     get:
  *       summary: "사용자의 게임 기록을 가져오기"
  *       description: "사용자의 게임 기록(게시글 번호, 게시판 이름, 글 제목, 조회수, 생성 시간)을 보여준다."
+ *       parameters:     
+ *         - in: query
+ *           name: game_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: 게임 아이디
  *       tags: [Mypage]
  *       responses:
  *         "200":
@@ -263,6 +270,39 @@ router.get('/game-records', function (req, res, next) {
  *                  items: 
  *                    type: object
  *                    properties:
+ *                      1: 
+ *                        type: string
+ *                        example: O
+ *                      1: 
+ *                        type: string
+ *                        example: O
+ *                      2: 
+ *                        type: string
+ *                        example: X
+ *                      3: 
+ *                        type: string
+ *                        example: O
+ *                      4: 
+ *                        type: string
+ *                        example: O
+ *                      5: 
+ *                        type: string
+ *                        example: X
+ *                      6: 
+ *                        type: string
+ *                        example: O
+ *                      7: 
+ *                        type: string
+ *                        example: O
+ *                      8: 
+ *                        type: string
+ *                        example: X
+ *                      9: 
+ *                        type: string
+ *                        example: X
+ *                      10: 
+ *                        type: string
+ *                        example: O
  *                      game_id:
  *                        type: integer
  *                        example: 1
@@ -289,8 +329,9 @@ router.get('/game-records', function (req, res, next) {
 router.get('/game-spec', function (req, res, next) {
     if (req.session.useremail) {
         player_email = req.session.useremail
-        game_id = req.params.game_id
-        dbConnection.query('SELECT * FROM game_results WHERE player_email = ?', player_email, (error, rows) => {
+        game_id = req.query.game_id
+        //console.log('game_id: ', game_id)
+        dbConnection.query('SELECT * FROM game_results WHERE game_id = ?', game_id, (error, rows) => {
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
                 logger.log('error', 'DB 오류: sections 테이블에서 섹션 검색하는 것에 실패함. MySQL 에러 => ' + error);
@@ -302,12 +343,22 @@ router.get('/game-spec', function (req, res, next) {
                 else {
                     result = []
                     for (var data of rows) {
+                        console.log(data)
                         item = {}
                         item['game_id'] = data['game_id']
                         item['played_at'] = JSON.stringify(data['played_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
                         item['total_score'] = data['1_'] + data['2_'] + data['3_'] + data['4_'] + data['5_'] + data['6_'] + data['7_'] + data['8_'] + data['9_'] + + data['10_']
                         item['game_category']= data['game_category']
-                    
+                        item["1"] = data["1_"]
+                        item["2"] = data["2_"]
+                        item["3"] = data["3_"]
+                        item["4"] = data["4_"]
+                        item["5"] = data["5_"]
+                        item["6"] = data["6_"]
+                        item["7"] = data["7_"]
+                        item["8"] = data["8_"]
+                        item["9"] = data["9_"]
+                        item["10"] = data["10_"]
                         //item['created_at'] =  JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
 
                         result.push(item)
