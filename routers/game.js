@@ -3,15 +3,40 @@ var router = express.Router();
 const dbConnection = require('../config/database');
 const logger = require('../config/winston')
 const multer = require("multer");
+const fs = require("fs");
+
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    //res.render('index', { title: 'Express' });
+    res.send('Game Index Page: Success!')
+});
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "../Backend/game_videos/");
+        on = file.originalname.toString('utf8');
+        console.log('on: ', on)
+        file_name = on.split("_")
+        game_id = file_name[0]
+        question_id = file_name[1]
+        dir_path = '../Backend/game_videos/' + game_id
+        if (! fs.existsSync(dir_path)) {
+            try{
+                fs.mkdirSync(dir_path);
+            }
+            catch(e) {
+                res.status(402).send('폴더 생성 오류')
+            }
+            
+        }
+        cb(null, dir_path);
     },
     filename: (req, file, cb) => {
         on = file.originalname.toString('utf8');
-        cb(null, `${Date.now()}_${on}`);
-        
+        question_id = file_name[1]
+        cb(null, `${question_id}`);
+        //cb(null, question_id);
     },
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname);
@@ -22,13 +47,8 @@ let storage = multer.diskStorage({
     },
 });
 
+    
 const upload = multer({storage: storage}).single("file");
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    //res.render('index', { title: 'Express' });
-    res.send('Game Index Page: Success!')
-});
  /**
  * @swagger
  * paths:
@@ -81,18 +101,88 @@ router.get('/', function(req, res, next) {
  *         
  */
 router.post("/uploadvideos", (req, res) => {
+    
+    
     upload(req, res, (err) => {
         if (err) {
             return res.status(400).json({success: false, err});
 
         }
-        return res.status(200).json({
-            success: true,
-            url: res.req.file.path,
-            fileName: res.req.file.filename,
-        })
+        else {
+            return res.status(200).json({
+                success: true,
+                url: res.req.file.path,
+                fileName: res.req.file.filename,
+            })
+        }
+
+
+        
     })
 })
+
+// router.post("/uploadvideos", (req, res) => {
+//     //console.log(req.file)
+//     const game_id = req.query.game_id
+//     dir_path = '../Backend/game_videos/' + game_id
+//     if (! fs.existsSync(dir_path)) {
+//         try{
+//             fs.mkdirSync(dir_path);
+//         }
+//         catch(e) {
+//             res.status(402).send('폴더 생성 오류')
+//         }
+//         //console.log(dir_path, ' exists.')
+//     }
+    
+//     //console.log('game_id: ', game_id)
+//     //console.log('question_id: ', question_id)
+    
+//     let storage = multer.diskStorage({
+//         destination: (req, file, cb) => {
+//             cb(null, dir_path + "/");
+//         },
+//         filename: (req, file, cb) => {
+//             on = file.originalname.toString('utf8');
+//             console.log('on: ', on)
+//             file_name = on.split("_")
+//             console.log(file_name)
+//             //game_id = file_name[0]
+//             question_id = file_name[1]
+//             //cb(null, `${on}`);
+//             cb(null, question_id);
+//         },
+//         fileFilter: (req, file, cb) => {
+//             const ext = path.extname(file.originalname);
+//             if (ext !== ".mp4") {
+//                 return cb(res.status(400).end("only mp4 is allowed"), false);
+//             }
+//             cb(null, true);
+//         },
+//     });
+
+        
+//     const upload = multer({storage: storage}).single("file");
+    
+//     upload(req, res, (err) => {
+//         if (err) {
+//             return res.status(400).json({success: false, err});
+
+//         }
+//         else {
+            
+
+//             return res.status(200).json({
+//                 success: true,
+//                 url: res.req.file.path,
+//                 fileName: res.req.file.filename,
+//             })
+//         }
+
+
+        
+//     })
+// })
 
  /**
  * @swagger
@@ -141,6 +231,7 @@ router.post("/start/:game_category", function(req, res, next) {
                     logger.log('error', error);
                 }
                 else {
+
                     console.log(result)
                     dbConnection.query('SELECT LAST_INSERT_ID();', (error, result) => {
                         if (error) {

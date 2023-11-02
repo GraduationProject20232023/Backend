@@ -709,3 +709,28 @@
 2023-11-01 18:15:05 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''주생활'' at line 1
 2023-11-01 18:15:15 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''주생활'' at line 1
 2023-11-01 18:16:38 info: Server listening from port 3000
+2023-11-01 18:29:02 info: Server listening from port 3000
+2023-11-01 18:29:08 info: 로그인 함수 실행
+2023-11-01 18:29:08 info: 로그인 성공
+2023-11-01 18:29:08 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-03 00:39:45 info: Server listening from port 3000
+2023-11-03 00:40:20 error: 로그인 상태가 아님
+2023-11-03 00:41:00 info: Server listening from port 3000
+2023-11-03 00:43:10 info: Server listening from port 3000
+2023-11-03 00:45:26 info: Server listening from port 3000
+2023-11-03 00:46:29 info: Server listening from port 3000
+2023-11-03 00:50:00 info: Server listening from port 3000
+2023-11-03 00:50:25 info: Server listening from port 3000
+2023-11-03 00:50:47 info: Server listening from port 3000
+2023-11-03 01:05:03 info: Server listening from port 3000
+2023-11-03 01:06:35 info: Server listening from port 3000
+2023-11-03 01:06:57 info: Server listening from port 3000
+2023-11-03 01:07:20 info: Server listening from port 3000
+2023-11-03 01:07:45 info: Server listening from port 3000
+2023-11-03 01:08:35 info: Server listening from port 3000
+2023-11-03 01:14:46 info: Server listening from port 3000
+2023-11-03 01:14:58 info: Server listening from port 3000
+2023-11-03 01:15:07 info: Server listening from port 3000
+2023-11-03 01:17:45 info: Server listening from port 3000
+2023-11-03 01:18:45 info: Server listening from port 3000
+2023-11-03 01:21:53 info: Server listening from port 3000
