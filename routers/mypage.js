@@ -273,9 +273,6 @@ router.get('/game-records', function (req, res, next) {
  *                      1: 
  *                        type: string
  *                        example: O
- *                      1: 
- *                        type: string
- *                        example: O
  *                      2: 
  *                        type: string
  *                        example: X

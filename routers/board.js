@@ -271,6 +271,7 @@ router.get('/free', function (req, res, next) {
                     item['board'] = data['board_name']
                     item['post_id'] = data['post_id']
                     item['title'] = data['title']
+                    item['body'] = data['body']
                     item['views'] = data['views']
                     item['comments'] = data['comments']
                     item['created_at'] = data['created_at']
