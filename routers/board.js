@@ -411,7 +411,7 @@ router.get('/info', function (req, res, next) {
 router.get('/posts', function (req, res, next) {
 
     
-    if (req.params.post_id) {
+    if (req.query.post_id) {
         post_id = req.query.post_id
         dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
