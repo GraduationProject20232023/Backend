@@ -356,7 +356,7 @@ router.get('/info', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/posts/{post_id}:
+ *   /boards/posts:
  *     get:
  *       summary: "게시글 가져오기"
  *       description: "게시글 내용을 보여준다."
