@@ -1445,7 +1445,9 @@ router.post('/posts/upload', function (req, res, next) {
                 cb(null, dir_path + "/");
             },
             filename: (req, file, cb) => {
+                console.log('file.originalname')
                 fn = file.originalname.toString('utf8');
+                console.log('fn')
                 cb(null, `${fn}`);
         
             },
@@ -1494,12 +1496,14 @@ router.post('/posts/upload', function (req, res, next) {
  *             type: integer
  *           required: true
  *           description: 게시글 번호
+ *           example: 11
  *         - in: query
  *           name: fileName
  *           schema:
  *             type: string
  *             required: true
  *             description: 다운받으려는 파일 이름
+ *             example: 한국수어사전_2023_3.pdf
  *       tags: [Boards]
  *       responses:
  *         "200":
@@ -1560,6 +1564,7 @@ router.get('/posts/download', function (req, res, next) {
  *             type: integer
  *           required: true
  *           description: 게시글 번호
+ *           example: 11
  *       tags: [Boards]
  *       responses:
  *         "200":
