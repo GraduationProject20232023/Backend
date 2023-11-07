@@ -559,7 +559,7 @@ router.get('/info', function (req, res, next) {
  *                  properties: 
  *                    post_id: 
  *                      type: integer
- *                      example: 3
+ *                      example: 10
  *                    board_name: 
  *                      type: string
  *                      example: info
@@ -646,12 +646,12 @@ router.get('/posts', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /boards/comments/{post_id}:
+ *   /boards/comments?{post_id}:
  *     get:
  *       summary: "게시글의 댓글 목록 가져오기"
  *       description: "게시글 댓글을 보여준다."
  *       parameters:
- *         - in: path
+ *         - in: query
  *           name: post_id
  *           schema: 
  *             type: integer
@@ -668,7 +668,7 @@ router.get('/posts', function (req, res, next) {
  *                  properties: 
  *                    post_id: 
  *                      type: integer
- *                      example: 3
+ *                      example: 10
  *                      description: DB 상에서의 게시글 id
  *                    comment_id: 
  *                      type: integer
@@ -694,9 +694,9 @@ router.get('/posts', function (req, res, next) {
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
  */
-router.get('/comments/:post_id', function (req, res, next) {
-    if (req.params.post_id) {
-        post_id = req.params.post_id
+router.get('/comments', function (req, res, next) {
+    if (req.query.post_id) {
+        post_id = req.query.post_id
         dbConnection.query('SELECT * FROM comments WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
@@ -724,8 +724,11 @@ router.get('/comments/:post_id', function (req, res, next) {
                                 comment['body'] = data['body']
                                 comment['writer'] = rows[0]['username']
                                 comment['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                                //console.log(comment)
+                                //console.log(index)
+                                //console.log(rows.length)
                                 result.push(comment)
-                                if (index == rows.length) {
+                                if (index == (rows.length-1)) {
                                     res.status(200).send(result)
                                 }
                             }
@@ -1049,7 +1052,7 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
  *           name: post_id
  *           schema: 
  *             type: integer
- *             example: 5
+ *             example: 10
  *           required: true
  *           description: 게시물 번호- 댓글을 입력할 게시글의 번호
  *       requestBody:
