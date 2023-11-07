@@ -242,12 +242,30 @@ router.get('/hot3/info', function (req, res, next) {
  *                      title: 
  *                        type: string
  *                        example: 수화는 재밌다!
+ *                      body: 
+ *                        type: string
+ *                        example: 수화 너무 너무 재밌네요~~
+ *                      user_email: 
+ *                        type: string
+ *                        example: mjluckk2@gmail.com
  *                      views: 
  *                        type: integer
  *                        example: 7
  *                      comments: 
  *                        type: integer
  *                        example: 4
+ *                      created_at: 
+ *                        type: string
+ *                        example: "2023-11-05 13:04:31"
+ *                      hashtag:
+ *                        type: array
+ *                        items: 
+ *                          type: string
+ *                          example: 재미, 동아리
+ *                      writer: 
+ *                         type: string
+ *                         example: 루이테스트 
+ *                         description: 글쓴이 닉네임
  *         "404": 
  *            description: 게시글이 존재하지 않음.
  *         "500": 
@@ -255,33 +273,105 @@ router.get('/hot3/info', function (req, res, next) {
  * 
  */
 router.get('/free', function (req, res, next) {
-    dbConnection.query('SELECT * FROM posts WHERE board_name= ? ORDER BY created_at DESC', 'free', (error, rows) => {
-        if (error) {
-            res.status(500).send('DB Error: 로그 확인해주세요.'); 
-            logger.log('error', error);
+    let func2 = function(user_email) {
+        return new Promise(resolve => {
+            dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    //console.log(rows[0]['username'])
+                    resolve(rows[0]['username']) 
+                }
+            })
+        })
+        
+    }
+
+    let func4 = function() {
+        var result = []
+
+        return new Promise (resolve => {
+            dbConnection.query('SELECT * FROM posts WHERE board_name= ? ORDER BY created_at DESC', 'free', (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    if (!rows.length) {
+                        res.status(404).send('게시글이 존재하지 않음.')
+                    }
+                    else {
+                        //result = []
+                        for (var data of rows) {
+                            item = {}
+                            //result = {}
+                            //console.log(data)
+                            var user_email = data['user_email']
+        
+                            item['board_name'] = data['board_name']
+                            item['post_id'] = data['post_id']
+                            item['title'] = data['title']
+                            item['body'] = data['body']
+                            item['user_email'] = data['user_email']
+                            item['views'] = data['views']
+                            item['comments'] = data['comments']
+                            item['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                            if (data['hashtag']) {
+                                item['hashtag'] = data['hashtag'].split(', ')
+                            }
+                            else {
+                                item['hashtag'] = []
+                            }
+                            
+                            result.push(item)
+                        }
+                        resolve(result)
+                    }
+                    //console.log(rows)
+                }
+            })
+        })
+    }
+
+    //console.log('item1: ', item)
+    // item['writer'] = func2(data['user_email'], function(x) {
+    //     return(x)
+    // })
+    // console.log('item[writer]: ', func2(data['user_email'], function(x) {
+    //     return(x)
+    // }))
+    let test3 = async function() {
+        let return_result = func4()
+
+        result = []
+        for (var data of await return_result) {
+            let writer = func2(data['user_email'])
+
+            data['writer'] = await writer
+
+            result.push(data)
+        }
+
+        if (! result.length) {
+            res.status(404).send('검색 결과 없음!')
         }
         else {
-            if (!rows.length) {
-                res.status(404).send('게시글이 존재하지 않음.')
-            }
-            else {
-                result = []
-                for (var data of rows) {
-                    item = {}
-                    item['board'] = data['board_name']
-                    item['post_id'] = data['post_id']
-                    item['title'] = data['title']
-                    item['body'] = data['body']
-                    item['views'] = data['views']
-                    item['comments'] = data['comments']
-                    item['created_at'] = data['created_at']
-                    result.push(item)
-                }
-
-                res.status(200).send(result)
-            }
-            //console.log(rows)
+            res.status(200).send(result)
         }
+        //console.log(data['user_email'])
+        // item['writer'] = await func2(data['user_email']);
+        // result.push(item)
+        // console.log('item2: ', item)
+        //console.log(item['writer'])
+    }
+    (async () => {
+        let aa = await test3();
+        
+        // result.push(item)
+        //console.log(item)
+        
     })
 });
 // 작성된 시간 역순으로 리스트 보여주기 -정보게
@@ -312,12 +402,30 @@ router.get('/free', function (req, res, next) {
  *                      title: 
  *                        type: string
  *                        example: 2023년 수화 시험 일정
+ *                      body: 
+ *                        type: string
+ *                        example: 2023.11.8 수화 검정 시험 예정되어있습니다.
+ *                      user_email: 
+ *                        type: string
+ *                        example: mjluckk2@gmail.com
  *                      views: 
  *                        type: integer
  *                        example: 7
  *                      comments: 
  *                        type: integer
  *                        example: 4
+ *                      created_at: 
+ *                        type: string
+ *                        example: "2023-11-05 13:04:31"
+ *                      hashtag:
+ *                        type: array
+ *                        items: 
+ *                          type: string
+ *                          example: 재미, 동아리
+ *                      writer: 
+ *                         type: string
+ *                         example: 루이테스트 
+ *                         description: 글쓴이 닉네임
  *         "404": 
  *            description: 게시글이 존재하지 않음.
  *         "500": 
@@ -325,33 +433,106 @@ router.get('/free', function (req, res, next) {
  * 
  */
 router.get('/info', function (req, res, next) {
-    dbConnection.query('SELECT * FROM posts WHERE board_name= ? ORDER BY created_at DESC', 'info', (error, rows) => {
-        if (error) {
-            res.status(500).send('DB Error: 로그 확인해주세요.'); 
-            logger.log('error', error);
+    let func2 = function(user_email) {
+        return new Promise(resolve => {
+            dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    //console.log(rows[0]['username'])
+                    resolve(rows[0]['username']) 
+                }
+            })
+        })
+        
+    }
+
+    let func4 = function() {
+        var result = []
+
+        return new Promise (resolve => {
+            dbConnection.query('SELECT * FROM posts WHERE board_name= ? ORDER BY created_at DESC', 'info', (error, rows) => {
+                if (error) {
+                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                    logger.log('error', error);
+                }
+                else {
+                    if (!rows.length) {
+                        res.status(404).send('게시글이 존재하지 않음.')
+                    }
+                    else {
+                        //result = []
+                        for (var data of rows) {
+                            item = {}
+                            //result = {}
+                            //console.log(data)
+                            var user_email = data['user_email']
+        
+                            item['board_name'] = data['board_name']
+                            item['post_id'] = data['post_id']
+                            item['title'] = data['title']
+                            item['body'] = data['body']
+                            item['user_email'] = data['user_email']
+                            item['views'] = data['views']
+                            item['comments'] = data['comments']
+                            item['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
+                            if (data['hashtag']) {
+                                item['hashtag'] = data['hashtag'].split(', ')
+                            }
+                            else {
+                                item['hashtag'] = []
+                            }
+                            
+                            result.push(item)
+                        }
+                        resolve(result)
+                    }
+                    //console.log(rows)
+                }
+            })
+        })
+    }
+
+    //console.log('item1: ', item)
+    // item['writer'] = func2(data['user_email'], function(x) {
+    //     return(x)
+    // })
+    // console.log('item[writer]: ', func2(data['user_email'], function(x) {
+    //     return(x)
+    // }))
+    let test3 = async function() {
+        let return_result = func4()
+
+        result = []
+        for (var data of await return_result) {
+            let writer = func2(data['user_email'])
+
+            data['writer'] = await writer
+
+            result.push(data)
+        }
+
+        if (! result.length) {
+            res.status(404).send('검색 결과 없음!')
         }
         else {
-            if (!rows.length) {
-                res.status(404).send('게시글이 존재하지 않음.')
-            }
-            else {
-                result = []
-                for (var data of rows) {
-                    item = {}
-                    item['board'] = data['board_name']
-                    item['post_id'] = data['post_id']
-                    item['title'] = data['title']
-                    item['views'] = data['views']
-                    item['comments'] = data['comments']
-                    item['created_at'] = data['created_at']
-                    result.push(item)
-                }
-
-                res.status(200).send(result)
-            }
-            //console.log(rows)
+            res.status(200).send(result)
         }
-    }) 
+        //console.log(data['user_email'])
+        // item['writer'] = await func2(data['user_email']);
+        // result.push(item)
+        // console.log('item2: ', item)
+        //console.log(item['writer'])
+    }
+    (async () => {
+        let aa = await test3();
+        
+        // result.push(item)
+        //console.log(item)
+        
+    })
 });
 /**
  * @swagger
@@ -399,7 +580,9 @@ router.get('/info', function (req, res, next) {
  *                      example: 2023-09-28 14:29:47
  *                    hashtag:
  *                      type: array
- *                      exmaple: ["재미", "동아리"]
+ *                      items: 
+ *                        type: string
+ *                        example: 재미, 동아리
  *         "404": 
  *            description: 입력된 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
  *         "412": 
@@ -859,8 +1042,8 @@ router.post('/posts/revise/:post_id', function (req, res, next) {
  * paths:
  *   /boards/comments/write/{post_id}:
  *     post:
- *       summary: "게시글 작성하기"
- *       description: "새 게시글을 저장한다."
+ *       summary: "댓글 작성하기"
+ *       description: "새 댓글을 저장한다."
  *       parameters:
  *         - in: path
  *           name: post_id
@@ -1344,5 +1527,61 @@ router.get('/posts/download', function (req, res, next) {
 })
 
 
+ /**
+ * @swagger
+ * paths:
+ *   /boards/posts/files?{post_id}:
+ *     get:
+ *       summary: "첨부파일 목록"
+ *       description: "게시글의 첨부파일 목록을 보여준다. "
+ *       parameters:     
+ *         - in: query
+ *           name: post_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: 게시글 번호
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *            description: 첨부파일 목록 보여주기 성공
+ *            example: ["1_space.mp4", "2_space.mp4"]
+ *         "401":       
+ *           description: 해당 게시글의 첨부파일 없음
+ *         "402":       
+ *           description: file read 오류
+ *         "417":
+ *           description:  파라미터 입력 오류-req.query.post_id입력 필요.
+ *         
+ */
+ router.get('/posts/files', function (req, res, next) {
+    if (req.query.post_id) {
+        const post_id = req.query.post_id
+        
+        if (!fs.existsSync('../Backend/board_files/'+post_id)) {
+            res.status(401).send('해당 게시글의 첨부파일 없음.')
+        }
+        else {
+            file_list = []
+            fs.readdir('../Backend/board_files/'+post_id, (err, files) => {
 
+                if (err) {
+                    res.status(402).send('file read 오류')
+                }
+                files.forEach(file => {
+                    file_list.push(file)
+                })
+
+                res.status(200).send(file_list)
+            })
+        }
+        
+    }
+    else {
+        logger.log('error', '파라미터 오류')
+        res.status(417).send('파라미터 입력 오류1: req.query.post_id와 req.query.fileName 입력 필요')
+    }
+    
+
+})
 module.exports = router;
