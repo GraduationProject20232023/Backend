@@ -547,6 +547,7 @@ router.get('/info', function (req, res, next) {
  *           schema: 
  *             type: integer
  *           required: true
+ *           example: 10
  *           description: 게시글 번호 
  *       tags: [Boards]
  *       responses:
@@ -615,6 +616,9 @@ router.get('/posts', function (req, res, next) {
                                 logger.log('error', error);
                             }
                             else {
+
+
+
                                 result['post_id'] = data['post_id']
                                 result['board_name'] = data['board_name']
                                 result['title'] = data['title']
@@ -628,8 +632,20 @@ router.get('/posts', function (req, res, next) {
                                 else {
                                     result['hashtag'] = []
                                 }
-                                
-                                res.status(200).send(result)
+                                //console.log(data['post_id'])
+                                dbConnection.query('UPDATE posts SET views = views +1 WHERE post_id = ? ', data['post_id'], (error, rows) => {
+                                    if (error) {
+                                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                        logger.log('error', error);
+                                    }
+                                    else {
+                                        //console.log('update 성공')
+                                        res.status(200).send(result)
+                                        //res.status(200).send('댓글 저장 성공!')
+                                        //logger.log('info', '댓글 저장 성공!')
+                                    }
+                                })
+
                             }
                         })
                     }
