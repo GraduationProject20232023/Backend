@@ -158,8 +158,6 @@ router.get('/main', function (req, res, next) {
  *                      imageLink:
  *                        type: array
  *                        example: ["http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20230404/1133072/PIC000361272_700X466.jpg"]
- *         "404":       
- *           description: 검색 결과 없음.
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
@@ -263,7 +261,13 @@ router.get('/search/:meaning', function(req, res, next) {
         }
         
         if (! result.length) {
-            res.status(404).send('검색 결과 없음!')
+            final= {}
+            final['isSuccess'] = true,
+            final['code'] = 1000,
+            final['message'] = '성공'
+            final['result'] = []
+            res.status(200).send(final)
+            //res.status(404).send('검색 결과 없음!')
         }
         else {
             res.status(200).send(result)
@@ -545,8 +549,6 @@ router.get('/list', function(req, res, next) {
  *                    words:
  *                      type: array 
  *                      example: [{"videoLink": "http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/733290/MOV000255759_700X466.webm","meaning": "위인","section": "인간","id": 0},]
- *         "400":
- *           description: 잘못된 섹션명. 해당 섹션명은 존재하지 않음!
  *         "500":       
  *           description: MySQL DB 오류. 자세한 오류 내용을 로그 확인
  */
@@ -578,8 +580,15 @@ router.get('/list', function(req, res, next) {
         result['words'] = words
         //console.log(result['words'].length)
         if (! result['words'].length) {
-            res.status(400).send('잘못된 섹션명: 해당 섹션명은 존재하지 않음!')
-            logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
+            final= {}
+            final['isSuccess'] = true,
+            final['code'] = 1000,
+            final['message'] = '성공'
+            final['result'] = []
+            res.status(200).send(final)
+            //res.status(404).send('검색 결과 없음!')
+            // res.status(400).send('잘못된 섹션명: 해당 섹션명은 존재하지 않음!')
+            // logger.log('error', '잘못된 섹션명: 해당 섹션명은 존재하지 않음.')
         }
         else {
             res.status(200).send(result)

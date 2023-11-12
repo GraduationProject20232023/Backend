@@ -842,3 +842,13 @@
 2023-11-08 02:31:12 info: Server listening from port 3000
 2023-11-08 02:31:44 info: Server listening from port 3000
 2023-11-08 02:36:45 info: Server listening from port 3000
+2023-11-12 11:59:33 info: Server listening from port 3000
+2023-11-12 11:59:56 info: <=== /dictionary/search/우정 실행 ===>
+2023-11-12 11:59:56 info: func1 시작
+2023-11-12 11:59:56 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-12 12:00:01 info: <=== /dictionary/search/우정 실행 ===>
+2023-11-12 12:00:01 info: func1 시작
+2023-11-12 12:00:01 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-12 12:00:09 info: <=== /dictionary/search/우정이 실행 ===>
+2023-11-12 12:00:09 info: func1 시작
+2023-11-12 12:00:09 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
