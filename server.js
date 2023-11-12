@@ -43,6 +43,7 @@ var friendRouter = require('./routers/friend.js')
 var logRouter = require('./routers/logs')
 var mypageRouter = require('./routers/mypage')
 var gameRouter = require('./routers/game')
+var aiRouter = require('./routers/ai.js')
 app.use('/', indexRouter);
 /**
  * @swagger
@@ -91,6 +92,7 @@ app.use('/games', gameRouter);
 //     console.log("Server started on port 3000");
 // });
 
+app.use('/ai', aiRouter)
 
 console.log(Date.now())
 

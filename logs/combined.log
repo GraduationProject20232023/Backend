@@ -852,3 +852,80 @@
 2023-11-12 12:00:09 info: <=== /dictionary/search/우정이 실행 ===>
 2023-11-12 12:00:09 info: func1 시작
 2023-11-12 12:00:09 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-12 18:41:49 info: Server listening from port 3000
+2023-11-12 18:41:56 info: 로그인 함수 실행
+2023-11-12 18:41:56 info: 로그인 성공
+2023-11-12 18:41:56 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:43:16 info: Server listening from port 3000
+2023-11-12 18:43:17 info: 로그인 함수 실행
+2023-11-12 18:43:18 info: 로그인 성공
+2023-11-12 18:43:18 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:43:50 info: Server listening from port 3000
+2023-11-12 18:43:52 error: 로그인하지 않았음!
+2023-11-12 18:43:55 info: 로그인 함수 실행
+2023-11-12 18:43:55 info: 로그인 성공
+2023-11-12 18:43:55 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:49:55 info: Server listening from port 3000
+2023-11-12 18:49:56 info: 로그인 함수 실행
+2023-11-12 18:49:56 info: 로그인 성공
+2023-11-12 18:49:56 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:50:09 info: Server listening from port 3000
+2023-11-12 18:53:21 info: Server listening from port 3000
+2023-11-12 18:53:24 info: 로그인 함수 실행
+2023-11-12 18:53:24 info: 로그인 성공
+2023-11-12 18:53:24 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:53:47 info: Server listening from port 3000
+2023-11-12 18:53:49 error: 로그인하지 않았음!
+2023-11-12 18:53:51 info: 로그인 함수 실행
+2023-11-12 18:53:52 info: 로그인 성공
+2023-11-12 18:53:52 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:54:26 info: Server listening from port 3000
+2023-11-12 18:54:30 info: 로그인 함수 실행
+2023-11-12 18:54:30 info: 로그인 성공
+2023-11-12 18:54:30 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:54:50 info: Server listening from port 3000
+2023-11-12 18:54:53 info: 로그인 함수 실행
+2023-11-12 18:54:53 info: 로그인 성공
+2023-11-12 18:54:53 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:55:10 info: Server listening from port 3000
+2023-11-12 18:55:12 error: 로그인하지 않았음!
+2023-11-12 18:55:14 info: 로그인 함수 실행
+2023-11-12 18:55:14 info: 로그인 성공
+2023-11-12 18:55:14 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:55:41 info: Server listening from port 3000
+2023-11-12 18:55:44 info: 로그인 함수 실행
+2023-11-12 18:55:44 info: 로그인 성공
+2023-11-12 18:55:44 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 18:56:00 info: Server listening from port 3000
+2023-11-12 18:56:03 info: 로그인 함수 실행
+2023-11-12 18:56:03 info: 로그인 성공
+2023-11-12 18:56:03 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:05:06 info: Server listening from port 3000
+2023-11-12 19:05:10 info: 로그인 함수 실행
+2023-11-12 19:05:10 info: 로그인 성공
+2023-11-12 19:05:10 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:07:16 info: Server listening from port 3000
+2023-11-12 19:07:23 info: 로그인 함수 실행
+2023-11-12 19:07:23 info: 로그인 성공
+2023-11-12 19:07:23 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:08:02 info: Server listening from port 3000
+2023-11-12 19:08:04 error: 로그인하지 않았음!
+2023-11-12 19:08:06 info: 로그인 함수 실행
+2023-11-12 19:08:06 info: 로그인 성공
+2023-11-12 19:08:06 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:09:47 info: Server listening from port 3000
+2023-11-12 19:09:50 info: 로그인 함수 실행
+2023-11-12 19:09:50 info: 로그인 성공
+2023-11-12 19:09:50 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:12:08 info: Server listening from port 3000
+2023-11-12 19:12:30 info: 로그인 함수 실행
+2023-11-12 19:12:30 info: 로그인 성공
+2023-11-12 19:12:30 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:14:18 info: Server listening from port 3000
+2023-11-12 19:14:20 info: 로그인 함수 실행
+2023-11-12 19:14:20 info: 로그인 성공
+2023-11-12 19:14:20 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-12 19:15:24 info: Server listening from port 3000
+2023-11-12 19:15:26 info: 로그인 함수 실행
+2023-11-12 19:15:26 info: 로그인 성공
+2023-11-12 19:15:26 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
