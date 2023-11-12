@@ -13,156 +13,95 @@ router.get('/', function(req, res, next) {
     res.send('Game Index Page: Success!')
 });
 
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        on = file.originalname.toString('utf8');
-        console.log('on: ', on)
-        file_name = on.split("_")
-        game_id = file_name[0]
-        question_id = file_name[1]
-        dir_path = '../Backend/game_videos/' + game_id
-        if (! fs.existsSync(dir_path)) {
-            try{
-                fs.mkdirSync(dir_path);
-            }
-            catch(e) {
-                res.status(402).send('폴더 생성 오류')
-            }
-            
-        }
-        cb(null, dir_path);
-    },
-    filename: (req, file, cb) => {
-        on = file.originalname.toString('utf8');
-        question_id = file_name[1]
-        cb(null, `${question_id}`);
-        //cb(null, question_id);
-    },
-    fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        if (ext !== ".mp4") {
-            return cb(res.status(400).end("only mp4 is allowed"), false);
-        }
-        cb(null, true);
-    },
-});
-
-    
-const upload = multer({storage: storage}).single("file");
- /**
- * @swagger
- * paths:
- *   /games/uploadvideos:
- *     post:
- *       summary: "게임 영상 서버에 전송"
- *       description: "사용자가 촬영한 게임 영상을 서버에 전송함"
- *       requestBody:
- *         required: True
- *         content:
- *           multipart/form-data:
- *             schema: 
- *               type: object
- *               properties:
- *                 file: 
- *                   type: string
- *                   format: binary
- *         description: 스웨거에서는 영문이름 파일만 정상작동함. 포스트맨은 한글이름 파일도 상관 없음. 
- *       tags: [Games]
- *       responses:
- *         "200":
- *            description: 요청 성공
- *            content: 
- *              application/json:
- *                schema:
- *                  type: object
- *                  properties:
- *                    success:
- *                      type: boolean
- *                      example: true
- *                    url:
- *                      type: string 
- *                      example: "..\\Backend\\board_files\\1\\우주.mp4"
- *                    fileName:
- *                      type: string
- *                      example: "space.mp4"
- * 
- *         "400":
- *           description: 요청 실패
- *           content: 
- *             application/json:
- *               schema: 
- *                 type: object
- *                 properties:
- *                   success:
- *                     type: boolean
- *                     example: false
- *                   err: 
- *                     type: err
- *         
- */
-router.post("/uploadvideos", (req, res) => {
-    
-    
-    upload(req, res, (err) => {
-        if (err) {
-            return res.status(400).json({success: false, err});
-
-        }
-        else {
-            return res.status(200).json({
-                success: true,
-                url: res.req.file.path,
-                fileName: res.req.file.filename,
-            })
-        }
-
-
-        
-    })
-})
-
-// router.post("/uploadvideos", (req, res) => {
-//     //console.log(req.file)
-//     const game_id = req.query.game_id
-//     dir_path = '../Backend/game_videos/' + game_id
-//     if (! fs.existsSync(dir_path)) {
-//         try{
-//             fs.mkdirSync(dir_path);
-//         }
-//         catch(e) {
-//             res.status(402).send('폴더 생성 오류')
-//         }
-//         //console.log(dir_path, ' exists.')
-//     }
-    
-//     //console.log('game_id: ', game_id)
-//     //console.log('question_id: ', question_id)
-    
-//     let storage = multer.diskStorage({
-//         destination: (req, file, cb) => {
-//             cb(null, dir_path + "/");
-//         },
-//         filename: (req, file, cb) => {
-//             on = file.originalname.toString('utf8');
-//             console.log('on: ', on)
-//             file_name = on.split("_")
-//             console.log(file_name)
-//             //game_id = file_name[0]
-//             question_id = file_name[1]
-//             //cb(null, `${on}`);
-//             cb(null, question_id);
-//         },
-//         fileFilter: (req, file, cb) => {
-//             const ext = path.extname(file.originalname);
-//             if (ext !== ".mp4") {
-//                 return cb(res.status(400).end("only mp4 is allowed"), false);
+// let storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         on = file.originalname.toString('utf8');
+//         console.log('on: ', on)
+//         file_name = on.split("_")
+//         game_id = file_name[0]
+//         question_id = file_name[1]
+//         dir_path = '../Backend/game_videos/' + game_id
+//         if (! fs.existsSync(dir_path)) {
+//             try{
+//                 fs.mkdirSync(dir_path);
 //             }
-//             cb(null, true);
-//         },
-//     });
+//             catch(e) {
+//                 res.status(402).send('폴더 생성 오류')
+//             }
+            
+//         }
+//         cb(null, dir_path);
+//     },
+//     filename: (req, file, cb) => {
+//         on = file.originalname.toString('utf8');
+//         question_id = file_name[1]
+//         cb(null, `${question_id}`);
+//         //cb(null, question_id);
+//     },
+//     fileFilter: (req, file, cb) => {
+//         const ext = path.extname(file.originalname);
+//         if (ext !== ".mp4") {
+//             return cb(res.status(400).end("only mp4 is allowed"), false);
+//         }
+//         cb(null, true);
+//     },
+// });
 
-        
-//     const upload = multer({storage: storage}).single("file");
+    
+// const upload = multer({storage: storage}).single("file");
+//  /**
+//  * @swagger
+//  * paths:
+//  *   /games/uploadvideos:
+//  *     post:
+//  *       summary: "게임 영상 서버에 전송"
+//  *       description: "사용자가 촬영한 게임 영상을 서버에 전송함"
+//  *       requestBody:
+//  *         required: True
+//  *         content:
+//  *           multipart/form-data:
+//  *             schema: 
+//  *               type: object
+//  *               properties:
+//  *                 file: 
+//  *                   type: string
+//  *                   format: binary
+//  *         description: 스웨거에서는 영문이름 파일만 정상작동함. 포스트맨은 한글이름 파일도 상관 없음. 
+//  *       tags: [Games]
+//  *       responses:
+//  *         "200":
+//  *            description: 요청 성공
+//  *            content: 
+//  *              application/json:
+//  *                schema:
+//  *                  type: object
+//  *                  properties:
+//  *                    success:
+//  *                      type: boolean
+//  *                      example: true
+//  *                    url:
+//  *                      type: string 
+//  *                      example: "..\\Backend\\board_files\\1\\우주.mp4"
+//  *                    fileName:
+//  *                      type: string
+//  *                      example: "space.mp4"
+//  * 
+//  *         "400":
+//  *           description: 요청 실패
+//  *           content: 
+//  *             application/json:
+//  *               schema: 
+//  *                 type: object
+//  *                 properties:
+//  *                   success:
+//  *                     type: boolean
+//  *                     example: false
+//  *                   err: 
+//  *                     type: err
+//  *         
+//  */
+// router.post("/uploadvideos", (req, res) => {
+    
     
 //     upload(req, res, (err) => {
 //         if (err) {
@@ -170,8 +109,6 @@ router.post("/uploadvideos", (req, res) => {
 
 //         }
 //         else {
-            
-
 //             return res.status(200).json({
 //                 success: true,
 //                 url: res.req.file.path,
@@ -183,6 +120,84 @@ router.post("/uploadvideos", (req, res) => {
         
 //     })
 // })
+
+router.post("/uploadvideos", (req, res) => {
+    //console.log(req.file)
+    // const game_id = req.query.game_id
+    // dir_path = '../Backend/game_videos/' + game_id
+    // if (! fs.existsSync(dir_path)) {
+    //     try{
+    //         fs.mkdirSync(dir_path);
+    //     }
+    //     catch(e) {
+    //         res.status(402).send('폴더 생성 오류')
+    //     }
+    //     //console.log(dir_path, ' exists.')
+    // }
+    
+    //console.log('game_id: ', game_id)
+    //console.log('question_id: ', question_id)
+    
+    let storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            on = file.originalname.toString('utf8');
+            file_name = on.split("_")
+            game_id = file_name[0]
+            dir_path = '../Backend/game_videos/' + game_id
+            if (! fs.existsSync(dir_path)) {
+                try{
+                    fs.mkdirSync(dir_path);
+                }
+                catch(e) {
+                    res.status(402).send('폴더 생성 오류')
+                }
+                //console.log(dir_path, ' exists.')
+            }
+            
+
+            cb(null, dir_path + "/");
+        },
+        filename: (req, file, cb) => {
+            on = file.originalname.toString('utf8');
+            // console.log('on: ', on)
+            file_name = on.split("_")
+            // console.log(file_name)
+            game_id = file_name[0]
+            question_id = file_name[1]
+            //cb(null, `${on}`);
+            cb(null, question_id);
+        },
+        fileFilter: (req, file, cb) => {
+            const ext = path.extname(file.originalname);
+            if (ext !== ".mp4") {
+                return cb(res.status(400).end("only mp4 is allowed"), false);
+            }
+            cb(null, true);
+        },
+    });
+
+        
+    const upload = multer({storage: storage}).single("file");
+    
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({success: false, err});
+
+        }
+        else {
+            
+
+            return res.status(200).json({
+                success: true,
+                url: res.req.file.path,
+                fileName: res.req.file.filename,
+            })
+        }
+
+
+        
+    })
+})
 
  /**
  * @swagger

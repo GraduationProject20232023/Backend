@@ -1159,3 +1159,7 @@
 2023-11-13 00:36:26 info: Server listening from port 3000
 2023-11-13 00:36:57 info: Server listening from port 3000
 2023-11-13 00:38:08 info: Server listening from port 3000
+2023-11-13 00:44:50 info: Server listening from port 3000
+2023-11-13 00:45:54 error: ER_NO_REFERENCED_ROW_2: Cannot add or update a child row: a foreign key constraint fails (`handy`.`game_results`, CONSTRAINT `game_results_ibfk_1` FOREIGN KEY (`game_category`) REFERENCES `game_questions` (`game_category`))
+2023-11-13 00:51:36 info: Server listening from port 3000
+2023-11-13 00:56:56 info: Server listening from port 3000
