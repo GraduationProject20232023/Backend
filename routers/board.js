@@ -760,21 +760,55 @@ router.get('/comments', function (req, res, next) {
             res.status(412).send('파라미터 입력 오류!')
     }
 });
+var fs = require('fs');
+
+
+var filename = "./AI/NLP/input_text2.txt"
+
+
+
+let writeContext = function(body) {
+    return new Promise(resolve => {
+        fs.appendFile(filename, '\n'+ body, function(err) {
+            if(err) {
+                return console.log(err)
+            }
+            else {
+                console.log('file modified.')
+                resolve("success")
+            }
+        })
+
+        
+    })
+}
+
+let writeTitle = function(title) {
+    return new Promise(resolve => {
+        fs.writeFile(filename, title, function(err) {
+            if(err) {
+                return console.log(err)
+            }
+            else {
+                console.log('file saved.')
+                resolve("success")
+            }
+        })
+
+        
+    })
+}
+
+
+
+
 /**
  * @swagger
  * paths:
- *   /boards/posts/write/{board_name}:
+ *   /boards/posts/write:
  *     post:
  *       summary: "게시글 작성하기"
  *       description: "새 게시글을 저장한다."
- *       parameters:
- *         - in: path
- *           name: board_name
- *           schema: 
- *             type: string
- *             example: free
- *           required: true
- *           description: 게시판 이름- free(자유)와 info(정보) 중 하나 입력
  *       requestBody:
  *         required: True
  *         content: 
@@ -802,49 +836,83 @@ router.get('/comments', function (req, res, next) {
  *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
  *         "412": 
  *            description: 파라미터 입력 오류1 -> req.body.title과 req.body.body 입력 필요.
- *         "417": 
- *            description: 파라미터 입력 오류1-> board_name은 free와 info 중 하나로 입력해야 함
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
  */
-router.post('/posts/write/:board_name', function (req, res, next) {
+router.post('/posts/write', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
-        if (req.params.board_name) {
-            board = req.params.board_name  //free와 info 중 하나
-            if (req.body.title && req.body.body) {
-                title = req.body.title
-                body = req.body.body
-                if (req.body.hashtag) {
-                    hashtag = req.body.hashtag
-                }
-                else {
-                    hashtag = null
-                }
-                ins = [board, title, body, writer, hashtag]
-                //tags = hashtag.split(',')
+        if (req.body.title && req.body.body) {
                 
-                dbConnection.query('INSERT INTO posts (`board_name`, `title`, `body`, `user_email`, `hashtag`) VALUES (?, ?, ?, ?, ?)', ins, (error, rows) => {
-                    if (error) {
-                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                        logger.log('error', error);
+            title = req.body.title
+            body = req.body.body
+            context = title + body
+            console.log("==============")
+            //f = open('../input_file/input_file.txt', 'w')
+            
+            let makeFile = async function() {
+                const { spawn } = require('child_process');
+                const python = spawn('python', ['./AI/NLP/notice_board_test_code.py'])
+
+                let result1 = writeTitle(title)
+                if (await result1 == "success") {
+                    let result2 = writeContext(body) 
+                    if (await result2 == "success") {
+                        if (req.body.hashtag) {
+                            hashtag = req.body.hashtag
+                        }
+                        else {
+                            hashtag = null
+                        }
+
+
+                        python.stdout.on('data', (data) => {
+                            
+                            let json = JSON.stringify(data)
+                            let bufferOriginal = Buffer.from(JSON.parse(json).data);
+                            let decision = bufferOriginal.toString().replace(/(\r\n|\n|\r)/gm, "")
+                            console.log('bufferOriginal: '+ decision)
+                            
+                            if (decision == "Free Noticeboard") {
+                                
+                                board = 'free' 
+ 
+                            }
+                            else if (decision == "Information Noticeboard") {
+
+                                board = 'info'
+                            
+                            }
+
+                            ins = [board, title, body, writer, hashtag]
+
+                                dbConnection.query('INSERT INTO posts (`board_name`, `title`, `body`, `user_email`, `hashtag`) VALUES (?, ?, ?, ?, ?)', ins, (error, rows) => {
+                                    if (error) {
+                                        res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                        logger.log('error', error);
+                                    }
+                                    else {
+                                        res.status(200).send('새 게시글 저장 성공!')
+                                        logger.log('info', '새 게시글 저장 성공!')
+                                    }
+                                })
+
+                        })
+                        
                     }
-                    else {
-                        res.status(200).send('새 게시글 저장 성공!')
-                        logger.log('info', '새 게시글 저장 성공!')
-                    }
-                })
+                }
             }
-            else {
-                logger.log('error', '파라미터 오류')
-                res.status(412).send('파라미터 입력 오류2: req.body.title과 req.body.body 입력 필요.')
-            }
+            
+            (async () => {
+                let start = await makeFile()
+            })
+
             
         }
         else {
             logger.log('error', '파라미터 오류')
-            res.status(417).send('파라미터 입력 오류1: board_name은 free와 info 중 하나로 입력해야 함.')
+            res.status(412).send('파라미터 입력 오류2: req.body.title과 req.body.body 입력 필요.')
         }
     }
     else {
