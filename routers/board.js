@@ -3,7 +3,8 @@ var router = express.Router();
 const dbConnection = require('../config/database');
 const logger = require('../config/winston')
 const multer = require("multer");
-var fs = require('fs');
+const fs = require('fs');
+const path = require("path");
 //var seedrandom = require('seedrandom')
 
 /* GET home page. */
@@ -760,7 +761,7 @@ router.get('/comments', function (req, res, next) {
             res.status(412).send('파라미터 입력 오류!')
     }
 });
-var fs = require('fs');
+
 
 
 var filename = "./AI/NLP/input_text2.txt"
@@ -1679,4 +1680,79 @@ router.get('/posts/download', function (req, res, next) {
     
 
 })
+ /**
+ * @swagger
+ * paths:
+ *   /boards/notice/7:
+ *     get:
+ *       summary: "실시간 공고"
+ *       description: "가장 최근 7개의 실시간 공고들을 보여준다. "
+ *       tags: [Boards]
+ *       responses:
+ *         "200":
+ *           description: 요청 성공
+ *           content: 
+ *             application/json:
+ *               schema: 
+ *                 type: array
+ *                 items:
+ *                  type: object
+ *                  properties: 
+ *                    title: 
+ *                      type: string
+ *                      example: 2023년 제2차 한국수어교원 자격 부여(개인 자격 심사) 계획 공고
+ *                    qualification:
+ *                      type: string
+ *                      example: 개인
+ *                      description: 없으면 - 으로 나옴.(한국수어교원 홈페이지처럼)
+ *                    period: 
+ *                      type: string
+ *                      example: 2023/09/07 ~ 2023/11/17
+ *                      description: 없으면 - 으로 나옴.(한국수어교원 홈페이지처럼)
+ *         "400":
+ *           description: 요청 실패
+ *           content: 
+ *             application/json:
+ *               schema: 
+ *                 type: object
+ *                 properties:
+ *                   success:
+ *                     type: boolean
+ *                     example: false
+ *                   error: 
+ *                     type: err
+ *         
+ */
+router.get('/notice/7', function (req, res, next) {
+    const file_path = '../Backend/notices.csv'
+    const csv = fs.readFileSync(file_path, "utf-8", )
+    const rows = csv.split('\r\n')
+    var result = []
+    for (var i = 1; i < 8; i++) {
+        list = rows[i].split(';')
+        title = list[0]
+        quali = list[1]
+        period = list[2]
+        
+        var row = [{
+            'title': title,
+            'qualification': quali,
+            'period': period
+
+        }]
+        
+        result = result.concat(row)
+    }
+    try {
+        res.status(200).send(result)
+    } catch (error) {
+        var result = {
+            'success': false,
+            'error': error,
+        }
+        res.status(400).send(result)
+    }
+    
+})
+
 module.exports = router;
