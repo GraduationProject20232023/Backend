@@ -899,6 +899,9 @@ router.post('/posts/write', function (req, res, next) {
                                 })
 
                         })
+                        python.stderr.on('data', function(data) {
+                            res.send(data.toString)
+                        })
                         
                     }
                 }
