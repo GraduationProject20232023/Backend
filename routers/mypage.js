@@ -10,17 +10,10 @@ router.get('/', function(req, res, next) {
 /**
  * @swagger
  * paths:
- *   /mypage/user-info/{password}:
+ *   /mypage/user-info:
  *     get:
  *       summary: "사용자 정보 가져오기"
  *       description: "사용자의 정보(이메일, 닉네임, 계정 생성 시간)을 보여준다."
- *       parameters:
- *         - in: path
- *           name: password
- *           schema: 
- *             type: string
- *           required: true
- *           description: 계정 비밀번호
  *       tags: [Mypage]
  *       responses:
  *         "200":
@@ -341,18 +334,7 @@ router.get('/game-spec', function (req, res, next) {
                         }
                         item['quiz_questions'] = que_res
                         item['quiz_results'] = ans_res
-                        // item["1"] = data["1_"]
-                        // item["2"] = data["2_"]
-                        // item["3"] = data["3_"]
-                        // item["4"] = data["4_"]
-                        // item["5"] = data["5_"]
-                        // item["6"] = data["6_"]
-                        // item["7"] = data["7_"]
-                        // item["8"] = data["8_"]
-                        // item["9"] = data["9_"]
-                        // item["10"] = data["10_"]
-                        //item['created_at'] =  JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
-
+                       
                         result.push(item)
                     }
                     res.status(200).send(result.reverse())
