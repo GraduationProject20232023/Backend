@@ -92,7 +92,7 @@ label_map = {0: '기업_회사_사',
 
 class_name = label_map[most_common_class_index]
 
-print(class_name)
+print(class_name.replace('_', ', '))
 # print("===" + args.intended + "===")
 # print(type(class_name))
 # print(type(args.intended))

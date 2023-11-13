@@ -66,4 +66,4 @@ label_map = {0: '계단_층계',
             9: '화장실_변소'}
 
 class_name = label_map[predicted_class]
-print(class_name)
+print(class_name.replace('_', ', '))

@@ -1163,3 +1163,48 @@
 2023-11-13 00:45:54 error: ER_NO_REFERENCED_ROW_2: Cannot add or update a child row: a foreign key constraint fails (`handy`.`game_results`, CONSTRAINT `game_results_ibfk_1` FOREIGN KEY (`game_category`) REFERENCES `game_questions` (`game_category`))
 2023-11-13 00:51:36 info: Server listening from port 3000
 2023-11-13 00:56:56 info: Server listening from port 3000
+2023-11-13 01:01:39 info: Server listening from port 3000
+2023-11-13 01:02:28 info: Server listening from port 3000
+2023-11-13 01:13:03 info: <=== /dictionary/words/?1141 실행 ===>
+2023-11-13 01:13:35 info: <=== /dictionary/words/?1154 실행 ===>
+2023-11-13 01:14:07 info: <=== /dictionary/search/생활비 실행 ===>
+2023-11-13 01:14:07 info: func1 시작
+2023-11-13 01:14:07 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:18:35 info: <=== /dictionary/search/소득 실행 ===>
+2023-11-13 01:18:35 info: func1 시작
+2023-11-13 01:18:35 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:18:42 info: <=== /dictionary/search/신용 실행 ===>
+2023-11-13 01:18:42 info: func1 시작
+2023-11-13 01:18:42 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:18:49 info: <=== /dictionary/search/영수증 실행 ===>
+2023-11-13 01:18:49 info: func1 시작
+2023-11-13 01:18:49 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:19:00 info: <=== /dictionary/search/월급 실행 ===>
+2023-11-13 01:19:00 info: func1 시작
+2023-11-13 01:19:00 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:19:14 info: <=== /dictionary/search/일자리 실행 ===>
+2023-11-13 01:19:14 info: func1 시작
+2023-11-13 01:19:14 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:19:31 info: <=== /dictionary/search/지출 실행 ===>
+2023-11-13 01:19:31 info: func1 시작
+2023-11-13 01:19:31 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:19:37 info: <=== /dictionary/search/지폐 실행 ===>
+2023-11-13 01:19:37 info: func1 시작
+2023-11-13 01:19:37 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:19:48 info: <=== /dictionary/search/카드 실행 ===>
+2023-11-13 01:19:48 info: func1 시작
+2023-11-13 01:19:48 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:20:03 info: <=== /dictionary/search/가방 실행 ===>
+2023-11-13 01:20:03 info: func1 시작
+2023-11-13 01:20:03 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 01:20:13 info: <=== /dictionary/search/내복 실행 ===>
+2023-11-13 01:20:13 info: func1 시작
+2023-11-13 01:20:13 info: 로그인하지 않은 상태여서 검색 기록 저장되지 않음.
+2023-11-13 14:27:28 info: Server listening from port 3000
+2023-11-13 14:27:38 info: <=== /dictionary/main 실행 ===>
+2023-11-13 14:27:38 error: DB 오류: sections 테이블에서 섹션 검색하는 것에 실패함. MySQL 에러 => Error: connect ETIMEDOUT
+2023-11-13 14:28:15 info: Server listening from port 3000
+2023-11-13 14:40:28 info: Server listening from port 3000
+2023-11-13 14:40:33 info: <=== /dictionary/main 실행 ===>
+2023-11-13 14:40:55 info: Server listening from port 3000
+2023-11-13 14:41:05 info: <=== /dictionary/main 실행 ===>

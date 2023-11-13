@@ -70,5 +70,5 @@ label_map = {0: '가방_들다',
             9: '티셔츠_티'}
 
 class_name = label_map[most_common_class_index]
-print(class_name)
+print(class_name.replace('_', ', '))
 
