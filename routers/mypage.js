@@ -304,7 +304,7 @@ router.get('/game-records', function (req, res, next) {
  *         "403": 
  *            description: 게임 기록이 없음.
  *         "412": 
- *           description: '파라미터 오류: 쿼리 파라미터로 game_id 보내야함.
+ *           description: 파라미터 오류. 쿼리 파라미터로 game_id 보내야함.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -362,7 +362,7 @@ router.get('/game-spec', function (req, res, next) {
         })
         }   
         else {
-            res.status(412).send('파라미터 오류: 쿼리 파라미터로 game_id 보내야함. ')
+            res.status(412).send('파라미터 오류. 쿼리 파라미터로 game_id 보내야함. ')
         }
         
     }
