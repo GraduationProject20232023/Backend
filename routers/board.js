@@ -40,6 +40,9 @@ router.get('/', function(req, res, next) {
  *                      title: 
  *                        type: string
  *                        example: 2023년 수화 시험 일정
+ *                      body: 
+ *                        type: string
+ *                        exmaple: 3월 5일 예정
  *                      views: 
  *                        type: integer
  *                        example: 7
@@ -69,8 +72,9 @@ router.get('/hot3/both', function (req, res, next) {
                     item['boar_name'] = data['board_name']
                     item['post_id'] = data['post_id']
                     item['title'] = data['title']
+                    item['body'] = data['body']
                     item['views'] = data['views']
-                    item['comments'] = data['comments']
+                    //item['comments'] = data['comments']
                     result.push(item)
                 }
 
