@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
  *                        example: 2023년 수화 시험 일정
  *                      body: 
  *                        type: string
- *                        exmaple: 3월 5일 예정
+ *                        example: 3월 5일 예정
  *                      views: 
  *                        type: integer
  *                        example: 7
