@@ -1208,3 +1208,99 @@
 2023-11-13 14:40:33 info: <=== /dictionary/main 실행 ===>
 2023-11-13 14:40:55 info: Server listening from port 3000
 2023-11-13 14:41:05 info: <=== /dictionary/main 실행 ===>
+2023-11-13 14:48:09 info: Server listening from port 3000
+2023-11-13 14:51:49 info: 로그인 함수 실행
+2023-11-13 14:51:49 info: 로그인 성공
+2023-11-13 14:51:49 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 14:53:50 info: Server listening from port 3000
+2023-11-13 14:53:54 info: 로그인 함수 실행
+2023-11-13 14:53:54 info: 로그인 성공
+2023-11-13 14:53:54 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 14:56:02 info: Server listening from port 3000
+2023-11-13 14:56:08 info: 로그인 함수 실행
+2023-11-13 14:56:08 info: 로그인 성공
+2023-11-13 14:56:08 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 14:56:42 info: Server listening from port 3000
+2023-11-13 14:56:45 info: 로그인 함수 실행
+2023-11-13 14:56:45 info: 로그인 성공
+2023-11-13 14:56:45 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 14:57:18 info: Server listening from port 3000
+2023-11-13 14:57:29 info: 로그인 함수 실행
+2023-11-13 14:57:29 info: 로그인 성공
+2023-11-13 14:57:29 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 14:57:34 info: 새 게시글 저장 성공!
+2023-11-13 15:00:49 info: 새 게시글 저장 성공!
+2023-11-13 15:07:35 info: 새 게시글 저장 성공!
+2023-11-13 20:39:15 info: Server listening from port 3000
+2023-11-13 20:39:23 info: 로그인 함수 실행
+2023-11-13 20:39:23 info: 로그인 성공
+2023-11-13 20:39:23 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 20:39:29 info: 새 게시글 저장 성공!
+2023-11-13 23:04:00 info: Server listening from port 3000
+2023-11-13 23:04:29 info: 로그인 함수 실행
+2023-11-13 23:04:29 info: 로그인 성공
+2023-11-13 23:04:29 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 23:04:46 info: Server listening from port 3000
+2023-11-13 23:05:34 info: <=== /dictionary/main 실행 ===>
+2023-11-13 23:05:45 info: Server listening from port 3000
+2023-11-13 23:05:51 info: 로그인 함수 실행
+2023-11-13 23:05:51 info: 로그인 성공
+2023-11-13 23:05:51 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 23:05:54 info: <=== /dictionary/main 실행 ===>
+2023-11-13 23:23:16 info: Server listening from port 3000
+2023-11-13 23:23:23 info: 로그인 함수 실행
+2023-11-13 23:23:23 info: 로그인 성공
+2023-11-13 23:23:23 info: mjluckk2@gmail.com / 루이테스트 로그인 완료!
+2023-11-13 23:24:34 info: 성공적으로 닉네임을 수정함!
+2023-11-13 23:24:38 info: 로그인 함수 실행
+2023-11-13 23:24:38 info: 로그인 성공
+2023-11-13 23:26:13 info: Server listening from port 3000
+2023-11-13 23:26:16 info: 로그인 함수 실행
+2023-11-13 23:26:16 info: 로그인 성공
+2023-11-13 23:26:16 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-13 23:38:07 info: Server listening from port 3000
+2023-11-13 23:38:12 info: 로그인 함수 실행
+2023-11-13 23:38:12 info: 로그인 성공
+2023-11-13 23:38:12 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-13 23:39:47 info: Server listening from port 3000
+2023-11-13 23:40:12 info: 로그인 함수 실행
+2023-11-13 23:40:13 info: 로그인 성공
+2023-11-13 23:40:13 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-13 23:54:17 info: Server listening from port 3000
+2023-11-13 23:55:08 error: 로그인 상태가 아님
+2023-11-13 23:55:12 info: 로그인 함수 실행
+2023-11-13 23:55:12 info: 로그인 성공
+2023-11-13 23:55:12 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:02:19 info: Server listening from port 3000
+2023-11-14 00:02:34 info: 로그인 함수 실행
+2023-11-14 00:02:34 info: 로그인 성공
+2023-11-14 00:02:34 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:11:57 info: Server listening from port 3000
+2023-11-14 00:13:23 info: Server listening from port 3000
+2023-11-14 00:13:33 info: 로그인 함수 실행
+2023-11-14 00:13:33 info: 로그인 성공
+2023-11-14 00:13:33 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:13:35 info: 로그인 함수 실행
+2023-11-14 00:13:36 info: 로그인 성공
+2023-11-14 00:18:21 info: Server listening from port 3000
+2023-11-14 00:18:34 info: 로그인 함수 실행
+2023-11-14 00:18:34 info: 로그인 성공
+2023-11-14 00:18:34 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:18:35 info: 로그인 함수 실행
+2023-11-14 00:18:35 info: 로그인 성공
+2023-11-14 00:19:27 info: Server listening from port 3000
+2023-11-14 00:19:33 info: 로그인 함수 실행
+2023-11-14 00:19:33 info: 로그인 성공
+2023-11-14 00:19:33 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:19:35 info: 로그인 함수 실행
+2023-11-14 00:19:57 error: DB 오류: sections 테이블에서 섹션 검색하는 것에 실패함. MySQL 에러 => Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1
+2023-11-14 00:21:37 info: Server listening from port 3000
+2023-11-14 00:21:52 info: 로그인 함수 실행
+2023-11-14 00:21:52 info: 로그인 성공
+2023-11-14 00:21:52 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:21:55 info: 로그인 함수 실행
+2023-11-14 00:23:45 info: Server listening from port 3000
+2023-11-14 00:23:53 info: 로그인 함수 실행
+2023-11-14 00:23:53 info: 로그인 성공
+2023-11-14 00:23:53 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-14 00:23:55 info: 로그인 함수 실행

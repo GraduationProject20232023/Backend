@@ -142,7 +142,9 @@ router.post('/register', (req, res, next) => {
  *         "401":
  *            description: 비밀번호 틀림
  *         "402":
- *            description: 해당 email 계정이 존재하지 않습니다.          
+ *            description: 해당 email 계정이 존재하지 않습니다.
+ *         "405": 
+ *            description: 이미 로그인 되어있음.          
  *         "412":       
  *            description: 파라미터 오류. 정확한 파라미터 명과 개수 입력 필요
  *         "500":       
@@ -157,56 +159,59 @@ router.post("/login", (req, res) => {
         const param = [req.body.email, req.body.pw]
 
         if (req.session.useremail) {
-            // if the session is ongoing, destroy the session
-            req.session.destroy(error => {if(error) {
-                res.status(500).send('req.session.destroy error: 로그 확인해주세요.')
-                logger.log('error', error)
-            }
-            
+            //if the session is ongoing, destroy the session
+            // req.session.destroy(error => {if(error) {
+            //     res.status(500).send('req.session.destroy error: 로그 확인해주세요.')
+            //     logger.log('error', error)
+            // }
+            // })
+            res.status(405).send('이미 로그인 되어있음.')
+        }
+        else {
+            dbConnection.query('SELECT * FROM users WHERE user_email = ?', param[0], (err, row) => {
+                if(err)  logger.log('error', err)
+                console.log(row)
+                if(row.length >0) {
+                    bcrypt.compare(param[1], row[0].password_, (error, result) => {
+                        if (error) {
+                            res.status(500).send('brypt error: 로그 확인해주세요.')
+                            logger.log('error', error)
+                        }
+                        if (result) { // 성공
+                            //console.log('로그인 성공')
+                            logger.log('info', '로그인 성공')
+                            useremail = row[0]['user_email']
+                            username = row[0]['username']
+                            req.session.useremail = useremail
+                            req.session.username = username
+                            //logger.log('info', JSON.stringify(req.session.cookie))
+                            //console.log(req.session.cookie)
+                            req.session.save(error => {
+                                if(error) {
+                                    res.status(500).send('req.session.save error: 로그 확인해주세요.')
+                                    logger.log('error', error)
+                                }
+                            })
+                            logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
+                            //console.log(req.session.sessionID)
+                            res.status(200).send({"cookie": req.session.cookie, "username": req.session.username})
+                        }
+                        else { // 실패
+                            logger.log('error', '비밀번호 실패')
+                            //console.log('비밀번호 실패')
+                            res.status(401).send('비밀번호 입력 실패!')
+                        }
+                    }) 
+                }
+                else {
+                    //console.log('email이 존재하지 않습니다. ')
+                    logger.log('error', 'email이 존재하지 않습니다. ')
+                    res.status(402).send('email이 존재하지 않습니다!')
+                }
+        
             })
         }
-        dbConnection.query('SELECT * FROM users WHERE user_email = ?', param[0], (err, row) => {
-            if(err)  logger.log('error', err)
-            console.log(row)
-            if(row.length >0) {
-                bcrypt.compare(param[1], row[0].password_, (error, result) => {
-                    if (error) {
-                        res.status(500).send('brypt error: 로그 확인해주세요.')
-                        logger.log('error', error)
-                    }
-                    if (result) { // 성공
-                        //console.log('로그인 성공')
-                        logger.log('info', '로그인 성공')
-                        useremail = row[0]['user_email']
-                        username = row[0]['username']
-                        req.session.useremail = useremail
-                        req.session.username = username
-                        //logger.log('info', JSON.stringify(req.session.cookie))
-                        //console.log(req.session.cookie)
-                        req.session.save(error => {
-                            if(error) {
-                                res.status(500).send('req.session.save error: 로그 확인해주세요.')
-                                logger.log('error', error)
-                            }
-                        })
-                        logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
-                        //console.log(req.session.sessionID)
-                        res.status(200).send({"cookie": req.session.cookie, "username": req.session.username})
-                    }
-                    else { // 실패
-                        logger.log('error', '비밀번호 실패')
-                        //console.log('비밀번호 실패')
-                        res.status(401).send('비밀번호 입력 실패!')
-                    }
-                }) 
-            }
-            else {
-                //console.log('email이 존재하지 않습니다. ')
-                logger.log('error', 'email이 존재하지 않습니다. ')
-                res.status(402).send('email이 존재하지 않습니다!')
-            }
-    
-        })
+        
     }
 
     else {

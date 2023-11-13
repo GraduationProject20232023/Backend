@@ -867,11 +867,12 @@ router.post('/posts/write', function (req, res, next) {
                             hashtag = null
                         }
 
-
+                        
                         python.stdout.on('data', (data) => {
-                            
+                            //console.log('data: ', data)
                             let json = JSON.stringify(data)
                             let bufferOriginal = Buffer.from(JSON.parse(json).data);
+                            //console.log(bufferOriginal)
                             let decision = bufferOriginal.toString().replace(/(\r\n|\n|\r)/gm, "")
                             console.log('bufferOriginal: '+ decision)
                             
