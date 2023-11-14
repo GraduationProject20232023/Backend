@@ -1314,3 +1314,24 @@
 2023-11-14 14:07:02 error: 파라미터 오류
 2023-11-14 17:18:24 info: Server listening from port 3000
 2023-11-14 17:19:13 info: Server listening from port 3000
+2023-11-15 02:36:09 info: Server listening from port 3000
+2023-11-15 02:36:11 info: 로그인 함수 실행
+2023-11-15 02:36:11 info: 로그인 성공
+2023-11-15 02:36:11 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-15 02:40:45 info: Server listening from port 3000
+2023-11-15 02:40:47 error: 로그인하지 않았음!
+2023-11-15 02:40:49 info: 로그인 함수 실행
+2023-11-15 02:40:49 info: 로그인 성공
+2023-11-15 02:40:49 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-15 02:41:22 info: Server listening from port 3000
+2023-11-15 02:41:25 info: 로그인 함수 실행
+2023-11-15 02:41:25 info: 로그인 성공
+2023-11-15 02:41:25 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-15 02:41:29 info: 새 게시글 저장 성공!
+2023-11-15 02:42:45 info: Server listening from port 3000
+2023-11-15 02:42:47 info: 로그인 함수 실행
+2023-11-15 02:42:47 info: 로그인 성공
+2023-11-15 02:42:47 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-15 02:42:50 info: 새 게시글 저장 성공!
+2023-11-15 02:45:25 info: Server listening from port 3000
+2023-11-15 02:48:16 info: Server listening from port 3000

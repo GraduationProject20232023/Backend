@@ -54,54 +54,7 @@ let readText = function() {
 }
 
 
-/**
- * @swagger
- * paths:
- *   /boards/posts/write/{board_name}:
- *     post:
- *       summary: "게시글 작성하기"
- *       description: "새 게시글을 저장한다."
- *       parameters:
- *         - in: path
- *           name: board_name
- *           schema: 
- *             type: string
- *             example: free
- *           required: true
- *           description: 게시판 이름- free(자유)와 info(정보) 중 하나 입력
- *       requestBody:
- *         required: True
- *         content: 
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 title: 
- *                   type: string
- *                   example: 수화 너무 재밌지 않나용
- *                   description: 글 제목
- *                 body: 
- *                   type: string
- *                   example: 시작한지 하루밖에 안됐지만 너무 재밌어서 진작 시작할 걸 그랬어요~
- *                   description: 글 내용
- *                 hashtag:
- *                   type: string
- *                   example: 재미, 동아리
- *                   description: 없으면 안 보내도 됨.
- *       tags: [Boards]
- *       responses:
- *         "200":
- *            description: 요청 성공 (새 게시글 저장 성공)
- *         "401": 
- *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
- *         "412": 
- *            description: 파라미터 입력 오류1 -> req.body.title과 req.body.body 입력 필요.
- *         "417": 
- *            description: 파라미터 입력 오류1-> board_name은 free와 info 중 하나로 입력해야 함
- *         "500": 
- *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
- * 
- */
+
 router.post('/posts/write', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail

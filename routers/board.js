@@ -5,6 +5,7 @@ const logger = require('../config/winston')
 const multer = require("multer");
 const fs = require('fs');
 const path = require("path");
+//const { title } = require('process');
 //var seedrandom = require('seedrandom')
 
 /* GET home page. */
@@ -891,6 +892,31 @@ let writeTitle = function(title) {
  *       responses:
  *         "200":
  *            description: 요청 성공 (새 게시글 저장 성공)
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    board_name:
+ *                      type: string
+ *                      example: info
+ *                      description: 모델이 판단한 게시판 분류로 정보게이면 info, 자유게이면 free
+ *                    title: 
+ *                      type: string
+ *                      example: 수화 너무 재밌지 않나용
+ *                      description: 글 제목
+ *                    body: 
+ *                      type: string
+ *                      example: 시작한지 하루밖에 안됐지만 너무 재밌어서 진작 시작할 걸 그랬어요~
+ *                      description: 글 내용
+ *                    hashtag:
+ *                      type: string
+ *                      example: 재미, 동아리
+ *                      description: 없으면 안 보내도 됨.
+ *                    writer:
+ *                      type: string
+ *                      exmaple: mjluckk2@gmail.com
+ *                      description: 로그인한 사용자 이메일
  *         "401": 
  *            description: 로그인 되어 있지 않아서 제대로 기능하지 못함 
  *         "412": 
@@ -903,10 +929,11 @@ router.post('/posts/write', function (req, res, next) {
     if (req.session.useremail) {
         writer = req.session.useremail
         if (req.body.title && req.body.body) {
-                
+            //var final_result = {}    
             title = req.body.title
             body = req.body.body
             context = title + body
+            
             console.log("==============")
             //f = open('../input_file/input_file.txt', 'w')
             
@@ -944,7 +971,11 @@ router.post('/posts/write', function (req, res, next) {
                                 board = 'info'
                             
                             }
-
+                            // final_result['board_name']
+                            // final_result['title'] = title
+                            // final_result['body'] = body
+                            // final_result['hashtag'] = req.body.hashtag
+                            // final_result['writer'] = writer
                             ins = [board, title, body, writer, hashtag]
 
                                 dbConnection.query('INSERT INTO posts (`board_name`, `title`, `body`, `user_email`, `hashtag`) VALUES (?, ?, ?, ?, ?)', ins, (error, rows) => {
@@ -953,7 +984,8 @@ router.post('/posts/write', function (req, res, next) {
                                         logger.log('error', error);
                                     }
                                     else {
-                                        res.status(200).send('새 게시글 저장 성공!')
+                                        //res.status(200).send('새 게시글 저장 성공!')
+                                        res.status(200).send({"board_name": board, "title": title, "body": body, "hashtag": hashtag, "writer": writer})
                                         logger.log('info', '새 게시글 저장 성공!')
                                     }
                                 })
