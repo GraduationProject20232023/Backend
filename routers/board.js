@@ -725,7 +725,15 @@ router.get('/comments', function (req, res, next) {
             }
             else {
                 if (! rows.length) {
-                    res.status(404).send('입력된 post_id(게시글 번호를) 가진 댓글이 존재하지 않음.')
+                    final_result = {
+                        "isSuccess": true,
+                        "code": 1000,
+                        "message": "성공", 
+                        "result": []
+                    }
+                    
+                    
+                    res.status(200).send(final_result)
                 }
                 else {
                     
