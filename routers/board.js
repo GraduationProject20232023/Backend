@@ -49,8 +49,6 @@ router.get('/', function(req, res, next) {
  *                      comments: 
  *                        type: integer
  *                        example: 4
- *         "404": 
- *            description: 게시글이 존재하지 않음.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -63,7 +61,16 @@ router.get('/hot3/both', function (req, res, next) {
         }
         else {
             if (!rows.length) {
-                res.status(404).send('게시글이 존재하지 않음.')
+                final_result = {
+                    "isSuccess": true,
+                    "code": 1000,
+                    "message": "성공", 
+                    "result": []
+                }
+                
+                
+                res.status(200).send(final_result)
+                //res.status(404).send('게시글이 존재하지 않음.')
             }
             else {
                 result = []
@@ -118,8 +125,6 @@ router.get('/hot3/both', function (req, res, next) {
  *                      comments: 
  *                        type: integer
  *                        example: 4
- *         "404": 
- *            description: 게시글이 존재하지 않음.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -132,7 +137,17 @@ router.get('/hot3/free', function (req, res, next) {
         }
         else {
             if (!rows.length) {
-                res.status(404).send('게시글이 존재하지 않음.')
+                final_result = {
+                    "isSuccess": true,
+                    "code": 1000,
+                    "message": "성공", 
+                    "result": []
+                }
+                
+                
+                res.status(200).send(final_result)
+                
+                //res.status(404).send('게시글이 존재하지 않음.')
             }
             else {
                 result = []
@@ -185,8 +200,6 @@ router.get('/hot3/free', function (req, res, next) {
  *                      comments: 
  *                        type: integer
  *                        example: 4
- *         "404": 
- *            description: 게시글이 존재하지 않음.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -199,7 +212,17 @@ router.get('/hot3/info', function (req, res, next) {
         }
         else {
             if (!rows.length) {
-                res.status(404).send('게시글이 존재하지 않음.')
+                final_result = {
+                    "isSuccess": true,
+                    "code": 1000,
+                    "message": "성공", 
+                    "result": []
+                }
+                
+                
+                res.status(200).send(final_result)
+                
+                //res.status(404).send('게시글이 존재하지 않음.')
             }
             else {
                 result = []
@@ -271,8 +294,6 @@ router.get('/hot3/info', function (req, res, next) {
  *                         type: string
  *                         example: 루이테스트 
  *                         description: 글쓴이 닉네임
- *         "404": 
- *            description: 게시글이 존재하지 않음.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -305,7 +326,17 @@ router.get('/free', function (req, res, next) {
                 }
                 else {
                     if (!rows.length) {
-                        res.status(404).send('게시글이 존재하지 않음.')
+                        final_result = {
+                            "isSuccess": true,
+                            "code": 1000,
+                            "message": "성공", 
+                            "result": []
+                        }
+                        
+                        
+                        res.status(200).send(final_result)
+                        
+                        //res.status(404).send('게시글이 존재하지 않음.')
                     }
                     else {
                         //result = []
@@ -431,8 +462,6 @@ router.get('/free', function (req, res, next) {
  *                         type: string
  *                         example: 루이테스트 
  *                         description: 글쓴이 닉네임
- *         "404": 
- *            description: 게시글이 존재하지 않음.
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -465,7 +494,17 @@ router.get('/info', function (req, res, next) {
                 }
                 else {
                     if (!rows.length) {
-                        res.status(404).send('게시글이 존재하지 않음.')
+                        final_result = {
+                            "isSuccess": true,
+                            "code": 1000,
+                            "message": "성공", 
+                            "result": []
+                        }
+                        
+                        
+                        res.status(200).send(final_result)
+                        
+                        //res.status(404).send('게시글이 존재하지 않음.')
                     }
                     else {
                         //result = []
@@ -589,8 +628,6 @@ router.get('/info', function (req, res, next) {
  *                      items: 
  *                        type: string
  *                        example: 재미, 동아리
- *         "404": 
- *            description: 입력된 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
  *         "412": 
  *            description: 파라미터 입력 오류
  *         "500": 
@@ -609,7 +646,14 @@ router.get('/posts', function (req, res, next) {
             }
             else {
                 if (! rows.length) {
-                    res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
+                    final_result = {
+                        "isSuccess": true,
+                        "code": 1000,
+                        "message": "성공", 
+                        "result": []
+                    }
+                    res.status(200).send(final_result)
+                    //res.status(404).send('입력된 post_id(게시글 번호를) 가진 게시글이 존재하지 않음.')
                 }
                 else {
                     result = {}
@@ -707,8 +751,6 @@ router.get('/posts', function (req, res, next) {
  *                      type: string
  *                      description: 댓글 생성 시간
  *                      example: 2023-09-28 14:29:47
- *         "404": 
- *            description: 입력된 post_id(게시글 번호)를 가진 게시글이 존재하지 않음.
  *         "412": 
  *            description: 파라미터 입력 오류
  *         "500": 
