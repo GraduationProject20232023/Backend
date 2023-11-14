@@ -197,3 +197,37 @@ app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
   logger.info('Server listening from port 3000');
 });
+
+
+
+// {
+//   "isSuccess": true,
+//   "message": "반환한 response 설명"
+//   "data": [
+//     {
+//       "game_id": 1,
+//       "played_at": "2023-09-12 11:17:51",
+//       "total_score": 80,
+//       "game_category": "주생활"
+//     }, 
+//     {
+//       "game_id": 1,
+//       "played_at": "2023-09-12 11:17:51",
+//       "total_score": 80,
+//       "game_category": "주생활"
+//     },
+//   ]
+// }
+
+// {
+//   "isSuccess": true,
+//   "message": "빈 리스트"
+//   "data": []
+// }
+
+
+// {
+//   "isSuccess": false,
+//   "message": "에러 메세지 설명"
+//   "data": []
+// }

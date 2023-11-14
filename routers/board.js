@@ -778,7 +778,10 @@ router.get('/comments', function (req, res, next) {
                     res.status(200).send(final_result)
                 }
                 else {
-                    
+                    final_result = {}
+                    final_result["isSuccess"] = true
+                    final_result["code"] = 1000
+                    final_result["message"] = "성공"
                     result = []
                     rows.forEach(function(data, index) {
                         var user_email = data['user_email']
@@ -800,11 +803,12 @@ router.get('/comments', function (req, res, next) {
                                 //console.log(rows.length)
                                 result.push(comment)
                                 if (index == (rows.length-1)) {
-                                    res.status(200).send(result)
+                                    res.status(200).send(final_result)
                                 }
                             }
                         })
                     })
+                    final_result["result"] = result
                 } 
             } 
         })
