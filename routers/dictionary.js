@@ -374,56 +374,91 @@ router.get('/words/:id', function(req, res, next) {
             item['subsection'] = data['subsection']
             item['description'] = data['descr']
             
-
             imageList = [];
-            dbConnection.query('SELECT * from images where word_id = ?; ',[item['id']], (error, rows) => {
-                if (error) {
-                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                    logger.log('error', 'DB 오류: word_id로 images(수형사진) 테이블에서 이미지 검색하는 것에 실패함. MySQL 에러 => ' + error);
-                }
-                for (var data of rows) {
-                    imageList.push(data['link'])
-                    
-                }
-                item['image_link'] = imageList
-                result['word'] = item
-                console.log(item)
-            })
+            
+            function searchWord(word_id) {
+                return new Promise (resolve => {
+                    dbConnection.query('SELECT * from images where word_id = ?; ',[word_id], (error, rows) => {
+                        if (error) {
+                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                            logger.log('error', 'DB 오류: word_id로 images(수형사진) 테이블에서 이미지 검색하는 것에 실패함. MySQL 에러 => ' + error);
+                        }
+                        for (var data of rows) {
+                            imageList.push(data['link'])
+                            
+                        }
+                        item['image_link'] = imageList
+                        //result['word'] = item
+                        console.log(item)
+                        resolve(item)
+                    })
+                })
+            }
+
+            function findWordBefore(word_id) {
+                return new Promise(resolve => {
+                    dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(word_id)-1], (error, rows) => {
+                        if (error) {
+                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                            logger.log('error', 'DB 오류: words 테이블에서 이전 단어 불러오기 실패함. MySQL 에러 => ' + error);
+                        }
+                        if (! rows.length) {
+                            item_before["meaning"] = ""
+                            item_before["videoLink"] = ""
+                        }
+                        else {
+                            for (var data of rows) {
+                                var item_before = {}
+                                item_before['meaning'] = data['meaning']
+                                item_before['videoLink'] = data['video']
+                                //result.push(item_before)
+                                //result["word_before"] = item_before
+                                resolve(item_before)
+                            }
+                        }
+        
+                    })
+                })
+            }
             
 
-            dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)-1], (error, rows) => {
-                if (error) {
-                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                    logger.log('error', 'DB 오류: words 테이블에서 이전 단어 불러오기 실패함. MySQL 에러 => ' + error);
-                }
-
-                for (var data of rows) {
-                    var item_before = {}
-                    item_before['meaning'] = data['meaning']
-                    item_before['videoLink'] = data['video']
-                    //result.push(item_before)
-                    result["word_before"] = item_before
-                }
-
-            })
+            function findWordAfter(word_id) {
+                return new Promise(resolve => {
+                    dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(word_id)+1], (error, rows) => {
+                        if (error) {
+                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                            logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함. MySQL 에러 => ' + error);
+                        }
+                        if (! rows.length) {
+                            item_after["meaning"] = ""
+                            item_after["videoLink"] = ""
+                        }
+                        else {
+                            for (var data of rows) {
+                                var item_after = {}
+                                item_after['meaning'] = data['meaning']
+                                item_after['videoLink'] = data['video']
+                                console.log(item_after)
+                                //result.push(item_after)
+                                //result["word_after"] = item_after
+                                resolve(item_after)
+                                console.log(result)
+                            }
+                        }
+                        //console.log(Number(param)+1)
+                    })
+                })
+            }
             
-            dbConnection.query('SELECT * FROM words WHERE id = ?; ', [Number(param)+1], (error, rows) => {
-                if (error) {
-                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                    logger.log('error', 'DB 오류: words 테이블에서 이후 단어 불러오기 실패함. MySQL 에러 => ' + error);
-                }
-                //console.log(Number(param)+1)
-                for (var data of rows) {
-                    var item_after = {}
-                    item_after['meaning'] = data['meaning']
-                    item_after['videoLink'] = data['video']
-                    console.log(item_after)
-                    //result.push(item_after)
-                    result["word_after"] = item_after
-                    console.log(result)
-                }
+            async function findWord(word_id) {
+                result['word'] = await searchWord(word_id)
+                result["word_before"] = await findWordBefore(word_id)
+                result["word_after"] = await findWordAfter(word_id)
+
                 res.status(200).send(result)
-            })
+            }
+            
+            findWord(item['id'])
         }
     })
     });
