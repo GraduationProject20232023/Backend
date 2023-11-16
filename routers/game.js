@@ -312,6 +312,179 @@ router.post("/start/:game_category", function(req, res, next) {
         res.status(412).send('파라미터 입력 오류!')
     }
 })
+ /**
+ * @swagger
+ * paths:
+ *   /games/game-records:
+ *     post:
+ *       summary: "게임 기록 확인"
+ *       description: "게임 id 입력받아서 게임 기록 보여줌. "
+ *       parameters:
+ *         - in: path
+ *           name: game_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: 게임 id
+ *       tags: [Games]
+ *       responses:
+ *         "200":
+ *            description: 요청 성공
+ *            content: 
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    isSuccess:
+ *                      type: bool
+ *                      example: true
+ *                    code:
+ *                      type: integer
+ *                      example: 1000
+ *                    message: 
+ *                      type: string
+ *                      example: 성공
+ *                    result: 
+ *                      type: array
+ *                      items: 
+ *                        type: object
+ *                        properties:
+ *                          game_id: 
+ *                            type: integer
+ *                            example: 3
+ *                          played_at:
+ *                            type: string
+ *                            description: 게임 실행 시작 시간
+ *                          player_email:
+ *                            type: string 
+ *                            description: 없으면 null
+ *                          questions:
+ *                            type: array
+ *                            items: 
+ *                              type: string
+ *                              example: '강'
+ *                          quiz_results:
+ *                            type: array
+ *                            items: 
+ *                              type: boolean
+ *                          score: 
+ *                            type: integer
+ *                            example: 60 
+ *         "500": 
+ *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
+ *         "412":       
+ *            description: 파라미터 오류. 정확한 파라미터 명과 개수 입력 필요
+ *         
+ */
+router.get("/game-results/:game_id", function(req, res, next) { 
+    if (req.params.game_id) {
+        game_id = req.params.game_id
+        console.log(game_id)
+        result = {}
+        dbConnection.query('SELECT * FROM game_results WHERE game_id =?',game_id, (error, rows) => {
+            if (error) {
+                res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                logger.log('error', error);
+            }
+            else {
+                if (! rows.length) {
+                    final_result = {
+                        "isSuccess": true,
+                        "code": 1000,
+                        "message": "성공", 
+                        "result": []
+                    }
+
+                    res.status(200).send(final_result)
+                }
+                else {
+                    final_result = {
+                        "isSuccess": true,
+                        "code": 1000,
+                        "message": "성공", 
+                        "result": []
+                    }
+                    result['game_id'] = game_id
+                    result['played_at'] = rows[0]['played_at']
+                    result['player_email'] = rows[0]['player_email']
+                    result['game_category'] = rows[0]['game_catgory']
+                    result['questions'] = []
+                    result['quiz_results'] = []
+                    // result['questions'].push(rows[0]['1_ques'])
+                    // result['questions'].push(rows[0]['2_ques'])
+                    // result['questions'].push(rows[0]['3_ques'])
+                    // result['questions'].push(rows[0]['4_ques'])
+                    // result['questions'].push(rows[0]['5_ques'])
+                    // result['questions'].push(rows[0]['6_ques'])
+                    // result['questions'].push(rows[0]['7_ques'])
+                    // result['questions'].push(rows[0]['8_ques'])
+                    // result['questions'].push(rows[0]['9_ques'])
+                    // result['questions'].push(rows[0]['10_ques'])
+                    result['quiz_results'].push(Boolean(rows[0]['1_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['2_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['3_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['4_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['5_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['6_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['7_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['8_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['9_res']))
+                    result['quiz_results'].push(Boolean(rows[0]['10_res']))
+                    final_result['score'] = 0
+                    function getMeaning(id) {
+                        return new Promise ( resolve => {
+                            dbConnection.query('SELECT meaning FROM words WHERE id = ?',[word_id], (error, data) => {
+                                if (error) {
+                                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                    logger.log('error', error);
+                                }
+                                else {
+                                    word_meaning = data[0]['meaning']
+                                    //console.log(word_meaning)
+                                    //console.log(result['quiz_results'])
+                                    //result['questions'].push(word_meaning)
+                                    resolve(word_meaning)
+                                    
+                                    
+                                }
+                            })
+                        })
+                    }
+                    async function putMeanings() {
+                        for (var i = 1; i <= 10; i++) {
+                            word_id= rows[0][i.toString() + '_ques']
+                            console.log(i)
+                            if (word_id) {
+                                word_meaning = await getMeaning(word_id)
+                                result['questions'].push(word_meaning)
+                                
+                            }
+                            else {
+                                result['questions'].push(null)
+                            }
+                            if ( i == 10) {
+                                final_result['result'].push(result)
+                                res.status(200).send(final_result)
+                            }
+                            final_result['score'] += 10* (rows[0][i.toString()+'_res'])
+                        }
+                    }
+                    
+                    putMeanings()
+
+                }
+                
+            }
+        }
+        )
+    }
+    else {
+        logger.log('error', '파라미터 오류')
+        //res.sendStatus(412)
+        res.status(412).send('파라미터 입력 오류!')
+    }
+    }
+)
 
 
 module.exports = router;

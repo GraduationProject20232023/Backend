@@ -326,11 +326,13 @@ router.get('/game-spec', function (req, res, next) {
                         ans_res = []
                         item['game_id'] = data['game_id']
                         item['played_at'] = JSON.stringify(data['played_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
-                        item['total_score'] = data['1_'] + data['2_'] + data['3_'] + data['4_'] + data['5_'] + data['6_'] + data['7_'] + data['8_'] + data['9_'] + + data['10_']
+                        //item['total_score'] = data['1_'] + data['2_'] + data['3_'] + data['4_'] + data['5_'] + data['6_'] + data['7_'] + data['8_'] + data['9_'] + + data['10_']
+                        item['total_score'] = 0
                         item['game_category']= data['game_category']
                         for (var n = 1; n < 11; n++) {
                             que_res.push(data[`${n}_ques`])
-                            ans_res.push(data[`${n}_ans`])
+                            ans_res.push(Boolean(data[`${n}_res`]))
+                            item['total_score'] += 10* (data[`${n}_res`])
                         }
                         item['quiz_questions'] = que_res
                         item['quiz_results'] = ans_res

@@ -1400,3 +1400,87 @@
 2023-11-16 18:04:53 info: Server listening from port 3000
 2023-11-16 18:06:18 info: Server listening from port 3000
 2023-11-16 18:07:44 info: Server listening from port 3000
+2023-11-16 18:19:40 info: Server listening from port 3000
+2023-11-16 18:23:52 info: Server listening from port 3000
+2023-11-16 18:24:48 info: Server listening from port 3000
+2023-11-16 18:25:13 info: Server listening from port 3000
+2023-11-16 18:25:41 info: Server listening from port 3000
+2023-11-16 18:26:00 info: Server listening from port 3000
+2023-11-16 18:26:49 info: Server listening from port 3000
+2023-11-16 18:27:17 info: Server listening from port 3000
+2023-11-16 18:28:08 info: Server listening from port 3000
+2023-11-16 18:28:28 info: Server listening from port 3000
+2023-11-16 18:28:52 info: Server listening from port 3000
+2023-11-16 18:31:13 info: Server listening from port 3000
+2023-11-16 18:31:31 info: Server listening from port 3000
+2023-11-16 18:31:47 info: Server listening from port 3000
+2023-11-16 18:32:30 info: Server listening from port 3000
+2023-11-16 18:32:57 info: Server listening from port 3000
+2023-11-16 18:33:19 info: Server listening from port 3000
+2023-11-16 18:33:35 info: Server listening from port 3000
+2023-11-16 18:34:12 info: Server listening from port 3000
+2023-11-16 18:36:15 info: Server listening from port 3000
+2023-11-16 18:37:00 info: Server listening from port 3000
+2023-11-16 18:39:27 info: Server listening from port 3000
+2023-11-16 18:40:12 info: Server listening from port 3000
+2023-11-16 18:40:54 info: Server listening from port 3000
+2023-11-16 18:41:18 info: Server listening from port 3000
+2023-11-16 18:42:44 info: Server listening from port 3000
+2023-11-16 18:45:43 info: Server listening from port 3000
+2023-11-16 18:46:19 info: Server listening from port 3000
+2023-11-16 18:46:20 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE word_id = '733'' at line 1
+2023-11-16 18:46:34 info: Server listening from port 3000
+2023-11-16 18:46:35 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE word_id = '733'' at line 1
+2023-11-16 18:46:59 info: Server listening from port 3000
+2023-11-16 18:47:00 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE word_id = 733' at line 1
+2023-11-16 18:47:34 info: Server listening from port 3000
+2023-11-16 18:47:36 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE id = '733'' at line 1
+2023-11-16 18:48:26 info: Server listening from port 3000
+2023-11-16 18:48:26 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE id = '733'' at line 1
+2023-11-16 18:48:43 info: Server listening from port 3000
+2023-11-16 18:48:44 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE id = 733' at line 1
+2023-11-16 18:49:09 info: Server listening from port 3000
+2023-11-16 18:49:09 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE id = 733' at line 1
+2023-11-16 18:50:06 info: Server listening from port 3000
+2023-11-16 18:50:07 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'word_meaning FROM words WHERE id = '733'' at line 1
+2023-11-16 18:50:31 info: Server listening from port 3000
+2023-11-16 18:50:32 error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'meaning FROM words WHERE id = '733'' at line 1
+2023-11-16 18:50:47 info: Server listening from port 3000
+2023-11-16 18:51:16 info: Server listening from port 3000
+2023-11-16 18:52:02 info: Server listening from port 3000
+2023-11-16 18:52:42 info: Server listening from port 3000
+2023-11-16 18:53:06 info: Server listening from port 3000
+2023-11-16 18:53:29 info: Server listening from port 3000
+2023-11-16 18:54:03 info: Server listening from port 3000
+2023-11-16 18:54:35 info: Server listening from port 3000
+2023-11-16 18:55:37 info: Server listening from port 3000
+2023-11-16 18:56:07 info: Server listening from port 3000
+2023-11-16 18:57:37 info: Server listening from port 3000
+2023-11-16 18:58:35 info: Server listening from port 3000
+2023-11-16 19:01:15 info: Server listening from port 3000
+2023-11-16 19:01:46 info: Server listening from port 3000
+2023-11-16 19:02:06 info: Server listening from port 3000
+2023-11-16 19:06:37 info: Server listening from port 3000
+2023-11-16 19:07:39 info: Server listening from port 3000
+2023-11-16 19:09:32 info: Server listening from port 3000
+2023-11-16 19:09:55 info: Server listening from port 3000
+2023-11-16 19:16:35 info: Server listening from port 3000
+2023-11-16 19:17:01 info: Server listening from port 3000
+2023-11-16 19:18:10 info: Server listening from port 3000
+2023-11-16 19:20:37 info: Server listening from port 3000
+2023-11-16 19:21:31 info: Server listening from port 3000
+2023-11-16 19:21:40 info: Server listening from port 3000
+2023-11-16 19:22:57 info: Server listening from port 3000
+2023-11-16 19:23:12 info: Server listening from port 3000
+2023-11-16 19:23:43 info: 로그인 함수 실행
+2023-11-16 19:23:43 info: 로그인 성공
+2023-11-16 19:23:43 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-16 19:25:36 info: Server listening from port 3000
+2023-11-16 19:25:50 info: 로그인 함수 실행
+2023-11-16 19:25:50 info: 로그인 성공
+2023-11-16 19:25:50 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
+2023-11-16 19:27:16 info: Server listening from port 3000
+2023-11-16 19:27:26 error: 로그인 상태가 아님
+2023-11-16 19:27:30 info: 로그인 함수 실행
+2023-11-16 19:27:30 info: 로그인 성공
+2023-11-16 19:27:30 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!

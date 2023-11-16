@@ -112,9 +112,9 @@ class_name = label_map[most_common_class_index]
 # print('intend: ', intended)
 # print('predicted: ', most_common_class_index)
 if intended == most_common_class_index: 
-    print(True)
+    print('true')
 else: 
-    print(False)
+    print('false')
 
 ## class_name = label_map[most_common_class_index]
 ## print(class_name.replace('_', ', '))
