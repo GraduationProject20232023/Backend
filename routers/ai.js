@@ -4,7 +4,7 @@ const dbConnection = require('../config/database');
 const logger = require('../config/winston')
 const multer = require("multer");
 var fs = require('fs');
-
+var path = require('path');
 
 var filename = "./AI/NLP/input_text2.txt"
 
@@ -266,11 +266,32 @@ router.post("/uploadvideos", (req, res) => {
                     //console.log(result)
                     console.log(result[0]['game_category'])
                     
+                    console.log(path.dirname(res.req.file.path))
+                    fs.readdir(path.dirname(res.req.file.path), (err, files) => {
+                        //console.log(files.length)
+                        question_id = files.length
+                    })
                     const python = spawn('python', ['./AI/test code/'+ file_set[result[0]['game_category']], [id_set['game_id']], [id_set['word_id']]])
+
                     python.stdout.on('data', (data) => {
                         console.log('pattern: ', data.toString());
+                        final_result = data.toString()
+                        //final_result.push(data.toString())
+                        if (final_result) {
+                            dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_ques = ? WHERE game_id = ?', [final_result, game_id], (error, rows) => {
+                                if (error) {
+                                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                        logger.log('error', error);
+                                }
+                                else {
+                                    console.log('success')
+                                }
+                            })
+                        }
                         
                     });
+
+                    
                     python.stderr.on('data', (data) => {
                         //res.status(400).send(data.toString())
                         console.error('err: ', data.toString());
