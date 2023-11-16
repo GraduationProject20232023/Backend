@@ -104,18 +104,13 @@ id_map = {
 }
 
 intended = id_map[int(word_id)]
-# print(intended)
-# print('intended: ', label_map[intended])
-# print(most_common_class_index)
+
 class_name = label_map[most_common_class_index]
-# print('predicted: ', class_name)
-# print('intend: ', intended)
-# print('predicted: ', most_common_class_index)
+
 if intended == most_common_class_index: 
     print('true')
 else: 
     print('false')
-
 ## class_name = label_map[most_common_class_index]
 ## print(class_name.replace('_', ', '))
 

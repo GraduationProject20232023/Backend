@@ -250,7 +250,7 @@ router.post("/uploadvideos", (req, res) => {
                 '의생활': 'test_clothes.py', 
                 '인간': 'test_human.py', 
                 '자연': 'test_nature.py', 
-                '주생활': 'test_house_copy.py'
+                '주생활': 'test_house.py'
             }
 
             const { spawn } = require('child_process');

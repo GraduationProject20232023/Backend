@@ -1,27 +1,37 @@
 import cv2
 import numpy as np
 import tensorflow as tf
-import keras.models
-from sklearn.metrics import accuracy_score
-import os
-import argparse
 from scipy import stats
-import time
-import difflib
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--intended", dest = "intended", type = str, action= "store")
-args = parser.parse_args()
-print('intended: ', args.intended)
+import os
+import sys
+from os.path import dirname, realpath
+import io
+
+## Solve Korean letters encoding issues.
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+## Get the path of parents of parent directory of the file.
+filepath = realpath(__file__)
+dir_of_file = dirname(filepath)
+parent_dir_of_file = dirname(dir_of_file)
+parents_parent_dir_of_file = dirname(parent_dir_of_file)
+
+## Get the arguments from ai.js file.
+game_id, word_id = sys.argv[1], sys.argv[2]
+
 # Load the pre-trained CNN model & video
 #model = tf.keras.models.load_model('../model/best_clothes.h5')
 #start = time.time()
-model = tf.keras.models.load_model('../model_windows/best_social.h5')
+model = tf.keras.models.load_model(parent_dir_of_file+ '../model_windows/best_social.h5')
 #model = tf.keras.models.load_model('../model/best_clothes.h5', compile=False)
 #model.compile(optimizer= keras.optimizers.Adam(learning_rate=0.0001), loss= 'categorical_crossentropy', metrics=['accuracy'])
-#print("time1: ", time.time()-start)
-# start = time.time()
-path = "C:\Dev\Handy-AI\AI\\videos"
-video_path = os.path.join(path, "회사원.mp4")
+
+video_path = parents_parent_dir_of_file + '/game_videos/'+ game_id +'/' + word_id + '.mp4'
+#- path = "C:\Dev\Handy-AI\AI\\videos"
+#- video_path = os.path.join(path, "가방_들다_test.mp4")
+ 
+
 if os.path.isfile(video_path):	# 해당 파일이 있는지 확인
     # 영상 객체(파일) 가져오기
     print('video_path: ', video_path)
@@ -69,14 +79,7 @@ while True:
 cap.release()
 
 # Calculate the most common class across all frames
-
-#print('predicted_classes: ', predicted_classes)
-#print('stats.mode(predicted_classes): ', stats.mode(predicted_classes))
-#print('stats.mode(predicted_classes): ', stats.mode(predicted_classes)[0])
-#print('stats.mode(predicted_classes): ', stats.mode(predicted_classes)[0][0])
-#print(most_common_class_index = stats.mode(predicted_classes)[0])
-#most_common_class_index = stats.mode(predicted_classes)[0][0]
-most_common_class_index = stats.mode(predicted_classes)[0]
+most_common_class_index = stats.mode(predicted_classes)[0][0]
 
 # dictionary of labels -> 파일 별로 다르게 해야될듯
 label_map = {0: '기업_회사_사',
@@ -103,20 +106,15 @@ id_map = {
     1116: 8,
     945: 9
 }
+
+
+intended = id_map[int(word_id)]
+
 class_name = label_map[most_common_class_index]
 
-print(class_name.replace('_', ', '))
-# print("===" + args.intended + "===")
-# print(type(class_name))
-# print(type(args.intended))
-# print(class_name == str(args.intended))
-# print(''.join(difflib.ndiff(class_name, class_name)))
-# print(''.join(difflib.ndiff(class_name, args.intended)))
-# print(''.join(difflib.ndiff(class_name, func1(args.intended))))
-# if class_name == args.intended:
-#     print('True')
-# else:
-#     print('False')
-
-
-# print("time2: ", time.time()-start)
+if intended == most_common_class_index: 
+    print('true')
+else: 
+    print('false')
+## class_name = label_map[most_common_class_index]
+## print(class_name.replace('_', ', '))
