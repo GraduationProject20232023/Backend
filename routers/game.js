@@ -202,7 +202,7 @@ router.post("/uploadvideos", (req, res) => {
  /**
  * @swagger
  * paths:
- *   /games/start:
+ *   /games/start/{game_category}:
  *     post:
  *       summary: "게임 시작"
  *       description: "게임 주제 입력받아서 게임 시작 "
@@ -315,7 +315,7 @@ router.post("/start/:game_category", function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /games/game-records:
+ *   /games/game-records/{game_id}:
  *     post:
  *       summary: "게임 기록 확인"
  *       description: "게임 id 입력받아서 게임 기록 보여줌. "
