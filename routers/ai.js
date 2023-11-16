@@ -287,7 +287,7 @@ router.post("/uploadvideos", (req, res) => {
                         console.log('pattern: ', data.toString());
                         final_result = data.toString()
                         //final_result.push(data.toString())
-                        if (final_result=='true'||'false') {
+                        if (final_result) {
                             dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [final_result, game_id], (error, rows) => {
                                 if (error) {
                                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
