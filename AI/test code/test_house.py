@@ -67,8 +67,8 @@ while True:
 cap.release()
 
 # Calculate the most common class across all frames
-most_common_class_index = stats.mode(predicted_classes)[0][0]
-
+#most_common_class_index = stats.mode(predicted_classes)[0][0]
+most_common_class_index = stats.mode(predicted_classes)[0]
 
 # dictionary of labels -> 파일 별로 다르게 해야될듯
 label_map = {0: '계단_층계',
