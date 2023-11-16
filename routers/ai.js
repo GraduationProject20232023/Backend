@@ -285,7 +285,7 @@ router.post("/uploadvideos", (req, res) => {
                     
                     python.stdout.on('data', (data) => {
                         console.log('pattern: ', data.toString());
-                        final_result = data.toString()
+                        final_result = Boolean(data.toString())
                         //final_result.push(data.toString())
                         if (final_result) {
                             dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [final_result, game_id], (error, rows) => {
