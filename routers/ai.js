@@ -188,7 +188,7 @@ var filename = "./AI/NLP/input_text2.txt"
  */
 router.post("/uploadvideos", (req, res) => {
 
-    if (res.req.file.path) {
+    if (req.body) {
         id_set = {}
     let storage = multer.diskStorage({
         destination: (req, file, cb) => {
@@ -269,6 +269,7 @@ router.post("/uploadvideos", (req, res) => {
                     const python = spawn('python', ['./AI/test code/'+ file_set[result[0]['game_category']], [id_set['game_id']], [id_set['word_id']]])
                     python.stdout.on('data', (data) => {
                         console.log('pattern: ', data.toString());
+                        
                     });
                     python.stderr.on('data', (data) => {
                         //res.status(400).send(data.toString())
@@ -280,9 +281,9 @@ router.post("/uploadvideos", (req, res) => {
                     console.error('error: ', error.message);
                     });
                       
-                    python.on('close', (code) => {
-                    console.log('child process exited with code ', code);
-                    });
+                    // python.on('close', (code) => {
+                    // console.log('child process exited with code ', code);
+                    // });
                 }
             })
             return res.status(200).json({

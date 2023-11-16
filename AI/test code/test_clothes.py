@@ -5,7 +5,11 @@ from scipy import stats
 import os
 import sys
 from os.path import dirname, realpath
+import io
 
+## Solve Korean letters encoding issues.
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 ## Get the path of parents of parent directory of the file.
 filepath = realpath(__file__)
@@ -18,7 +22,7 @@ game_id, word_id = sys.argv[1], sys.argv[2]
 
 # Revised!
 # Load the pre-trained CNN model & video
-model = tf.keras.models.load_model('../model_windows/best_clothes.h5')
+model = tf.keras.models.load_model(parent_dir_of_file+ '/model_windows/best_clothes.h5')
 # model = tf.keras.models.load_model('../model_windows/best_clothes.h5', compile=False)
 # model.compile(optimizer= keras.optimizers.Adam(learning_rate=0.0001), loss= 'categorical_crossentropy', metrics=['accuracy'])
 
@@ -70,8 +74,8 @@ cap.release()
 # Calculate the most common class across all frames
 print(predicted_classes)
 print(stats.mode(predicted_classes))
-#most_common_class_index = stats.mode(predicted_classes)[0][0]
-most_common_class_index = stats.mode(predicted_classes)[0]
+most_common_class_index = stats.mode(predicted_classes)[0][0]
+#most_common_class_index = stats.mode(predicted_classes)[0]
 
 # dictionary of labels -> 파일 별로 다르게 해야될듯
 label_map = {0: '가방_들다',
@@ -100,8 +104,14 @@ id_map = {
 }
 
 intended = id_map[int(word_id)]
-
-if intended == predicted_class: 
+# print(intended)
+# print('intended: ', label_map[intended])
+# print(most_common_class_index)
+class_name = label_map[most_common_class_index]
+# print('predicted: ', class_name)
+print('intend: ', intended)
+print('predicted: ', most_common_class_index)
+if intended == most_common_class_index: 
     print(True)
 else: 
     print(False)
