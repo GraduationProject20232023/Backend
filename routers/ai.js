@@ -284,11 +284,15 @@ router.post("/uploadvideos", (req, res) => {
                     const python = spawn('python', ['./AI/test code/'+ file_set[result[0]['game_category']], [id_set['game_id']], [id_set['word_id']]])
                     
                     python.stdout.on('data', (data) => {
-                        console.log('pattern: ', data.toString());
-                        final_result = Boolean(data.toString())
+                        myValue= data.toString().replace('\r\n', '')
+                        //console.log('pattern: ', data.toString());
+                        console.log(data.toString().replace('\r\n', ''))
+                        var isTrueSet = (myValue === 'true');
+                        console.log(isTrueSet)
+                        //console.log(data.toString().replace('\r\n', '')))
                         //final_result.push(data.toString())
-                        if (final_result) {
-                            dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [final_result, game_id], (error, rows) => {
+                        if (isTrueSet) {
+                            dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [isTrueSet, game_id], (error, rows) => {
                                 if (error) {
                                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
                                         logger.log('error', error);
