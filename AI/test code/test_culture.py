@@ -70,5 +70,22 @@ label_map = {0: '관람',
             8: '피아노',
             9: '화상_영화'}
 
+## dictionary of word_ids
+id_map = {
+    1604: 0,
+    1585: 1,
+    1619: 2, 
+    1594: 3,
+    1595: 3, #수정 필요
+    1598: 4,
+    1596: 5, 
+    1606: 6, 
+    1601: 7,
+    1590: 8,
+    1603: 9
+}
+
+
+
 class_name = label_map[predicted_class]
 print(class_name.replace('_', ', '))

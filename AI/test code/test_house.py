@@ -4,13 +4,33 @@ import tensorflow as tf
 import keras.models
 from sklearn.metrics import accuracy_score
 import os
+import sys
+from os.path import dirname, realpath
+
+filepath = realpath(__file__)
+
+dir_of_file = dirname(filepath)
+parent_dir_of_file = dirname(dir_of_file)
+parents_parent_dir_of_file = dirname(parent_dir_of_file)
+#print(parents_parent_dir_of_file)
+#game_id, word_id = sys.argv[1], sys.argv[2]
+game_id = '2'
+word_id = '796'
+#print('game_id from python file: ', game_id)
+#print('word_id from same: ', word_id)
 
 # Load the pre-trained CNN model & video
 model = tf.keras.models.load_model('../model_windows/best_house.h5')
 #model = tf.keras.models.load_model('../model_windows/best_clothes.h5', compile=False)
 #model.compile(optimizer= keras.optimizers.Adam(learning_rate=0.0001), loss= 'categorical_crossentropy', metrics=['accuracy'])
-path = "C:\Dev\Handy-AI\AI\\videos"
-video_path = os.path.join(path, "가방_들다_test.mp4")
+#path = "C:\Dev\Handy-AI\AI\\videos"
+path = parents_parent_dir_of_file + '/game_videos/'+ game_id +'/'
+#print(os.path.isdir(path))
+#video_path = os.path.join(path, "가방_들다_test.mp4")
+video_path = os.path.join(path, word_id + '.mp4')
+#print(video_path)
+#print('Does the video exist: ', os.path.isfile(video_path))
+#print(video_path)
 if os.path.isfile(video_path):	# 해당 파일이 있는지 확인
     # 영상 객체(파일) 가져오기
     print('video_path: ', video_path)
@@ -65,5 +85,22 @@ label_map = {0: '계단_층계',
             8: '텔레비전_티브이',
             9: '화장실_변소'}
 
+id_map = {
+    806: 0,
+    796: 1,
+    804: 2, 
+    780: 3,
+    773: 4,
+    777: 5, 
+    772: 6, 
+    794: 7,
+    781: 8,
+    808: 9
+}
+
+
+
 class_name = label_map[predicted_class]
-print(class_name.replace('_', ', '))
+print(id_map[int(word_id)])
+print(predicted_class)
+#print(class_name.replace('_', ', '))

@@ -67,5 +67,19 @@ label_map = {0: '물',
             8: '콜라',
             9: '토마토'}
 
+id_map = {
+    661: 0,
+    674: 1,
+    658: 2, 
+    638: 3,
+    630: 4,
+    627: 5, 
+    689: 6, 
+    656: 7,
+    660: 8,
+    624: 9
+}
+
+
 class_name = label_map[predicted_class]
 print(class_name.replace('_', ', '))
