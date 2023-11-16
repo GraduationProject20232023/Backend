@@ -23,7 +23,7 @@ game_id, word_id = sys.argv[1], sys.argv[2]
 # Load the pre-trained CNN model & video
 #model = tf.keras.models.load_model('../model/best_clothes.h5')
 #start = time.time()
-model = tf.keras.models.load_model(parent_dir_of_file+ '../model_windows/best_social.h5')
+model = tf.keras.models.load_model(parent_dir_of_file+ '/model_windows/best_social.h5')
 #model = tf.keras.models.load_model('../model/best_clothes.h5', compile=False)
 #model.compile(optimizer= keras.optimizers.Adam(learning_rate=0.0001), loss= 'categorical_crossentropy', metrics=['accuracy'])
 
