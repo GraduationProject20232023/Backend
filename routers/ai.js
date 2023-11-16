@@ -187,22 +187,9 @@ var filename = "./AI/NLP/input_text2.txt"
  * 
  */
 router.post("/uploadvideos", (req, res) => {
-    //console.log(req.file)
-    // const game_id = req.query.game_id
-    // dir_path = '../Backend/game_videos/' + game_id
-    // if (! fs.existsSync(dir_path)) {
-    //     try{
-    //         fs.mkdirSync(dir_path);
-    //     }
-    //     catch(e) {
-    //         res.status(402).send('폴더 생성 오류')
-    //     }
-    //     //console.log(dir_path, ' exists.')
-    // }
-    
-    //console.log('game_id: ', game_id)
-    //console.log('question_id: ', question_id)
-    id_set = {}
+
+    if (res.req.file.path) {
+        id_set = {}
     let storage = multer.diskStorage({
         destination: (req, file, cb) => {
             on = file.originalname.toString('utf8');
@@ -307,10 +294,27 @@ router.post("/uploadvideos", (req, res) => {
 
            
         }
-
-
-        
     })
+    }
+    else {
+        res.status(400).send('did not upload files.')
+    }
+    //console.log(req.file)
+    // const game_id = req.query.game_id
+    // dir_path = '../Backend/game_videos/' + game_id
+    // if (! fs.existsSync(dir_path)) {
+    //     try{
+    //         fs.mkdirSync(dir_path);
+    //     }
+    //     catch(e) {
+    //         res.status(402).send('폴더 생성 오류')
+    //     }
+    //     //console.log(dir_path, ' exists.')
+    // }
+    
+    //console.log('game_id: ', game_id)
+    //console.log('question_id: ', question_id)
+    
 })
 
 
