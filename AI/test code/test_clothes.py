@@ -72,10 +72,10 @@ while True:
 cap.release()
 
 # Calculate the most common class across all frames
-print(predicted_classes)
-print(stats.mode(predicted_classes))
-most_common_class_index = stats.mode(predicted_classes)[0][0]
-#most_common_class_index = stats.mode(predicted_classes)[0]
+# print(predicted_classes)
+# print(stats.mode(predicted_classes))
+# most_common_class_index = stats.mode(predicted_classes)[0][0]
+most_common_class_index = stats.mode(predicted_classes)[0]
 
 # dictionary of labels -> 파일 별로 다르게 해야될듯
 label_map = {0: '가방_들다',
@@ -109,8 +109,8 @@ intended = id_map[int(word_id)]
 # print(most_common_class_index)
 class_name = label_map[most_common_class_index]
 # print('predicted: ', class_name)
-print('intend: ', intended)
-print('predicted: ', most_common_class_index)
+# print('intend: ', intended)
+# print('predicted: ', most_common_class_index)
 if intended == most_common_class_index: 
     print(True)
 else: 
