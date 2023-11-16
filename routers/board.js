@@ -761,6 +761,7 @@ router.get('/posts', function (req, res, next) {
 router.get('/comments', function (req, res, next) {
     if (req.query.post_id) {
         post_id = req.query.post_id
+        
         dbConnection.query('SELECT * FROM comments WHERE post_id = ?', post_id, (error, rows) => {
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
@@ -784,34 +785,32 @@ router.get('/comments', function (req, res, next) {
                     final_result["code"] = 1000
                     final_result["message"] = "성공"
                     result = []
-                    rows.forEach(function(data, index) {
-                        var user_email = data['user_email']
 
-                        dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, rows) => {
+                    rows.forEach((data, index) => {
+                        var user_email = data['user_email']
+                        
+                        dbConnection.query('SELECT * FROM users WHERE user_email = ?', user_email, (error, data2) => {
                             if (error) {
                                 res.status(500).send('DB Error: 로그 확인해주세요.'); 
                                 logger.log('error', error);
                             }
                             else {
+                                
                                 comment = {}
                                 comment['post_id'] = data['post_id']
                                 comment['comment_id'] = data['comment_id']
                                 comment['body'] = data['body']
-                                comment['writer'] = rows[0]['username']
+                                comment['writer'] = data2[0]['username']
                                 comment['created_at'] = JSON.stringify(data['created_at']).replace(/"/, '').replace(/T/, ' ').replace(/\..+/, '')
-                                //console.log(comment)
-                                //console.log(index)
-                                //console.log(rows.length)
                                 result.push(comment)
                                 if (index == (rows.length-1)) {
+                                    final_result["result"] = result
                                     res.status(200).send(final_result)
                                 }
                             }
                         })
-                    })
-                    final_result["result"] = result
-                } 
-            } 
+                    } )
+            } }
         })
     }
     else{ 
