@@ -315,8 +315,8 @@ router.post("/start/:game_category", function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /games/game-records/{game_id}:
- *     post:
+ *   /games/game-results/{game_id}:
+ *     get:
  *       summary: "게임 기록 확인"
  *       description: "게임 id 입력받아서 게임 기록 보여줌. "
  *       parameters:
