@@ -1814,7 +1814,9 @@ router.get('/posts/download', function (req, res, next) {
  *         
  */
 router.get('/notice/7', function (req, res, next) {
-    const file_path = '../Backend/notices.csv'
+
+    //const file_path = '../Backend/notices.csv'
+    const file_path = './notices.csv'
     const csv = fs.readFileSync(file_path, "utf-8", )
     const rows = csv.split('\r\n')
     var result = []
@@ -1830,7 +1832,8 @@ router.get('/notice/7', function (req, res, next) {
             'period': period
 
         }]
-        
+        //var scriptName = path.basename(__filename);
+        //console.log(path.basename(path.dirname(scriptName)))
         result = result.concat(row)
     }
     try {
@@ -1840,6 +1843,7 @@ router.get('/notice/7', function (req, res, next) {
             'success': false,
             'error': error,
         }
+        
         res.status(400).send(result)
     }
     
