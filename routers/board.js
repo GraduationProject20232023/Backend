@@ -1817,6 +1817,12 @@ router.get('/notice/7', function (req, res, next) {
 
     //const file_path = '../Backend/notices.csv'
     const file_path = './notices.csv'
+    if (fs.existsSync(file_path)) {
+        console.log(file_path, 'exists')
+    }
+    else{
+        console.log(file_path, 'doesnot exist')
+    }
     const csv = fs.readFileSync(file_path, "utf-8", )
     const rows = csv.split('\r\n')
     var result = []
