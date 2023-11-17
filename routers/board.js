@@ -1823,8 +1823,9 @@ router.get('/notice/7', function (req, res, next) {
     else{
         console.log(file_path, 'doesnot exist')
     }
-    const csv = fs.readFileSync(file_path, "utf-8", )
-    const rows = csv.split('\r\n')
+    const csv = fs.readFileSync(file_path, "utf-8")
+    //const rows = csv.split('\r\n')
+    const rows = csv.split("\n")
     var result = []
     for (var i = 1; i < 8; i++) {
         list = rows[i].split(';')
