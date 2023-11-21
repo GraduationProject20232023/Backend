@@ -1685,3 +1685,85 @@
 2023-11-22 00:51:17 info: 로그인 성공
 2023-11-22 00:51:17 info: mjluckk2@gmail.com / 루이수정테스트 로그인 완료!
 2023-11-22 00:51:18 info: 댓글 수정 성공!
+2023-11-22 01:20:55 info: Server listening from port 3000
+2023-11-22 01:20:59 info: req.body: {"email":"mjluckk10@gmail.com","pw":"fndl","username":"열번째테스트트"}
+2023-11-22 01:21:33 info: Server listening from port 3000
+2023-11-22 01:21:36 info: req.body: {"email":"mjluckk10@gmail.com","pw":"fndl","username":"열번째테스트트"}
+2023-11-22 01:21:36 error: 같은 email이 이미 존재합니다.
+2023-11-22 01:21:49 info: req.body: {"email":"mjluckk11@gmail.com","pw":"fndl","username":"열한번번째테스트"}
+2023-11-22 01:21:49 info: 단어장 생성 완료함
+2023-11-22 01:23:08 info: Server listening from port 3000
+2023-11-22 01:23:22 error: 로그인하지 않았습니다.
+2023-11-22 01:23:25 info: req.body: {"email":"mjluckk11@gmail.com","pw":"fndl","username":"열한번번째테스트"}
+2023-11-22 01:23:25 error: 같은 email이 이미 존재합니다.
+2023-11-22 01:23:27 error: 로그인하지 않았습니다.
+2023-11-22 01:23:44 info: 로그인 함수 실행
+2023-11-22 01:23:44 info: 로그인 성공
+2023-11-22 01:23:44 info: mjluckk11@gmail.com / 열한번번째테스트 로그인 완료!
+2023-11-22 01:24:03 info: Server listening from port 3000
+2023-11-22 01:24:20 info: 로그인 함수 실행
+2023-11-22 01:24:20 info: 로그인 성공
+2023-11-22 01:24:20 info: mjluckk11@gmail.com / 열한번번째테스트 로그인 완료!
+2023-11-22 01:24:48 info: Server listening from port 3000
+2023-11-22 01:25:00 info: Server listening from port 3000
+2023-11-22 01:25:25 info: req.body: {"email":"mjluckk12@gmail.com","pw":"fndl","username":"열한번째테스트트"}
+2023-11-22 01:25:25 info: 단어장 생성 완료함
+2023-11-22 01:26:28 info: Server listening from port 3000
+2023-11-22 01:26:52 info: req.body: {"email":"mjluckk13@gmail.com","pw":"fndl","username":"열세번째테스트"}
+2023-11-22 01:27:15 info: Server listening from port 3000
+2023-11-22 01:27:17 info: req.body: {"email":"mjluckk13@gmail.com","pw":"fndl","username":"열세번째테스트"}
+2023-11-22 01:27:17 error: 같은 email이 이미 존재합니다.
+2023-11-22 01:27:21 info: req.body: {"email":"mjluckk14@gmail.com","pw":"fndl","username":"열세번째테스트"}
+2023-11-22 01:27:21 error: 같은 username이 이미 존재합니다.
+2023-11-22 01:27:29 info: req.body: {"email":"mjluckk14@gmail.com","pw":"fndl","username":"열넷넷테스트"}
+2023-11-22 01:27:29 info: 단어장 생성 완료함
+2023-11-22 01:27:55 info: Server listening from port 3000
+2023-11-22 01:28:04 info: req.body: {"email":"mjluckk15@gmail.com","pw":"fndl","username":"열다섯테스트"}
+2023-11-22 01:28:04 info: 단어장 생성 완료함
+2023-11-22 01:28:04 info: 입력정보: mjluckk15@gmail.com,default
+2023-11-22 01:28:11 error: 로그인하지 않았습니다.
+2023-11-22 01:28:21 info: 로그인 함수 실행
+2023-11-22 01:28:21 info: 로그인 성공
+2023-11-22 01:28:21 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:28:55 info: Server listening from port 3000
+2023-11-22 01:28:55 error: 로그인하지 않았습니다.
+2023-11-22 01:28:58 info: 로그인 함수 실행
+2023-11-22 01:28:58 info: 로그인 성공
+2023-11-22 01:28:58 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:30:11 info: Server listening from port 3000
+2023-11-22 01:30:14 error: 로그인하지 않았습니다.
+2023-11-22 01:30:16 info: 로그인 함수 실행
+2023-11-22 01:30:16 info: 로그인 성공
+2023-11-22 01:30:16 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:30:34 info: Server listening from port 3000
+2023-11-22 01:30:36 info: 로그인 함수 실행
+2023-11-22 01:30:36 info: 로그인 성공
+2023-11-22 01:30:36 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:31:14 info: Server listening from port 3000
+2023-11-22 01:31:15 info: 로그인 함수 실행
+2023-11-22 01:31:15 info: 로그인 성공
+2023-11-22 01:31:15 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:31:51 info: Server listening from port 3000
+2023-11-22 01:31:52 error: 로그인하지 않았습니다.
+2023-11-22 01:31:53 error: 로그인하지 않았습니다.
+2023-11-22 01:31:56 info: 로그인 함수 실행
+2023-11-22 01:31:56 info: 로그인 성공
+2023-11-22 01:31:56 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:32:25 info: Server listening from port 3000
+2023-11-22 01:32:28 info: 로그인 함수 실행
+2023-11-22 01:32:28 info: 로그인 성공
+2023-11-22 01:32:28 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:33:41 info: Server listening from port 3000
+2023-11-22 01:33:42 error: 로그인하지 않았습니다.
+2023-11-22 01:33:44 info: 로그인 함수 실행
+2023-11-22 01:33:44 info: 로그인 성공
+2023-11-22 01:33:44 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:33:46 error: 파라미터 오류
+2023-11-22 01:34:36 info: Server listening from port 3000
+2023-11-22 01:34:38 info: 로그인 함수 실행
+2023-11-22 01:34:38 info: 로그인 성공
+2023-11-22 01:34:38 info: mjluckk15@gmail.com / 열다섯테스트 로그인 완료!
+2023-11-22 01:34:40 info: note_name: default
+2023-11-22 01:34:40 info: note_id: 7
+2023-11-22 01:35:09 info: Server listening from port 3000
+2023-11-22 01:35:26 info: Server listening from port 3000

@@ -87,10 +87,25 @@ router.post('/register', (req, res, next) => {
                                     logger.log('error', err);
                                 }
                                 else {
-                                    return res.status(201).send('Successfully created the account.') // 계정 생성함
+                                    ins = [req.body.email, "default"]
+                                    dbConnection.query('INSERT INTO notes (`user_email`, `note_name`) VALUES (?, ?)', ins, (err, row) => {
+                                        if (err) {
+                                            res.status(500).send('DB Error: 로그 확인해주세요.'); 
+                                            logger.log('error', error);
+                                        }
+                                        else {
+                                            //console.log('Successfully inserted to friends')
+                                            logger.log('info', '단어장 생성 완료함')
+                                            logger.log('info', '입력정보: ' + ins)
+                                            //res.status(200).send('단어장 생성 완료함! ' + ins)
+                                            return res.status(201).send('Successfully created the account.') // 계정 생성함
+                                        }
+                                    })
+                                    //return res.status(201).send('Successfully created the account.') // 계정 생성함
                                     
                                 }
                             }
+
                             )
                         })
                     }
