@@ -183,17 +183,10 @@ router.get('/', function(req, res, next) {
  /**
  * @swagger
  * paths:
- *   /notes/{note_name}:
+ *   /notes/my-note:
  *     get:
  *       summary: "단어장의 단어 목록 가져오기"
- *       description: "하나의 단어장의 단어 목록을 보여준다."
- *       parameters:
- *         - in: path
- *           name: note_name
- *           schema: 
- *             type: string
- *           required: true
- *           description: 단어장 이름
+ *       description: "사용자의 단어장의 단어 목록을 보여준다."
  *       tags: [Notes]
  *       responses:
  *         "200":
@@ -209,8 +202,6 @@ router.get('/', function(req, res, next) {
  *            description: 빈 단어장.
  *         "404": 
  *            description: 해당 단어장 이름으로 된 단어장은 사용자의 단어장 목록에 없음.
- *         "412": 
- *            description: 파라미터 입력 오류
  *         "500": 
  *            description: 내부 오류 (DB오류) -> 자세한 오류 내용은 로그 확인 
  * 
@@ -228,7 +219,7 @@ router.get('/', function(req, res, next) {
             }
             if (! rows.length) {
                 console.log('rows: ', rows)
-                res.status(404).send('짱 해당 단어장 이름으로 된 단어장은 사용자의 단어장 목록에 없음.')
+                res.status(404).send('해당 단어장 이름으로 된 단어장은 사용자의 단어장 목록에 없음.')
             }
             else {
                 //if (Array.isArray(rows) && !rows.length) { res.sendStatus(404)}
