@@ -670,6 +670,7 @@ router.get('/list', function(req, res, next) {
  */
 router.get('/history', function(req, res, next) {
     //username = req.params.username
+    console.log(req.session.useremail)
     if (req.session.useremail) {
         username= req.session.username
 
@@ -684,7 +685,7 @@ router.get('/history', function(req, res, next) {
                 result.push(data['search'])
             }
             res.status(200).send(result)
-            logger.log('검색 결과 가져오기 성공!')
+            logger.log('info', '검색 결과 가져오기 성공!')
         })
     }
     else {
