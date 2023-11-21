@@ -944,8 +944,10 @@ router.post('/posts/write', function (req, res, next) {
                 if (await result1 == "success") {
                     let result2 = writeContext(body) 
                     if (await result2 == "success") {
+                        //console.log(await result2=="success")
                         if (req.body.hashtag) {
                             hashtag = req.body.hashtag
+                            //console.log(hashtag)
                         }
                         else {
                             hashtag = null
@@ -953,10 +955,11 @@ router.post('/posts/write', function (req, res, next) {
 
                         
                         python.stdout.on('data', (data) => {
+                            //console.log(data)
                             //console.log('data: ', data)
                             let json = JSON.stringify(data)
                             let bufferOriginal = Buffer.from(JSON.parse(json).data);
-                            //console.log(bufferOriginal)
+                            console.log(bufferOriginal)
                             let decision = bufferOriginal.toString().replace(/(\r\n|\n|\r)/gm, "")
                             console.log('bufferOriginal: '+ decision)
                             
@@ -991,7 +994,8 @@ router.post('/posts/write', function (req, res, next) {
 
                         })
                         python.stderr.on('data', function(data) {
-                            res.send(data.toString)
+                            console.log('its here')
+                            res.send(data)
                         })
                         
                     }
@@ -1108,7 +1112,7 @@ router.post('/posts/delete/:post_id', function (req, res, next) {
 /**
  * @swagger
  * paths:
- *   /board/posts/revise/{post_id}:
+ *   /boards/posts/revise/{post_id}:
  *     post:
  *       summary: "게시글 수정"
  *       description: "사용자가 자신이 작성한 게시글을 수정한다."
@@ -1369,7 +1373,7 @@ router.post('/comments/delete/:post_id/:comment_id', function (req, res, next) {
 
             ins = [post_id, comment_id]
 
-            dbConnection.query('SELECT * FROM posts WHERE post_id = ?', post_id, (error, rows) => {
+            dbConnection.query('SELECT * FROM comments WHERE comment_id = ?', post_id, (error, rows) => {
                 if (error) {
                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
                     logger.log('error', error);
@@ -1381,6 +1385,7 @@ router.post('/comments/delete/:post_id/:comment_id', function (req, res, next) {
                     else {
 
                         for (var data of rows) {
+                            console.log(data)
                             if (writer == data['user_email']) {
                                 dbConnection.query('DELETE FROM comments WHERE post_id = ? AND comment_id = ?', ins, (error, rows) => {
                                     if (error) {
@@ -1474,6 +1479,7 @@ router.post('/comments/revise/:comment_id', function (req, res, next) {
                     logger.log('error', error);
                 }
                 else {
+                    console.log(rows)
                     if (!rows.length) {
                         res.status(404).send('입력된 comment_id(댓글 번호를) 가진 댓글이 존재하지 않음.')
                     }
