@@ -175,10 +175,15 @@ router.post("/login", (req, res) => {
 
         if (req.session.useremail) {
             //if the session is ongoing, destroy the session
-            // req.session.destroy(error => {if(error) {
+            // req.session.destroy(error => {
+            //     if(error) {
             //     res.status(500).send('req.session.destroy error: 로그 확인해주세요.')
             //     logger.log('error', error)
             // }
+            // else {
+            //     res.status(405).send('이미 로그인 되어있음.')
+            // }
+            
             // })
             res.status(405).send('이미 로그인 되어있음.')
         }
