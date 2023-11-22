@@ -10,8 +10,8 @@ const axios = require('axios');
 const fs = require("fs");
 
 //const session = require('express-session')
-//const cookieParser = require('cookie-parser')
-
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 app.use(cors({
   origin : true,
   credentials : true
@@ -22,9 +22,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 24* 60 * 60* 1000,
-    httpOnly: true, 
     secure: true,
+    httpOnly: true,
     sameSite: 'none'
   }
 }))

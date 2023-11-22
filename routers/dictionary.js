@@ -676,10 +676,12 @@ router.get('/list', function(req, res, next) {
 router.get('/history', function(req, res, next) {
     //username = req.params.username
     console.log(req.session.useremail)
-    if (req.session.useremail) {
-        username= req.session.username
-
-        dbConnection.query('SELECT * FROM search_history WHERE username = ?; ', [username], (error, rows) => {
+    //if (req.session.useremail) {
+    if (req.cookies['user_email']){
+        console.log(req.cookies['user_email'])
+        //username= req.session.username
+        username = req.cookies['user_email']
+        dbConnection.query('SELECT * FROM search_history WHERE user_email = ?; ', [username], (error, rows) => {
             result = []
             if (error) {
                 res.status(500).send('DB Error: 로그 확인해주세요.'); 

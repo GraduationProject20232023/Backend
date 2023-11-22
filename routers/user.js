@@ -214,7 +214,9 @@ router.post("/login", (req, res) => {
                             })
                             logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
                             //console.log(req.session.sessionID)
-                            res.status(200).send({"cookie": req.session.cookie, "username": req.session.username})
+                            res.cookie('user_email', useremail)
+                            res.status(200).send(req.cookies)
+                            //res.status(200).send({"cookie": req.session.cookie, "username": req.session.username})
                         }
                         else { // 실패
                             logger.log('error', '비밀번호 실패')
