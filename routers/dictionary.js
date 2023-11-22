@@ -691,7 +691,7 @@ router.get('/history', function(req, res, next) {
             for (var data of rows) { 
                 result.push(data['search'])
             }
-            res.setHeader('Access-Control-Allow-Origin', "http://localhost:3000/")
+            res.setHeader('Access-Control-Allow-Origin', "http://localhost:3000")
             res.setHeader('Access-Control-Allow-Credentials', 'true')
             res.status(200).send(result)
             logger.log('info', '검색 결과 가져오기 성공!')
