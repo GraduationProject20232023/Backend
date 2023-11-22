@@ -20,7 +20,13 @@ app.use(cors({
 app.use(session({
   secret:'oh',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24* 60 * 60* 1000,
+    httpOnly: true, 
+    secure: true,
+    sameSite: 'none'
+  }
 }))
 app.use(express.json())
 //app.use(cookieParser())
