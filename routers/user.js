@@ -215,9 +215,9 @@ router.post("/login", (req, res) => {
                             logger.log('info', req.session.useremail + ' / ' + req.session.username + ' 로그인 완료!')
                             //console.log(req.session.sessionID)
                             res.cookie('user_email', useremail)
-                            res.setHeader('Access-Control-Allow-Origin', "*")
+                            res.setHeader('Access-Control-Allow-Origin', "http://localhost:3000/")
                             res.setHeader('Access-Control-Allow-Credentials', 'true')
-                             
+
                             res.status(200).send(req.cookies)
                             //res.status(200).send({"cookie": req.session.cookie, "username": req.session.username})
                         }
