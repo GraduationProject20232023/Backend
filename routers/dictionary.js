@@ -270,7 +270,12 @@ router.get('/search/:meaning', function(req, res, next) {
             //res.status(404).send('검색 결과 없음!')
         }
         else {
-            res.status(200).send(result)
+            final= {}
+            final['isSuccess'] = true,
+            final['code'] = 1000,
+            final['message'] = '성공'
+            final['result'] = result
+            res.status(200).send(final)
         }
         
     }
