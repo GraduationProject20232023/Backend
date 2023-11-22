@@ -14,7 +14,9 @@ const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 app.use(cors({
   origin : true,
-  credentials : true
+  credentials : true, 
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+  exposedHeaders: ['set-cookie']
 }))
 
 app.use(session({
