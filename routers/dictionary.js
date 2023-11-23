@@ -275,6 +275,7 @@ router.get('/search/:meaning', function(req, res, next) {
             final['code'] = 1000,
             final['message'] = '성공'
             final['result'] = result
+            console.log(final)
             res.status(200).send(final)
         }
         
