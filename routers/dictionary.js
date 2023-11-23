@@ -693,7 +693,7 @@ router.get('/history', function(req, res, next) {
             }
             
             
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3000')
+            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
             res.setHeader('Access-Control-Allow-Credentials', 'true')
             res.status(200).send(result)
             logger.log('info', '검색 결과 가져오기 성공!')
