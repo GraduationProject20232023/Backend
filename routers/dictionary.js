@@ -677,8 +677,9 @@ router.get('/history', function(req, res, next) {
     //username = req.params.username
     console.log(req.session.useremail)
     //if (req.session.useremail) {
+    //console.log(req.cookies['user_email'])
     if (req.cookies['user_email']){
-        console.log(req.cookies['user_email'])
+        console.log("req.cookies['useremail']", req.cookies['user_email'])
         //username= req.session.username
         username = req.cookies['user_email']
         dbConnection.query('SELECT * FROM search_history WHERE user_email = ?; ', [username], (error, rows) => {

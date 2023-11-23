@@ -240,87 +240,87 @@ router.post("/uploadvideos", (req, res) => {
 
         }
         else {
-            file_set = {
-                '경제생활': 'test_econ.py',
-                '교육': 'test_edu.py', 
-                '문화': 'test_culture.py',
-                '사회생활': 'test_social.py', 
-                '삶': 'test_life.py', 
-                '식생활': 'test_food.py', 
-                '의생활': 'test_clothes.py', 
-                '인간': 'test_human.py', 
-                '자연': 'test_nature.py', 
-                '주생활': 'test_house.py'
-            }
+            // file_set = {
+            //     '경제생활': 'test_econ.py',
+            //     '교육': 'test_edu.py', 
+            //     '문화': 'test_culture.py',
+            //     '사회생활': 'test_social.py', 
+            //     '삶': 'test_life.py', 
+            //     '식생활': 'test_food.py', 
+            //     '의생활': 'test_clothes.py', 
+            //     '인간': 'test_human.py', 
+            //     '자연': 'test_nature.py', 
+            //     '주생활': 'test_house.py'
+            // }
 
-            const { spawn } = require('child_process');
+            // const { spawn } = require('child_process');
             
-            console.log(id_set)
-            //console.log(id_set['game_id'])
-            dbConnection.query('SELECT game_category FROM game_results WHERE game_id = ?', id_set['game_id'], (error, result) => {
-                if (error ) {
-                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                    logger.log('error', error);
-                }
-                else {
-                    //console.log(result)
-                    console.log(result[0]['game_category'])
+            // console.log(id_set)
+            // //console.log(id_set['game_id'])
+            // dbConnection.query('SELECT game_category FROM game_results WHERE game_id = ?', id_set['game_id'], (error, result) => {
+            //     if (error ) {
+            //         res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            //         logger.log('error', error);
+            //     }
+            //     else {
+            //         //console.log(result)
+            //         console.log(result[0]['game_category'])
                     
-                    console.log(path.dirname(res.req.file.path))
-                    fs.readdir(path.dirname(res.req.file.path), (err, files) => {
-                        //console.log(files.length)
-                        question_id = files.length
-                        dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_ques = ? WHERE game_id = ?', [id_set['word_id'], game_id], (error, rows) => {
-                            if (error) {
-                                res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                    logger.log('error', error);
-                            }
-                            else {
-                                console.log('success')
-                            }
-                        })
-                    })
+            //         console.log(path.dirname(res.req.file.path))
+            //         fs.readdir(path.dirname(res.req.file.path), (err, files) => {
+            //             //console.log(files.length)
+            //             question_id = files.length
+            //             dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_ques = ? WHERE game_id = ?', [id_set['word_id'], game_id], (error, rows) => {
+            //                 if (error) {
+            //                     res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            //                         logger.log('error', error);
+            //                 }
+            //                 else {
+            //                     console.log('success')
+            //                 }
+            //             })
+            //         })
                     
-                    const python = spawn('python', ['./AI/test code/'+ file_set[result[0]['game_category']], [id_set['game_id']], [id_set['word_id']]])
+            //         const python = spawn('python', ['./AI/test code/'+ file_set[result[0]['game_category']], [id_set['game_id']], [id_set['word_id']]])
                     
-                    python.stdout.on('data', (data) => {
-                        myValue= data.toString().replace('\r\n', '')
-                        //console.log('pattern: ', data.toString());
-                        console.log(data.toString().replace('\r\n', ''))
-                        var isTrueSet = (myValue === 'true');
-                        console.log(isTrueSet)
-                        //console.log(data.toString().replace('\r\n', '')))
-                        //final_result.push(data.toString())
-                        if (isTrueSet) {
-                            dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [isTrueSet, game_id], (error, rows) => {
-                                if (error) {
-                                    res.status(500).send('DB Error: 로그 확인해주세요.'); 
-                                        logger.log('error', error);
-                                }
-                                else {
-                                    console.log('success')
-                                }
-                            })
-                        }
+            //         python.stdout.on('data', (data) => {
+            //             myValue= data.toString().replace('\r\n', '')
+            //             //console.log('pattern: ', data.toString());
+            //             console.log(data.toString().replace('\r\n', ''))
+            //             var isTrueSet = (myValue === 'true');
+            //             console.log(isTrueSet)
+            //             //console.log(data.toString().replace('\r\n', '')))
+            //             //final_result.push(data.toString())
+            //             if (isTrueSet) {
+            //                 dbConnection.query('UPDATE game_results SET '+ question_id.toString() + '_res = ? WHERE game_id = ?', [isTrueSet, game_id], (error, rows) => {
+            //                     if (error) {
+            //                         res.status(500).send('DB Error: 로그 확인해주세요.'); 
+            //                             logger.log('error', error);
+            //                     }
+            //                     else {
+            //                         console.log('success')
+            //                     }
+            //                 })
+            //             }
                         
-                    });
+            //         });
 
                     
-                    python.stderr.on('data', (data) => {
-                        //res.status(400).send(data.toString())
-                        console.error('err: ', data.toString());
-                      });
+            //         python.stderr.on('data', (data) => {
+            //             //res.status(400).send(data.toString())
+            //             console.error('err: ', data.toString());
+            //           });
                       
-                    python.on('error', (error) => {
-                        //res.status(400).send(data.toString())
-                    console.error('error: ', error.message);
-                    });
+            //         python.on('error', (error) => {
+            //             //res.status(400).send(data.toString())
+            //         console.error('error: ', error.message);
+            //         });
                       
-                    // python.on('close', (code) => {
-                    // console.log('child process exited with code ', code);
-                    // });
-                }
-            })
+            //         // python.on('close', (code) => {
+            //         // console.log('child process exited with code ', code);
+            //         // });
+            //     }
+            // })
             return res.status(200).json({
                 success: true,
                 url: res.req.file.path,
