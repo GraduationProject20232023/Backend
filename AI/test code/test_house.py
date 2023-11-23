@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 import os
 import sys
 from os.path import dirname, realpath
-
+import io
 ## Solve Korean letters encoding issues.
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
